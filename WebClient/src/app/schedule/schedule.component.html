@@ -1,0 +1,68 @@
+<script type="text/javascript">
+  $('.input-group.date').datepicker({format: "dd.mm.yyyy"}); 
+</script>
+
+<div class="row" *ngIf="loaded">
+  <div class="col-2"></div>
+  <div class="col-8">
+    <div *ngIf="loaded">
+        <div class="row left">
+
+          <button (click)="back()" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Back">
+              <i class="fa fa-angle-left"></i>
+          </button>
+          <h5>{{getTitle()}}</h5>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" [ngModel]="schedule?.Name" (ngModelChange)="schedule.Name=$event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="startdate">Start</label>
+          <input type="datetime-local" class="form-control" id="startdate" name="start" 
+            [value]="startDate" (change)="startDate=$event.target.value"/>
+            <!-- [ngModel]="schedule?.StartDate" (ngModelChange)="schedule.StartDate=$event"/> -->
+        </div>
+
+        <!-- <div class="form-group">
+          <label for="starttime">Start time</label>          
+          <input type="datetime-local" class="form-control" id="starttime" name="starttime" [ngModel]="schedule?.StartHours" (ngModelChange)="schedule.StartHours=$event" required/>
+        </div> -->
+
+        <div class="form-group">
+          <label for="duration">Duration</label>
+          <input type="number" name="duration" min="0" max="59" class="form-control" id="duration" [ngModel]="schedule?.Duration" (ngModelChange)="schedule.Duration=$event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="days">Day(s) of week</label>
+          <input type="text" class="form-control" id="days" [ngModel]="schedule?.Days" (ngModelChange)="schedule.Days=$event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="solenoid">Solenoid</label>          
+          <select class="form-control" id="solenoid" name="solenoid" [ngModel]="schedule.SolenoidId" (ngModelChange)="onSolenoidChange($event)" required>
+            <option *ngFor="let s of solenoids" value="{{s.id}}">{{s.Name}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="repeat">Repeat</label>
+          <input type="checkbox" class="form-control" id="repeat" [ngModel]="schedule?.Repeat" (ngModelChange)="schedule.Repeat=$event">
+        </div>
+
+        <div class="form-group">
+          <label for="enabled">Enabled</label>
+          <input type="checkbox" class="form-control" id="enabled" [ngModel]="schedule?.Enabled" (ngModelChange)="schedule.Enabled=$event">
+        </div>
+
+        <button class="btn btn-success btn-sm" (click)="save()">Save</button>
+        <button class="btn btn-warning btn-sm" (click)="delete()">Delete</button>
+        <button class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+
+      </div>  
+  </div>
+  <div class="col-2"></div>
+</div>

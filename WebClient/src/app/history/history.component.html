@@ -1,0 +1,21 @@
+<div *ngIf="loaded">
+    <div class="row">        
+        <div class="col-12">
+            <app-device-menu [Device]="device"></app-device-menu>
+        </div>        
+    </div>
+    <div class="row">        
+        <div class="col-12">            
+            <table class="table table-striped">
+                <tbody>
+                <!--tbody class="tr"-->
+                    <tr *ngFor="let event of events" class="tr">
+                        <td>{{timeFormat(event.createdAt)}} </td>
+                        <td>{{this.eventTypes[event.EventType-1]}} </td>
+                        <td>{{event.EventValue}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
+    </div>
+</div>

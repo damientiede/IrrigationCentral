@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceController", "DeviceController\DeviceController.csproj", "{3F442E94-4BAC-4618-873F-FB8C356E2C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceController.IO", "DeviceController.IO\DeviceController.IO.csproj", "{D74196AF-7887-4AAC-BE4A-AF257AECEC4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceController.Data", "DeviceController.Data\DeviceController.Data.csproj", "{E078F29F-5F0C-4AEB-8831-DF4AB4BE798E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{42D5587A-EEF7-4ACB-8E83-6935A4D29011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarnessConsole", "TestHarnessConsole\TestHarnessConsole.csproj", "{B0BB54F7-889E-4C59-A5F2-E5D098FD7A76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPIOTestHarness", "GPIOTestHarness\GPIOTestHarness.csproj", "{C67B6C9A-8786-4431-9637-430EDC568371}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F442E94-4BAC-4618-873F-FB8C356E2C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F442E94-4BAC-4618-873F-FB8C356E2C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F442E94-4BAC-4618-873F-FB8C356E2C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F442E94-4BAC-4618-873F-FB8C356E2C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D74196AF-7887-4AAC-BE4A-AF257AECEC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D74196AF-7887-4AAC-BE4A-AF257AECEC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D74196AF-7887-4AAC-BE4A-AF257AECEC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D74196AF-7887-4AAC-BE4A-AF257AECEC4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E078F29F-5F0C-4AEB-8831-DF4AB4BE798E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E078F29F-5F0C-4AEB-8831-DF4AB4BE798E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E078F29F-5F0C-4AEB-8831-DF4AB4BE798E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E078F29F-5F0C-4AEB-8831-DF4AB4BE798E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42D5587A-EEF7-4ACB-8E83-6935A4D29011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D5587A-EEF7-4ACB-8E83-6935A4D29011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D5587A-EEF7-4ACB-8E83-6935A4D29011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D5587A-EEF7-4ACB-8E83-6935A4D29011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0BB54F7-889E-4C59-A5F2-E5D098FD7A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0BB54F7-889E-4C59-A5F2-E5D098FD7A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0BB54F7-889E-4C59-A5F2-E5D098FD7A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0BB54F7-889E-4C59-A5F2-E5D098FD7A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67B6C9A-8786-4431-9637-430EDC568371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67B6C9A-8786-4431-9637-430EDC568371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67B6C9A-8786-4431-9637-430EDC568371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67B6C9A-8786-4431-9637-430EDC568371}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

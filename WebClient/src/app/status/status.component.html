@@ -1,0 +1,101 @@
+<div *ngIf="loaded">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-device-menu [Device]="device"></app-device-menu>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">        
+            <div [ngClass]="getStatusClass()">
+                <div class="panel-title">
+                    {{getStatusText()}}                    
+                </div>
+                <div class="panel-content" *ngIf="getDuration() > 0">
+                    
+                    <div class="progress" style="margin-left:0px;margin-right:0px;">
+                        <div class="progress-bar bg-success progress-bar-striped" role="progressbar" 
+                            attr.aria-valuenow="percentComplete" attr.aria-valuemin="0" attr.aria-valuemax="100" style="min-width:2em;" [style.width]="percentComplete+'%'" >
+                            {{percentComplete}}%
+                        </div>
+                    </div>
+                        
+                   <!--  <div class="row">
+                        <div class="col-sm-6">
+                            Start: {{getStartTime()}}
+                        </div>
+                        <div class="col-sm-6">
+                            End: {{getEnd()}}
+                        </div>
+                    </div> -->
+                </div>
+            </div>             
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="alert alert-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Pressure: {{getPressure()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="alert alert-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        {{getLastUpdated()}}                    
+                    </div>
+                </div>
+            </div>
+        </div>                              
+    </div>
+    <div class="row">
+        <div class="col-sm-6">    
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Station</div>
+                </div>            
+                <select id="selStation" class="form-control" [(ngModel)]="manualStation" required>
+                    <option *ngFor="let solenoid of solenoids" [value]="solenoid.id">
+                        {{solenoid.Name}}
+                    </option>       
+                </select>          
+            </div> 
+        </div>
+        <div class="col-sm-6">    
+            <div class="input-group">       
+                <div class="input-group-prepend">
+                    <div class="input-group-text" >Duration</div>
+                </div>
+                <select id="tbDuration" class="form-control" [(ngModel)]="manualDuration" required>
+                    <option value="5">5 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
+                    <option value="150">2.5 hours</option>
+                    <option value="180">3 hours</option>
+                    <option value="210">3.5 hours</option>               
+                    <option value="240">4 hours</option>
+                    <option value="270">4.5 hours</option>
+                    <option value="300">5 hours</option>
+                    <option value="330">5.5 hours</option>               
+                    <option value="360">6 hours</option>               
+                </select>
+
+                <!--input type="number" class="form-control" id="tbDuration" aria-describedby="addon1" placeholder="1 - 360" ng-model="ManualDuration" min="1" max="360" required> </input-->
+            </div>
+        </div>     
+    </div>
+    <div class="row">
+        <div class="col-sm-12">          
+            <button type="button" class="btn btn-success" (click)="manualStart()">Start</button>
+            <button type="button" class="btn btn-danger" (click)="manualStop()">Stop</button>
+            <button type="button" [ngClass]="getToggleBtnClass()" (click)="toggleMode()">{{getToggleBtnText()}}</button>    
+            <!-- <button type="button" class="btn" (click)="config()"><i class="fa fa-cog"></i></button>                               -->
+        </div>
+    </div>
+    <br>
+</div>

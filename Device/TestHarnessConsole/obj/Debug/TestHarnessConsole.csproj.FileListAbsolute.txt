@@ -1,0 +1,15 @@
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\TestHarnessConsole.exe.config
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\TestHarnessConsole.exe
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\TestHarnessConsole.pdb
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\obj\Debug\TestHarnessConsole.csprojResolveAssemblyReference.cache
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\obj\Debug\TestHarnessConsole.exe
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\obj\Debug\TestHarnessConsole.pdb
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\DeviceController.Data.dll
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\DeviceController.Data.pdb
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\System.Net.Http.dll
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\obj\Debug\TestHarnessConsole.csproj.TestHarnessConsole.exe.config
+C:\Users\Dad\Source\Repos\IrrigationController\Device\TestHarnessConsole\bin\Debug\log4net.dll

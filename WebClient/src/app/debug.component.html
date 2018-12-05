@@ -1,0 +1,13 @@
+<h1>Hello World</h1>
+<button (click)="getStatus()">Get status</button>
+<div *ngIf="isLoaded()">    
+    Pressure: {{status.pressure}}<br/>
+    Last update:{{status.createdAt}}<br/>
+    State: {{status.state}}<br/>
+    Mode: {{status.mode}}<br/>
+    Start: {{status.start}}<br/>
+    Duration: {{status.duration}}<br/>
+    Shedule: {{status.scheduleId}}<br/>
+    Inputs: {{status.inputs}}<br/>
+    Outputs: {{status.outputs}}<br/>
+</div>

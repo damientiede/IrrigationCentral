@@ -1,0 +1,47 @@
+<div>
+  <!-- app-status-widget [LastSeen]="lastSeen()" [Radius]="40" [MarginTop]="10"></app-status-widget-->
+  <!-- <img [src]="getImageSrc()" [style.height.px]="Radius" [style.margin-top.px]="MarginTop"/> -->
+  <ul class="list-unstyled">
+      <li>
+          <button type="button" class="btn" title="Device home"
+                [ngClass]="getActiveClass('status')"
+                data-toggle="tooltip" data-placement="top" 
+                (click)="status()">                    
+            <i class="fa fa-tachometer-alt"></i>
+            Status
+          </button>
+      </li>    
+      <li>
+        <button type="button" class="btn" 
+                [ngClass]="getActiveClass('schedules')"
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="Schedules" (click)="schedules()">
+          <i class="fa fa-clock"></i>
+          Schedules
+        </button>
+      </li>
+      <li>
+        <button type="button" class="btn"
+                [ngClass]="getActiveClass('history')" 
+                data-toggle="tooltip"
+                data-placement="top"
+                title="History"
+                (click)="history()">
+          <i class="fab fa-elementor"></i>    
+          History  
+        </button>
+      </li>
+      <li>
+        <button type="button" class="btn"
+                [ngClass]="getActiveClass('config')" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="Config" (click)="config()">
+          <i class="fa fa-cog"></i>
+          Config       
+        </button>
+      </li>
+  </ul>
+</div>
+ 

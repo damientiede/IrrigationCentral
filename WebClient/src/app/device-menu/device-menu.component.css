@@ -1,0 +1,13 @@
+ul {
+    margin-left:-8px;
+}
+
+li {
+    list-style-type: none;
+    margin:3px;
+    float: left;
+    margin-bottom:1rem;
+}
+@media (min-width:320px) {    
+    .btn {padding:.375rem;}
+}

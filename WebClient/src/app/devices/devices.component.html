@@ -1,0 +1,12 @@
+<h5>Devices</h5>
+<div *ngIf="loaded">
+    <div class="row" *ngFor="let device of devices" (click)="navToDevice(device)">
+        <div [ngClass]="getStatusClass(device)">
+            <div class="panel-title">
+                <i class="fa fa-cog"></i>
+                {{getStatusText(device)}} 
+            </div>
+        </div>
+    </div>                 
+</div>
+ 

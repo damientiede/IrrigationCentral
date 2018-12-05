@@ -1,0 +1,33 @@
+<div *ngIf="loaded">
+    <div class="row">        
+        <div class="col-12">
+            <app-device-menu [Device]="device"></app-device-menu>
+        </div>        
+    </div>
+    <div class="row">        
+        <div class="col-12">
+            <table class="schedules">
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>SolenoidId</th>
+                        <th>Duration (mins)</th>
+                        <th>DOW</th>
+                    </tr>
+                    <tr *ngFor="let schedule of schedules" (click)="editSchedule(schedule)">
+                        <td>{{schedule.Name}} </td>
+                        <td>{{formatDate(schedule.StartDate)}} </td>
+                        <td>{{schedule.SolenoidId}} </td>                        
+                        <td>{{schedule.Duration}} </td> 
+                        <td>{{schedule.Days}} </td>                    
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success" (click)="newSchedule()">
+                <i class="fa fa-plus"></i>
+            </button>
+            <br>
+        </div>        
+    </div>
+</div>

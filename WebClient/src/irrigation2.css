@@ -1,0 +1,42 @@
+﻿html {
+    background-color: #333399;
+}
+body, h1, h2, h3, h4, h5, h6, p
+{
+    
+}
+h2 {color:#333399;}
+.header {
+    font-size: 28px;
+    text-align: left;
+    background-color:#333399; /*#cdbfe3;*/
+    color:#fff;
+}
+.header h1 {text-align:center; font-size:28px;margin-top:15px;margin-bottom:15px;}
+.header p {text-align:center;}
+.container { padding-top:10px; }
+.footer {
+    /*position: absolute;
+    bottom: 0;
+    margin-top:100px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #333399;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    text-align: left;
+    color:#fff;
+    float:left;
+}
+td { padding:3px; }
+textarea { max-width:500px;}
+.footer a {color:#fff;}
+.page-wrap {min-height:100%;margin-bottom:-40px;}
+.margin-top{margin-top:5px;}
+.progress {margin-left:15px;margin-right:15px;}
+.input-group-lg {margin-bottom:20px;}
+.btn-lg {margin-right:20px;margin-bottom:20px;}
+.panel-title{font-size:18px;}
+ul.nav li a{font-size:18px;}
+.table-striped>tbody>tr:nth-of-type(odd) { background-color:#e9e9e9; }

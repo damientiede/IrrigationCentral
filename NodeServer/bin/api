@@ -1,0 +1,9 @@
+const http = require('http');
+const api = require('../api');
+
+const port = parseInt(process.env.PORT, 10) || 8001;
+app.set('port', port);
+
+const server = http.createServer(api);
+server.listen(port);
+

@@ -1,0 +1,8 @@
+ul {list-style: none;padding-left:0px;}
+li:hover {cursor: pointer;}
+table.schedules {width:100%;}
+table.schedules td {border-top:1px solid #777;}
+table.schedules tr:hover {cursor: pointer;}
+
+h4 {float:left;margin-top:5px;}
+button {float:left;margin:5px;}
