@@ -24,6 +24,7 @@ import { DeviceMenuComponent } from './device-menu/device-menu.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
+// import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { PasswordComponent } from './password/password.component';
     JsonpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [IrrigationControllerService, NavService, AuthGuard],
+  providers: [IrrigationControllerService, NavService, /* AuthService, */ AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

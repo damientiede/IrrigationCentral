@@ -24,8 +24,8 @@ export class IrrigationControllerService {
     cacheExpiry: Number = 5;
     // devices: { [index: string]: any; } = {};
     deviceCache: IDevice[] = [];
-    private restUrl = 'http://irrigationcentral.co.nz:8000/api';
-    // private restUrl = 'http://delta:8000/api';
+    private restUrl = 'http://irrigationcentral.co.nz:8001/api';
+    // private restUrl = 'http://delta:8001/api';
 
     constructor(private http: Http) {}
     eventTypes: IEventType[] = [];

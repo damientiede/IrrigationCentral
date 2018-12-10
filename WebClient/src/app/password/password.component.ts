@@ -56,7 +56,8 @@ export class PasswordComponent implements OnInit {
   passwordValid() {
     return (this.validated && this.password.length > 1);
   }
-
+  cancel() {
+  }
   displayValidation() {
     if (this.confirmValid() && this.passwordValid()) {
       if (this.password !== this.confirm) {
