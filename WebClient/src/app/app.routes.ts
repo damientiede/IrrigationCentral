@@ -9,16 +9,18 @@ import { ConfigComponent } from './config/config.component';
 import { SolenoidComponent } from './solenoid/solenoid.component';
 import { AlarmComponent } from './alarm/alarm.component';
 import { AnalogComponent } from './analog/analog.component';
-import { LoginComponent } from './login/login.component';
-import { PasswordComponent } from './password/password.component';
+import { CallbackComponent } from './callback/callback.component';
+import { HomeComponent } from './home/home.component';
+// import { PasswordComponent } from './password/password.component';
 import { SpiComponent } from './spi/spi.component';
 import { AuthGuard } from './shared/auth.guard';
 
 // Define which component should be loaded based on the current URL
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: 'login',  component: LoginComponent, },
-  { path: 'password',  component: PasswordComponent, },
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'home',  component: HomeComponent, },
+  { path: 'callback', component: CallbackComponent },
+  // { path: 'password',  component: PasswordComponent, },
   { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid', component: StatusComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/status', component: StatusComponent, canActivate: [AuthGuard] },

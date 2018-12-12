@@ -24,7 +24,9 @@ import { DeviceMenuComponent } from './device-menu/device-menu.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
-// import { AuthService } from './auth/auth.service';
+import { AuthService } from './services/auth.service';
+import { HomeComponent } from './home/home.component';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { PasswordComponent } from './password/password.component';
     DeviceMenuComponent,
     ScheduleComponent,
     LoginComponent,
-    PasswordComponent
+    PasswordComponent,
+    HomeComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,7 @@ import { PasswordComponent } from './password/password.component';
     JsonpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [IrrigationControllerService, NavService, /* AuthService, */ AuthGuard],
+  providers: [IrrigationControllerService, NavService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
