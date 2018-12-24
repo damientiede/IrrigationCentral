@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Rx';
 import { NavService } from '../services/nav.service';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IDevice } from '../model/device';
 import { IIrrigationProgram} from '../model/irrigationprogram';
 import { IEvent } from '../model/event';

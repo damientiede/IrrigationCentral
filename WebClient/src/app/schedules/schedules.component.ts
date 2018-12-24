@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params} from "@angular/router";
 import {Observable} from 'rxjs/Rx';
 import { NavService } from '../services/nav.service';
 import * as moment from 'moment';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IDevice } from '../model/device';
 import { ISchedule } from '../model/schedule';
 

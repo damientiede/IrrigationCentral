@@ -40,7 +40,7 @@ export class AuthService {
       } else if (err) {
         console.log(err); // `Error: ${err}`);
       }
-      this.router.navigate(['/']);
+      this.router.navigate(['/devices']);
     });
   }
 

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params} from "@angular/router";
 import {Observable} from 'rxjs/Rx';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IStatus} from '../model/status';
 import { IDevice } from '../model/device';
 import { ISolenoid } from '../model/solenoid';

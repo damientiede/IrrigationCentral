@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { IStatus } from '../model/status';
 import { IDevice } from '../model/device';
@@ -13,6 +14,7 @@ import { IIrrigationProgram} from '../model/irrigationprogram';
 import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
 import { IEventType } from '../model/eventtypes';
+import { AuthService } from '../services/auth.service';
 
 // Import RxJs required methods
 import {Observable} from 'rxjs/Rx';
@@ -27,7 +29,10 @@ export class IrrigationControllerService {
     private restUrl = 'http://irrigationcentral.co.nz:8001/api';
     // private restUrl = 'http://delta:8001/api';
 
-    constructor(private http: Http) {}
+    constructor(private http: Http,
+                private client: HttpClient,
+                private authService: AuthService) {}
+
     eventTypes: IEventType[] = [];
     getStatus(): Observable <IStatus[]> {
         const url = `${this.restUrl}/status`;
@@ -72,9 +77,13 @@ export class IrrigationControllerService {
 
     getDevices(userid: Number): Observable <IDevice[]> {
         const url = `${this.restUrl}/devices`;
-        return this.http.get(url)
+        return this.client.get<IDevice[]>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+
+       /*  return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); */
     }
     getSchedules(id: number): Observable <ISchedule[]> {
         const url = `${this.restUrl}/devices/${id}/schedules`;

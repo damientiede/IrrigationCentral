@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Rx';
 import { IDevice } from '../model/device';
 import * as moment from 'moment';
 import { NavService } from '../services/nav.service';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({

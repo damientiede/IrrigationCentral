@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NavService } from '../services/nav.service';
 import { IDevice } from '../model/device';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IEvent } from '../model/event';
 
 @Component({

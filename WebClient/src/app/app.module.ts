@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './shared/auth.guard';
@@ -9,7 +10,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavService } from './services/nav.service';
 import { HistoryComponent} from './history/history.component';
-import { IrrigationControllerService} from './services/IrrigationController.service';
+import { IrrigationControllerService} from './services/IrrigationController1.service';
 import { routes } from './app.routes';
 import { ConfigComponent } from './config/config.component';
 import { SolenoidComponent } from './solenoid/solenoid.component';
@@ -50,6 +51,7 @@ import { CallbackComponent } from './callback/callback.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     ToastModule.forRoot(),

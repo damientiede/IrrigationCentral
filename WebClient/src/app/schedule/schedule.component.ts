@@ -5,7 +5,7 @@ import { ISchedule } from '../model/schedule';
 import { ISolenoid } from '../model/solenoid';
 import { ICommand } from '../model/command';
 import { NavService } from '../services/nav.service';
-import { IrrigationControllerService} from '../services/IrrigationController.service';
+import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
