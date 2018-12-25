@@ -1,0 +1,15 @@
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\DeviceTests.cs.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\DeviceTests.cs.pdb
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\DeviceController.Data.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\log4net.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\RestSharp.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\DeviceController.Data.pdb
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\RestSharp.xml
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\obj\Debug\DeviceController.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\obj\Debug\DeviceTests.cs.dll
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\obj\Debug\DeviceTests.cs.pdb

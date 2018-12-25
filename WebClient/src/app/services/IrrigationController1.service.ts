@@ -167,7 +167,7 @@ export class IrrigationControllerService {
     }
     sendCommand(cmd: ICommand): Observable <ICommand> {
         const url = `${this.restUrl}/commands`;
-        return this.client.get<ICommand>(url, {
+        return this.client.post<ICommand>(url, cmd, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }

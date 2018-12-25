@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarnessConsole", "TestH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPIOTestHarness", "GPIOTestHarness\GPIOTestHarness.csproj", "{C67B6C9A-8786-4431-9637-430EDC568371}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceController.Tests", "DeviceTests.cs\DeviceController.Tests.csproj", "{D9F690FA-2C7D-47DB-ADE5-76A04B03F851}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C67B6C9A-8786-4431-9637-430EDC568371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67B6C9A-8786-4431-9637-430EDC568371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67B6C9A-8786-4431-9637-430EDC568371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9F690FA-2C7D-47DB-ADE5-76A04B03F851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9F690FA-2C7D-47DB-ADE5-76A04B03F851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9F690FA-2C7D-47DB-ADE5-76A04B03F851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9F690FA-2C7D-47DB-ADE5-76A04B03F851}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

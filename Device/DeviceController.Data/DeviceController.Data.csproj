@@ -44,11 +44,16 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
       <Private>True</Private>
     </Reference>
@@ -66,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Alarm.cs" />
     <Compile Include="Analog.cs" />
+    <Compile Include="Authentication\AuthClientSecret.cs" />
+    <Compile Include="Authentication\AuthTokenProvider.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandType.cs" />
     <Compile Include="DataServer.cs" />
@@ -73,8 +80,10 @@
     <Compile Include="DataService.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="IRestApi.cs" />
     <Compile Include="IrrigationProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestApiClient.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="Solenoid.cs" />
     <Compile Include="Spi.cs" />
