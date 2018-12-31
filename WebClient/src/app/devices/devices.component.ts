@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { NavService } from '../services/nav.service';
 import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-devices',
@@ -14,6 +15,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class DevicesComponent implements OnInit {
   userid: Number;
+  username: string;
   devices: IDevice[];
   loaded = false;
   ticks = 0;
@@ -22,11 +24,13 @@ export class DevicesComponent implements OnInit {
               vcr: ViewContainerRef,
               private router: Router,
               private nav: NavService,
+              private authService: AuthService,
               private route: ActivatedRoute) {
         this.toastr.setRootViewContainerRef(vcr);
      }
 
   ngOnInit() {
+    this.username = this.authService.userProfile.name;
     this.getData();
     const timer = Observable.timer(0, 5000);
     timer
@@ -41,7 +45,7 @@ export class DevicesComponent implements OnInit {
     this.ticks = t;
   }
   getData() {
-    this.dataService.getDevices(this.userid)
+    this.dataService.getDevices(this.username)
       .subscribe((data: IDevice[]) => {
           this.devices = data;
           this.loaded = true;

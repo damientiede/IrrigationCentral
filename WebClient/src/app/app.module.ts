@@ -28,6 +28,7 @@ import { PasswordComponent } from './password/password.component';
 import { AuthService } from './services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CallbackComponent } from './callback/callback.component';
     LoginComponent,
     PasswordComponent,
     HomeComponent,
-    CallbackComponent
+    CallbackComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,

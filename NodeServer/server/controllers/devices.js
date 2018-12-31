@@ -42,6 +42,7 @@ module.exports = {
                 State: Utils.parseDeviceState(req.body.State),
                 Status: req.body.Status,
                 Pressure: req.body.Pressure,
+                Flowrate: req.body.Flowrate,
                 ScheduleId: parseInt(req.body.ScheduleId),
                 Inputs: req.body.Inputs,
                 Outputs: req.body.Outputs,                

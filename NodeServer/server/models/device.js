@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DOUBLE,
       allowNull:false
     },
+    Flowrate: {
+      type:DataTypes.DOUBLE,
+      allowNull:false
+    },
     ScheduleId: {
       type: DataTypes.INTEGER,
       allowNull:true
@@ -58,11 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     Device.hasMany(models.Schedule, {
       foreignKey: 'DeviceId',
       as: 'Schedules'
-    }); 
-    /* Device.hasOne(models.Status, {
-      foreignKey: 'DeviceId',
-      as: 'Status'
-    }); */
+    });     
   };
 
   return Device;

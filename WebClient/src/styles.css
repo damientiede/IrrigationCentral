@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 html {
-    background-color: #333399;
+    background-color:#fff; /*#7386D5;*/
 }
 body, h1, h2, h3, h4, h5, h6, p
 {
@@ -56,7 +56,7 @@ img.logo {height:50px;margin:10px;float:left;}
 }
 @media (min-width:360px) {
     /*.app-container {max-width:360px;}*/
-    .btn {font-size:1.0rem;}
+    .btn {font-size:1.5rem;}
     .panel-title {font-size:1.0rem;}
     .input-group-text {font-size:1.0rem;}
     .container {padding-left:10px;padding-right:10px;}

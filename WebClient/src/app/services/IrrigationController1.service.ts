@@ -15,6 +15,7 @@ import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
 import { IEventType } from '../model/eventtypes';
 import { AuthService } from '../services/auth.service';
+import { environment } from './../../environments/environment';
 
 // Import RxJs required methods
 import {Observable} from 'rxjs/Rx';
@@ -26,7 +27,7 @@ export class IrrigationControllerService {
     cacheExpiry: Number = 5;
     // devices: { [index: string]: any; } = {};
     deviceCache: IDevice[] = [];
-    private restUrl = 'http://irrigationcentral.co.nz:8001/api';
+    private restUrl = `${environment.auth.audience}/api`;  // 'http://irrigationcentral.co.nz:8011/api';
     // private restUrl = 'http://delta:8001/api';
 
     constructor(private http: Http,
@@ -75,7 +76,7 @@ export class IrrigationControllerService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    getDevices(userid: Number): Observable <IDevice[]> {
+    getDevices(username: string): Observable <IDevice[]> {
         const url = `${this.restUrl}/devices`;
         return this.client.get<IDevice[]>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)

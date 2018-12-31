@@ -1,7 +1,7 @@
 const Device = require('../models').Device;
 
-module.exports = {
-   seed(spis, analogs, solenoids, alarms, schedules, callback) {
+module.exports = {    
+   seed(spis, analogs, solenoids, alarms, users, schedules, callback) {
       Device
 	    .count()
 	    .then(d => { 
@@ -14,6 +14,7 @@ module.exports = {
                     Status:'Seeded',
                     ScheduleId: 0,
                     Pressure:0.0,
+                    Flowrate:0.0,
                     PumpSolenoidId:0,
                     SoftwareVersion:'0.0.1',
                     DeviceMAC:'B827EB1C9BA9'
@@ -26,9 +27,10 @@ module.exports = {
                 Status:'Seeded',
                 ScheduleId: 0,
                 Pressure:0.0,
+                Flowrate:0.0,
                 PumpSolenoidId:0,
                 SoftwareVersion:'0.0.1',
-                DeviceMAC:'B827EB1A9BA9'
+                DeviceMAC:'1234567'
 	          });
           console.log('Created 2 device records');	   		
 	   }
@@ -36,7 +38,7 @@ module.exports = {
     if (typeof callback === "function")
     {
         console.log('About to call callback');
-        callback(spis, analogs, solenoids, alarms, schedules);
+        callback(spis, analogs, solenoids, alarms, users, schedules);
     }
    }
 };

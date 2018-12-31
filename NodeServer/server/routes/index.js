@@ -48,12 +48,12 @@ module.exports = (app) => {
 
    //Users
    app.post('/api/users', usersController.create);
-   app.get('/api/user/:id', usersController.single);  
-   app.get('/api/userbyid/:uid', usersController.singleByUid); 
-   app.get('/api/recoverpassword/uid',usersController.recoverPassword);
+   app.get('/api/users/:id', usersController.single);  
+   // app.get('/api/userbyid/:uid', usersController.singleByUid); 
+   //app.get('/api/recoverpassword/uid',usersController.recoverPassword);
    app.get('/api/users', usersController.list);
    app.put('/api/users/:id', usersController.update);  
-   app.post('/api/login', usersController.login);
+   //app.post('/api/login', usersController.login);
 
    //Solenoids
    app.post('/api/solenoids', solenoidsController.create);

@@ -1,0 +1,29 @@
+<nav id="sidebar">
+  <!-- <h3>
+    <div id="dismiss">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+  </h3> -->
+  
+  
+  <ul class="list-unstyled">  
+      <li [ngClass]="getActiveClass('home')">
+        <a (click)="home()">Home</a>
+      </li>    
+      <li [ngClass]="getActiveClass('devices')">
+          <a (click)="devices()">Devices</a>          
+      </li>
+      <li [ngClass]="getActiveClass('status')">
+          <a (click)="status()">Status</a>
+      </li>
+      <li [ngClass]="getActiveClass('schedules')">
+          <a (click)="schedules()">Schedules</a>
+      </li>
+      <li [ngClass]="getActiveClass('settings')">
+          <a (click)="settings()">Settings</a>
+      </li>
+      <li [ngClass]="getActiveClass('history')">
+          <a (click)="history()">History</a>
+      </li>
+  </ul>
+</nav>

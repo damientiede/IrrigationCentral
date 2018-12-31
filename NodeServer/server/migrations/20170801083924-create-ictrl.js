@@ -111,7 +111,18 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             }           
-        }),             
+        }),    
+        //userdevice
+        queryInterface.createTable('UserDevices', {
+            UserId: {     
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            DeviceId: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            }
+        }), 
         //commandtype
         queryInterface.createTable('CommandTypes', {
             Id: {

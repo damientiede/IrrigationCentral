@@ -20,10 +20,11 @@ const seedAll = () => {
             schedules.seed();
         });
         alarms.seed();
-    });    
-    accounts.seed();    
+        accounts.seed();
+        users.seed(); 
+    });            
     commands.seed();
-    users.seed();
+    
 }
 
 module.exports = {    

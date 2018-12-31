@@ -1,9 +1,11 @@
 <h3>
   Welcome to Irrigation Central.
 </h3>
-<p *ngIf="!authService.isLoggedIn">
+<!-- <p *ngIf="!authService.isLoggedIn"> -->
+<p>
   <button type="button" class="btn btn-success" (click)="authService.login()">Login</button>
 </p>
-<p *ngIf="authService.isLoggedIn">
+<p *ngIf="authService.isLoggedIn"></p>
+<p>
   <button type="button" class="btn btn-success" (click)="authService.logout()">Logout</button>
 </p>

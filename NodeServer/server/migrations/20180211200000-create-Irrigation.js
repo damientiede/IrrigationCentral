@@ -35,6 +35,10 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 default: 0
             },
+            Flowrate: {
+                type: Sequelize.INTEGER,
+                default: 0
+            },
             ScheduleId: {
                 type: Sequelize.INTEGER,
                 default: null
@@ -112,15 +116,19 @@ module.exports = {
             Mobile: {
                 type: Sequelize.STRING,
                 allowNull:false
-            },      
-            Password: {
+            },
+            IsAdmin: {
+                type: Sequelize.BOOLEAN,
+                allowNull:false
+            }, 
+            /* Password: {
                 type: Sequelize.STRING,
                 allowNull:false
             },
             Salt: {
                 type: Sequelize.STRING,
                 allowNull:false
-            },
+            }, */
             CreatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE
@@ -129,7 +137,26 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             }           
-        }),             
+        }),     
+        //userdevice
+        queryInterface.createTable('UserDevices', {
+            UserId: {     
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            DeviceId: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            CreatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            UpdatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            } 
+        }),         
         //commandtype
         queryInterface.createTable('CommandTypes', {
             Id: {
@@ -586,6 +613,8 @@ module.exports = {
         queryInterface.dropTable('EventTypes'),                
         //users
         queryInterface.dropTable('Users'),
+        //userdevices
+        queryInterface.dropTable('UserDevices'),
         //devices
         queryInterface.dropTable('Devices'),
     ]

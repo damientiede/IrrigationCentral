@@ -16,18 +16,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull:false
       },      
-      Password: {
+     /*  Password: {
         type: DataTypes.STRING,
         allowNull:false
-      },
-      Salt: {
+      }, */
+      IsAdmin: DataTypes.BOOLEAN,
+     /*  Salt: {
         type: DataTypes.STRING,
         allowNull:false
       },
       RecoveryCode: {
         type: DataTypes.STRING,
         allowNull:true
-      }
+      } */
     });
 
     User.associate = (models) => {
@@ -37,12 +38,20 @@ module.exports = (sequelize, DataTypes) => {
       })
     };
 
-    /* User.associate = (models) => {
+    User.associate = (models) => {
+      User.belongsToMany(models.Device, {
+        through: 'UserDevices',
+        as: 'devices',
+        foreignKey: 'UserId'
+      });
+    };
+
+   /*  User.associate = (models) => {
       User.hasMany(models.Device, {
         foreignKey: 'deviceId',
         as: 'devices'
       })
-    };  */     
+    };    */
     return User;
   };
   
