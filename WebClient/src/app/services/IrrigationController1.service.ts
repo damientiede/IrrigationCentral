@@ -68,14 +68,11 @@ export class IrrigationControllerService {
     }
 
     getUser(uid: string): Observable <IUser> {
-        const url = `${this.restUrl}/user/${uid}`;
-        return this.http.get(url)
-            // ...and calling .json() on the response to return data
-            .map((res: Response) => res.json())
-            // ...errors if any
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        const url = `${this.restUrl}/users/${uid}`;
+        return this.client.get<IUser>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
     }
-
     getDevices(username: string): Observable <IDevice[]> {
         const url = `${this.restUrl}/devices`;
         return this.client.get<IDevice[]>(url, {

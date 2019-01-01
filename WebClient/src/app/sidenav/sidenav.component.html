@@ -11,7 +11,7 @@
         <a (click)="home()">Home</a>
       </li>    
       <li [ngClass]="getActiveClass('devices')">
-          <a (click)="devices()">Devices</a>          
+          <a (click)="devices()">Controllers</a>          
       </li>
       <li [ngClass]="getActiveClass('status')">
           <a (click)="status()">Status</a>
@@ -19,11 +19,14 @@
       <li [ngClass]="getActiveClass('schedules')">
           <a (click)="schedules()">Schedules</a>
       </li>
-      <li [ngClass]="getActiveClass('settings')">
-          <a (click)="settings()">Settings</a>
+      <li [ngClass]="getActiveClass('config')">
+          <a (click)="config()">Config</a>
       </li>
       <li [ngClass]="getActiveClass('history')">
           <a (click)="history()">History</a>
+      </li>
+      <li *ngIf="authService.isLoggedIn">
+          <a (click)="authService.logout()">Logout</a>
       </li>
   </ul>
 </nav>

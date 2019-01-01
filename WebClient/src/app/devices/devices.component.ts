@@ -7,6 +7,7 @@ import { NavService } from '../services/nav.service';
 import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AuthService } from '../services/auth.service';
+import { IUser } from '../model/user';
 
 @Component({
   selector: 'app-devices',
@@ -16,6 +17,7 @@ import { AuthService } from '../services/auth.service';
 export class DevicesComponent implements OnInit {
   userid: Number;
   username: string;
+  user: IUser;
   devices: IDevice[];
   loaded = false;
   ticks = 0;
@@ -45,9 +47,9 @@ export class DevicesComponent implements OnInit {
     this.ticks = t;
   }
   getData() {
-    this.dataService.getDevices(this.username)
-      .subscribe((data: IDevice[]) => {
-          this.devices = data;
+    this.dataService.getUser(this.username)
+      .subscribe((data: IUser) => {
+          this.user = data;
           this.loaded = true;
           console.log(data);
       });

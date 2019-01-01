@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, UrlSegment } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { filter } from 'rxjs/operators';
 import * as $ from 'jquery';
 
@@ -15,7 +16,8 @@ export class SidenavComponent implements OnInit {
   loaded = false;
   deviceId: any;
   constructor(private router: Router,
-    public route: ActivatedRoute) { }
+              public route: ActivatedRoute,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.router.events.pipe(
@@ -49,7 +51,7 @@ export class SidenavComponent implements OnInit {
     if ((item === 'status' ||
         item === 'schedules' ||
         item === 'history' ||
-        item === 'settings')
+        item === 'config')
        && (this.deviceId === undefined)) {
       return 'hidden';
     }

@@ -1,3 +1,4 @@
+import { IDevice } from '../model/device';
 export class IUser {
     constructor(
         public id: number,
@@ -10,4 +11,5 @@ export class IUser {
         public updatedAt: Date,
         public salt: string
     ) {}
+    public devices: IDevice[];
 }

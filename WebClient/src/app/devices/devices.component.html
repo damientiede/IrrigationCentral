@@ -1,6 +1,10 @@
-<h5>Devices</h5>
+<h5>Controllers</h5>
 <div *ngIf="loaded">
-    <div class="row" *ngFor="let device of devices" (click)="navToDevice(device)">
+    <p>
+        Welcome {{user.FirstName}}.<br/>
+        Here are your controllers.
+    </p>
+    <div class="row" *ngFor="let device of user.devices" (click)="navToDevice(device)">
         <div class="col-sm-12"> 
             <div [ngClass]="getStatusClass(device)">
                 <div class="panel-title">

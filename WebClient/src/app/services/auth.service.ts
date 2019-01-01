@@ -31,32 +31,40 @@ export class AuthService {
     this.auth0.authorize();
   }
 
-  handleLoginCallback() {
+  handleLoginCallback(callback) {
     // When Auth0 hash parsed, get profile
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         // window.location.hash = '';
-        this.getUserInfo(authResult);
+        this.getUserInfo(authResult, () => {
+          if (typeof callback === 'function') {
+            callback();
+          }
+          //this.router.navigate(['/devices']);
+        });
       } else if (err) {
         console.log(err); // `Error: ${err}`);
       }
-      this.router.navigate(['/devices']);
     });
   }
 
   getAccessToken() {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken) {
-        this.getUserInfo(authResult);
+        this.getUserInfo(authResult, () => {
+        });
       }
     });
   }
 
-  getUserInfo(authResult) {
+  getUserInfo(authResult, callback) {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       if (profile) {
         this._setSession(authResult, profile);
+        if (typeof callback === 'function') {
+            callback();
+        }
       }
     });
   }
