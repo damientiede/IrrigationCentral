@@ -1,8 +1,8 @@
 #sidebar {
-    width: 30%;
+    width: 40%;
     position: fixed;
     top: 0;
-    left: -30%;
+    left: -40%;
     height: 100vh;
     z-index: 999;
     background: #7386D5;

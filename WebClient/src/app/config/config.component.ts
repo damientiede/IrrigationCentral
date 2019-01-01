@@ -229,6 +229,9 @@ export class ConfigComponent implements OnInit {
       return this.device.Name;
     }
   }
+  back() {
+    this.router.navigate([`/device/${this.device.id}/status`]);
+  }
   backClick() {
     this.nav.Back();
   }

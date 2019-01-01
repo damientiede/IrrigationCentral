@@ -100,6 +100,9 @@ export class HistoryComponent implements OnInit {
   getEventType(et) {
 
   }
+  back() {
+    this.router.navigate([`/device/${this.device.id}/status`]);
+  }
   backClick() {
     this.nav.Back();
   }

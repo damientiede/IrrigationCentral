@@ -1,8 +1,10 @@
 <div *ngIf="loaded">
     <div class="row">        
         <div class="col-sm-12">
-            <!-- <app-device-menu [Device]="device"></app-device-menu> -->
-            <h1>Device Config</h1>
+            <button (click)="back()" class="btn btn-nav" data-toggle="tooltip" data-placement="top" title="Back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h4>Config</h4>
         </div>        
     </div>
 

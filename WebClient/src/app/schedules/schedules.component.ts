@@ -80,4 +80,7 @@ export class SchedulesComponent implements OnInit {
   newSchedule() {
     this.nav.NavTo(`/device/${this.device.id}/schedule/new`);
   }
+  back() {
+    this.router.navigate([`/device/${this.device.id}/status`]);
+  }
 }

@@ -4,17 +4,16 @@ html {
 }
 body, h1, h2, h3, h4, h5, h6, p
 {
-    
+    color:#333399;
 }
-h2 {color:#333399;}
 .header {
     font-size: 28px;
     text-align: left;
     background-color:#333399; /*#cdbfe3;*/
     color:#fff;
 }
-.header h1 { font-size:28px;margin-left:30px;margin-top:15px;margin-bottom:15px;}
-.header p {text-align:center;}
+/*.header h1 { font-size:28px;margin-left:30px;margin-top:15px;margin-bottom:15px;}
+.header p {text-align:center;}*/
 .container { padding-top:0px; }
 .footer {
     /*position: absolute;
@@ -47,6 +46,18 @@ img.logo {height:50px;margin:10px;float:left;}
 .vert-centre {margin-top:10px;margin-bottom:15px;}
 .app-container {margin-left:auto;margin-right:auto;}
 .input-group { padding-bottom:0.75rem;}
+.btn-nav { color:#fff; background-color:#333399;border-color:#333399;}
+li.nav-item a.nav-link.active { color: #fff; background-color:#7386d5;}
+ul.nav-tabs { border-bottom: 1px solid #7386d5;}
+@media (min-width:320px) {
+    h1#app-title {font-size:1.3rem; margin-top:20px; }
+    h2 { font-size:1.5rem; }
+}
+@media (min-width:360px) {    
+    h1#app-title {font-size:1.5rem; margin-top:15px; }
+    h2 { font-size:1.5rem; }
+}
+/* 
 @media (min-width:320px) {
     .app-container {max-width:320px;}
     .btn {font-size:0.7rem;}
@@ -54,8 +65,7 @@ img.logo {height:50px;margin:10px;float:left;}
     .input-group-text {font-size:0.7rem;}
     .container {padding-left:10px;padding-right:10px;}
 }
-@media (min-width:360px) {
-    /*.app-container {max-width:360px;}*/
+@media (min-width:360px) {    
     .btn {font-size:1.5rem;}
     .panel-title {font-size:1.0rem;}
     .input-group-text {font-size:1.0rem;}
@@ -73,7 +83,7 @@ img.logo {height:50px;margin:10px;float:left;}
 }
 @media (min-width:992px) {
     .app-container {max-width:800px;}
-}
+} */
 /* @media (min-width:1200px) {
     .app-container {max-width:900px;}
 } */
