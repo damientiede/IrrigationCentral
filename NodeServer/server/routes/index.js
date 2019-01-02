@@ -37,7 +37,9 @@ module.exports = (app) => {
    app.get('/api/devices/:DeviceMAC/register', devicesController.register);
    app.post('/api/devices', devicesController.create);
    app.get('/api/devices/:id', devicesController.single);   
-   app.put('/api/devices/:id', devicesController.update);
+   app.put('/api/devices/:id/config', devicesController.updateConfig);
+   app.put('/api/devices/:id/status', devicesController.updateStatus);
+   
 
    //Accounts
    app.post('/api/accounts', accountsController.create);

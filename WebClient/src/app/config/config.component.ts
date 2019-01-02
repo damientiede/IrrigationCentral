@@ -26,6 +26,7 @@ export class ConfigComponent implements OnInit {
   deviceid= 0;
   ticks= 0;
   device: IDevice;
+  pumpSolenoid: ISolenoid;
   irrigationPrograms: IIrrigationProgram[];
   solenoids: ISolenoid[];
   solenoidsLoaded = false;
@@ -36,6 +37,7 @@ export class ConfigComponent implements OnInit {
   spis: ISpi[];
   spisLoaded = false;
   loaded = false;
+  unsavedChanges = false;
   selection= 'Device';
   views: ['Device', 'Solenoids', 'Alarms', 'Analogs', 'SPIs'];
   activeView = 'Device';
@@ -61,12 +63,12 @@ export class ConfigComponent implements OnInit {
       }
       // this.getDevice(this.deviceid);
       this.getData();
-      const timer = Observable.timer(0, 5000);
+      /* const timer = Observable.timer(0, 5000);
       timer
         .takeUntil(this.router.events)
         .subscribe(t => {
           this.onTick(t);
-        });
+        }); */
     });
     // extract query params
     this.route.queryParams.subscribe((queryparams: Params) => {
@@ -120,6 +122,16 @@ export class ConfigComponent implements OnInit {
       .subscribe((data: ISolenoid[]) => {
           this.solenoids = data;
           this.solenoidsLoaded = true;
+          for (let s of this.solenoids) {
+            if (s.id === this.device.PumpSolenoidId) {
+              this.pumpSolenoid = s;
+              console.log(`Setting PumpSolenoid to ${this.pumpSolenoid.id}`);
+              break;
+            }
+          }
+          if (this.pumpSolenoid === undefined) {
+            this.pumpSolenoid = this.solenoids[0];
+          }
           console.log(data);
       });
     }
@@ -234,6 +246,15 @@ export class ConfigComponent implements OnInit {
   }
   backClick() {
     this.nav.Back();
+  }
+  saveDevice() {
+    console.log(this.pumpSolenoid);
+    this.device.PumpSolenoidId = this.pumpSolenoid.id;
+    console.log(this.device);
+    this.service.saveDevice(this.device).subscribe((d: IDevice) => {
+      this.getData();
+      this.toastr.success('Changes saved');
+    });
   }
   sendCommand(cmd: ICommand) {
     this.service.sendCommand(cmd)

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
-import { NavService } from './services/nav.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
+
 import * as $ from 'jquery';
 
 @Component({
@@ -9,14 +9,14 @@ import * as $ from 'jquery';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  public firstName = 'Damien';
+  public firstName: string; // = 'Damien';
 
-  constructor(private nav: NavService ) {}
+  constructor(private auth: AuthService) {}
 
-  home() {
-    this.nav.Home();
+  ngOnInit() {
+    this.auth.scheduleRenewal();
   }
   sidebarClick() {
     console.log('sidebarCollapse clicked');

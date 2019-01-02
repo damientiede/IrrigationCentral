@@ -20,7 +20,7 @@ namespace DeviceController.Devices
         }
         public DeviceAlarm(Alarm a)
         {
-            log.DebugFormat("DeviceAnalog() {0}",a.Name);
+            log.DebugFormat("DeviceAlarm() {0}",a.Name);
             dataAlarm = a;
             
             switch (a.HardwareType)

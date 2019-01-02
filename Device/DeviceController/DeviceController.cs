@@ -106,6 +106,7 @@ namespace DeviceController
             }
             catch (Exception ex)
             {
+                GPIOService.Gpio.Close();
                 log.ErrorFormat("Initialization failure: {0}", ex.Message);
                 throw ex;
             }
@@ -115,8 +116,11 @@ namespace DeviceController
             log.Debug("LoadConfig()");
             //clear the existing interface
             GPIOService.CloseGpio();
-            Solenoids.Clear();
 
+            //reload the device config
+            device = DataService.Proxy.GetDevice(device.Id);
+
+            Solenoids.Clear();
             List<Solenoid> solenoids = DataService.Proxy.GetSolenoids(device.Id);
             foreach (Solenoid s in solenoids)
             {
@@ -133,7 +137,7 @@ namespace DeviceController
             Analogs.Clear();
             List<Analog> analogs = DataService.Proxy.GetAnalogs(device.Id);
             foreach (Analog a in analogs)
-            {
+            {                
                 DeviceAnalog an = new DeviceAnalog(a);
                 Analogs.Add(an);
             }

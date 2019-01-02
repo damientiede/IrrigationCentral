@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { IStatus } from '../model/status';
@@ -32,6 +33,7 @@ export class IrrigationControllerService {
 
     constructor(private http: Http,
                 private client: HttpClient,
+                private router: Router,
                 private authService: AuthService) {}
 
     eventTypes: IEventType[] = [];
@@ -205,6 +207,12 @@ export class IrrigationControllerService {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
+    saveDevice(device: IDevice): Observable <IDevice> {
+        const url = `${this.restUrl}/devices/${device.id}/config`;
+        return this.client.put<IDevice>(url, device, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
     saveSolenoid(solenoid: ISolenoid): Observable <ISolenoid> {
         const url = `${this.restUrl}/solenoids/${solenoid.id}`;
         return this.client.put<ISolenoid>(url, solenoid, {
@@ -268,5 +276,24 @@ export class IrrigationControllerService {
         return this.client.delete<ISpi>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
+    }
+    redirectUserToLandingPage() {
+      if (this.authService.isLoggedIn) {
+        const username = this.authService.userProfile.name;
+        this.getUser(username)
+            .subscribe((user: IUser) => {
+                if (user === null) { return; }
+                if (user.devices.length > 1) {
+                this.router.navigate(['/devices']);
+                } else {
+                const device = user.devices[0];
+                if (device != null) {
+                    this.router.navigate([`/device/${device.id}`]);
+                }
+            }
+        });
+      } else {
+        this.router.navigate(['home']);
+      }
     }
 }

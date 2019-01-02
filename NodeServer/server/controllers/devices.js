@@ -32,12 +32,10 @@ module.exports = {
             .then(devices => res.status(200).send(devices))
             .catch(error => res.status(400).send(error));
    },
-   update(req, res) {
+   updateStatus(req, res) {
        //console.log(req);
         return Device
             .update({        
-                Name: req.body.Name,
-                Description: req.body.Description,
                 Mode: Utils.parseDeviceMode(req.body.Mode),
                 State: Utils.parseDeviceState(req.body.State),
                 Status: req.body.Status,
@@ -46,14 +44,27 @@ module.exports = {
                 ScheduleId: parseInt(req.body.ScheduleId),
                 Inputs: req.body.Inputs,
                 Outputs: req.body.Outputs,                
-                PumpSolenoidId:req.body.PumpSolenoidId,
-                SoftwareVersion:req.body.SoftwareVersion,
                 UpdatedAt:new Date()            
             }, {
 	            where: { Id: req.params.id }
             })
             .then(device => res.status(200).send(device))
             .catch(error => res.status(400).send(error));
+   },
+   updateConfig(req, res) {
+    //console.log(req);
+     return Device
+         .update({        
+             Name: req.body.Name,
+             Description: req.body.Description,
+             PumpSolenoidId:req.body.PumpSolenoidId,
+             SoftwareVersion:req.body.SoftwareVersion,
+             UpdatedAt:new Date()            
+         }, {
+             where: { Id: req.params.id }
+         })
+         .then(device => res.status(200).send(device))
+         .catch(error => res.status(400).send(error));
    },
    register(req, res) {
         return Device

@@ -17,6 +17,7 @@ namespace DeviceController.Data
         public DeviceMode Mode;
         public string Status;
         public double Pressure;
+        public double Flowrate;
         public int? ScheduleId;
         public string Inputs;
         public string Outputs;

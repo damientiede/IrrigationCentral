@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using Newtonsoft;
+using DeviceController.Data.Authentication;
 using log4net;
 using Newtonsoft.Json;
 
@@ -15,26 +16,60 @@ namespace DeviceController.Data
         ILog log;
         string apiRoot;
         RestClient client;
-        string _authToken;
 
-        public RestApiClient(string baseuri, string authToken)
+        string authToken;
+        string authServerUri;
+        AuthClientSecret authSecret;
+
+        public RestApiClient(string baseuri, string authUrl, AuthClientSecret secret)
         {
             log4net.Config.XmlConfigurator.Configure();
             log = LogManager.GetLogger("Device");
             client = new RestClient(baseuri);
             apiRoot = "/api/";
-            _authToken = authToken;
+            authServerUri = authUrl;
+            authSecret = secret;
+            fetchAuthToken();
+        }
+        private void fetchAuthToken()
+        {
+            authToken = AuthTokenProvider.GetAuthToken(authServerUri, authSecret);
+            log.InfoFormat("RestApiClient.fetchAuthToken() - accessed authToken {0}", authToken);
+        }
+        private IRestResponse execute(RestRequest request)
+        {
+            IRestResponse response = null; 
+            try
+            {
+                response = client.Execute(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    //auth token may have expired - try renewing
+                    fetchAuthToken();
+                    // retry
+                    response = client.Execute(request);
+                }
+                if (response.StatusCode > System.Net.HttpStatusCode.NoContent)
+                {
+                    log.WarnFormat("RestApiClient unexpected response from API : {0}, {1}", response.StatusCode.ToString(), response.Content);
+                }
+            }
+            catch(Exception ex)
+            {
+                log.DebugFormat(ex.Message);
+            }
+            return response;
         }
         protected RestRequest GetAuthenticatedRequest(string resource)
         {
             RestRequest request = new RestRequest(apiRoot + resource);
-            request.AddHeader("authorization", string.Format("Bearer {0}", _authToken));
+            request.AddHeader("authorization", string.Format("Bearer {0}", authToken));
             return request;
         }
         protected string Get(string resource)
         {
             RestRequest request = GetAuthenticatedRequest(resource);
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = execute(request);
             return response.Content;
         }
         protected string Post(string resource, string json)
@@ -44,18 +79,17 @@ namespace DeviceController.Data
             request.AddHeader("content-type", "application/json");
             request.AddParameter("", json, ParameterType.RequestBody);
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = execute(request);
             return response.Content;
         }
-        protected string Put(string resource, string json)
+        protected IRestResponse Put(string resource, string json)
         {
             RestRequest request = GetAuthenticatedRequest(resource);
             request.Method = Method.PUT;
             request.AddHeader("content-type", "application/json");
-            request.AddParameter("", json, ParameterType.RequestBody);
-
-            IRestResponse response = client.Execute(request);
-            return response.Content;
+            request.AddParameter("", json, ParameterType.RequestBody);            
+            IRestResponse response = execute(request);
+            return response;
         }
         public List<Event> GetEvents(int deviceId)
         {
@@ -90,32 +124,32 @@ namespace DeviceController.Data
         public void PutIrrigationProgram(IrrigationProgram p)
         {
             string data = JsonConvert.SerializeObject(p);
-            string response = Put(string.Format("irrigationprograms/{0}", p.Id), data);
+            IRestResponse response = Put(string.Format("irrigationprograms/{0}", p.Id), data);
         }
         public void PutCommand(Command c)
         {
             string data = JsonConvert.SerializeObject(c);
-            string response = Put(string.Format("commands/{0}", c.Id), data);
+            IRestResponse response = Put(string.Format("commands/{0}", c.Id), data);
         }
         public void PutSolenoid(Solenoid s)
         {
             string data = JsonConvert.SerializeObject(s);
-            string response = Put(string.Format("solenoids/{0}", s.Id), data);
+            IRestResponse response = Put(string.Format("solenoids/{0}", s.Id), data);
         }
         public void PutAnalog(Analog a)
         {
             string data = JsonConvert.SerializeObject(a);
-            string response = Put(string.Format("analogs/{0}", a.Id), data);
+            IRestResponse response = Put(string.Format("analogs/{0}", a.Id), data);
         }
         public void PutDevice(Device d)
         {
             string data = JsonConvert.SerializeObject(d);
-            string response = Put(string.Format("devices/{0}", d.Id), data);
+            IRestResponse response = Put(string.Format("devices/{0}/status", d.Id), data);
         }
         public void PutStatus(Status s)
         {
             string data = JsonConvert.SerializeObject(s);
-            string response = Put(string.Format("devices/{0}", s.Id), data);
+            IRestResponse response = Put(string.Format("devices/{0}", s.Id), data);
         }
         public List<Command> GetCommands(int deviceId)
         {

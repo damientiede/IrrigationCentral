@@ -11,12 +11,7 @@ namespace DeviceController
     {
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
-            string server = "http://192.168.1.51:8000/api";  //Damos Test server
-            if (ConfigurationManager.AppSettings["RestApiUri"] != null)
-            {
-                server = ConfigurationManager.AppSettings["RestApiUri"].ToString();
-            }           
+            log4net.Config.XmlConfigurator.Configure();          
             DeviceController d = new DeviceController();            
             d.Run();
         }

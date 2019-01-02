@@ -11,7 +11,6 @@ import { AlarmComponent } from './alarm/alarm.component';
 import { AnalogComponent } from './analog/analog.component';
 import { CallbackComponent } from './callback/callback.component';
 import { HomeComponent } from './home/home.component';
-// import { PasswordComponent } from './password/password.component';
 import { SpiComponent } from './spi/spi.component';
 import { AuthGuard } from './shared/auth.guard';
 

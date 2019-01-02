@@ -21,16 +21,16 @@ export class CallbackComponent implements OnInit {
       if (this.authService.isLoggedIn) {
         const username = this.authService.userProfile.name;
         this.service.getUser(username)
-                    .subscribe((user: IUser) => {
-                      if (user === null) { return; }
-                      if (user.devices.length > 1) {
-                        this.router.navigate(['/devices']);
-                      } else {
-                        const device = user.devices[0];
-                        if (device != null) {
-                          this.router.navigate([`/device/${device.id}`]);
-                      }
-                    }
+            .subscribe((user: IUser) => {
+                if (user === null) { return; }
+                if (user.devices.length > 1) {
+                this.router.navigate(['/devices']);
+                } else {
+                const device = user.devices[0];
+                if (device != null) {
+                    this.router.navigate([`/device/${device.id}`]);
+                }
+            }
         });
       }
     });
