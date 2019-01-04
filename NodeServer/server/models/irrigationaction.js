@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const IrrigationProgram = sequelize.define('IrrigationProgram', {
+    const IrrigationAction = sequelize.define('IrrigationAction', {
       Name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -30,12 +30,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    IrrigationProgram.associate = (models) => {
-        IrrigationProgram.belongsTo(models.Device, {
+    IrrigationAction.associate = (models) => {
+        IrrigationAction.belongsTo(models.Device, {
             foreignKey: 'DeviceId',
             onDelete: 'CASCADE',
         });
     };
   
-    return IrrigationProgram;
+    return IrrigationAction;
 }

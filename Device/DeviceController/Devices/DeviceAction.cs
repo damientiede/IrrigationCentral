@@ -5,10 +5,10 @@ using log4net;
 
 namespace DeviceController.Devices
 {
-    public class DeviceProgram
+    public class DeviceAction
     {
         ILog log = LogManager.GetLogger("Device");
-        IrrigationProgram program;
+        IrrigationAction program;
         DeviceSolenoid solenoid;
         Schedule schedule;
         Timer timer;
@@ -46,11 +46,11 @@ namespace DeviceController.Devices
         public delegate void ProgramCompletedEventHandler(object sender, EventArgs e);
         public event ProgramCompletedEventHandler ProgramCompleted;
 
-        public DeviceProgram(string name, DeviceSolenoid sol, int duration)
+        public DeviceAction(string name, DeviceSolenoid sol, int duration)
         {
-            log.Debug("DeviceProgram()");
+            log.Debug("DeviceAction()");
             solenoid = sol;
-            program = new IrrigationProgram()
+            program = new IrrigationAction()
             {
                 Name = name,
                 Start = DateTime.Now,
@@ -59,7 +59,7 @@ namespace DeviceController.Devices
                 SolenoidId = solenoid.Id,
                 SolenoidName = solenoid.Name
             };
-            program.Id = DataService.Proxy.PostIrrigationProgram(program);
+            program.Id = DataService.Proxy.PostIrrigationAction(program);
             solenoid.On();
             if (solenoid.RequiresPump)
             {
@@ -109,7 +109,7 @@ namespace DeviceController.Devices
                 DeviceController.Pump.Off();
             }
             program.Finished = DateTime.Now;
-            DataService.Proxy.PutIrrigationProgram(program);
+            DataService.Proxy.PutIrrigationAction(program);
             DataService.CreateEvent(EventTypes.IrrigationStop, string.Format("{0} stopped", Name),program.DeviceId);
         }
         public bool Completed

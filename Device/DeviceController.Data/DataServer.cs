@@ -62,17 +62,17 @@ namespace DeviceController.Data
             // return URI of the created resource.
             return response.Headers.Location;
         }
-        public async Task<int> PostIrrigationProgram(IrrigationProgram p)
+        public async Task<int> PostIrrigationProgram(IrrigationAction p)
         {
-            IrrigationProgram program = null;
+            IrrigationAction program = null;
             HttpResponseMessage response = await client.PostAsJsonAsync("irrigationprograms", p);
             if (response.IsSuccessStatusCode)
             {
-                program = await response.Content.ReadAsAsync<IrrigationProgram>();
+                program = await response.Content.ReadAsAsync<IrrigationAction>();
             }            
             return program.Id;
         }
-        public async Task<Uri> PutIrrigationProgram(IrrigationProgram p)
+        public async Task<Uri> PutIrrigationProgram(IrrigationAction p)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync(string.Format("irrigationprograms/{0}",p.Id), p);
             response.EnsureSuccessStatusCode();

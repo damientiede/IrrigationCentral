@@ -81,7 +81,7 @@
     <Compile Include="DeviceController.cs" />
     <Compile Include="Devices\DeviceAlarm.cs" />
     <Compile Include="Devices\DeviceAnalog.cs" />
-    <Compile Include="Devices\DeviceProgram.cs" />
+    <Compile Include="Devices\DeviceAction.cs" />
     <Compile Include="Devices\DeviceSolenoid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

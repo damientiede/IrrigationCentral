@@ -1,11 +1,11 @@
-const IrrigationProgram = require('../models').IrrigationProgram;
+const IrrigationAction = require('../models').IrrigationAction;
 const Utils = require('../utils');
 const moment = require('moment');
 const sequelize = require('sequelize');
 
 module.exports = {
    create(req, res) {      
-        return IrrigationProgram
+        return IrrigationAction
             .create({            
                 Name: req.body.Name,
                 Start: req.body.Start,
@@ -15,42 +15,42 @@ module.exports = {
                 RequiresPump: req.body.RequiresPump,
                 DeviceId: req.body.DeviceId
             })
-            .then(irrigationProgram => res.status(201).send(irrigationProgram))
+            .then(irrigationAction => res.status(201).send(irrigationAction))
             .catch(error => res.status(400).send(error));
    },
    single(req, res) {
-        return IrrigationProgram
+        return IrrigationAction
             .findById(req.params.id)
-            .then(irrigationProgram => res.status(200).send(irrigationProgram))
+            .then(irrigationAction => res.status(200).send(irrigationAction))
             .catch(error => res.status(400).send(error));   
    },
    list(req, res) {
-        return IrrigationProgram
+        return IrrigationAction
             .findAll()
-            .then(irrigationPrograms => res.status(200).send(irrigationPrograms))
+            .then(irrigationActions => res.status(200).send(irrigationActions))
             .catch(error => res.status(400).send(error));
    }, 
    update(req, res) {       
-        return IrrigationProgram
+        return IrrigationAction
             .update({                    
                 Finished: req.body.Finished,                                  
             }, {
                 where: { Id: req.params.id }
             })
-            .then(irrigationProgram => res.status(200).send(irrigationProgram))
+            .then(irrigationAction => res.status(200).send(irrigationAction))
             .catch(error => res.status(400).send(error));
    },  
    listByDevice(req, res) {       
-        return IrrigationProgram
+        return IrrigationAction
             .findAll({
                 where: {DeviceId: req.params.deviceId}        
             })
-            .then(irrigationPrograms => res.status(200).send(irrigationPrograms))
+            .then(irrigationActions => res.status(200).send(irrigationActions))
             .catch(error => res.status(400).send(error));  
    },
    activeByDevice(req, res) {
        console.log(moment());
-       return IrrigationProgram
+       return IrrigationAction
             .findOne({
                 where: {
                     DeviceId: req.params.deviceId
@@ -60,7 +60,7 @@ module.exports = {
                 ],
                 limit: 1               
             })
-            .then(irrigationPrograms => res.status(200).send(irrigationPrograms))
+            .then(irrigationActions => res.status(200).send(irrigationActions))
             .catch(error => res.status(400).send(error));
    }
 };

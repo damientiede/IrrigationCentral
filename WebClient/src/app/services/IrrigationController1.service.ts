@@ -11,7 +11,7 @@ import { ISolenoid } from '../model/solenoid';
 import { IAlarm } from '../model/alarm';
 import { IAnalog } from '../model/analog';
 import { ISpi } from '../model/spi';
-import { IIrrigationProgram} from '../model/irrigationprogram';
+import { IIrrigationAction} from '../model/irrigationaction';
 import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
 import { IEventType } from '../model/eventtypes';
@@ -141,15 +141,15 @@ export class IrrigationControllerService {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
-    getIrrigationPrograms(id: number): Observable <IIrrigationProgram[]> {
-        const url = `${this.restUrl}/devices/${id}/irrigationprograms`;
-        return this.client.get<IIrrigationProgram[]>(url, {
+    getIrrigationActions(id: number): Observable <IIrrigationAction[]> {
+        const url = `${this.restUrl}/devices/${id}/irrigationactions`;
+        return this.client.get<IIrrigationAction[]>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
-    getActiveProgram(id: number): Observable <IIrrigationProgram> {
-        const url = `${this.restUrl}/devices/${id}/activeprogram`;
-        return this.client.get<IIrrigationProgram>(url, {
+    getCurrentAction(id: number): Observable <IIrrigationAction> {
+        const url = `${this.restUrl}/devices/${id}/currentaction`;
+        return this.client.get<IIrrigationAction>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }

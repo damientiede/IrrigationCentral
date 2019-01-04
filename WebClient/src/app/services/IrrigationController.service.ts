@@ -10,7 +10,7 @@ import { ISolenoid } from '../model/solenoid';
 import { IAlarm } from '../model/alarm';
 import { IAnalog } from '../model/analog';
 import { ISpi } from '../model/spi';
-import { IIrrigationProgram} from '../model/irrigationprogram';
+import { IIrrigationAction} from '../model/irrigationaction';
 import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
 import { IEventType } from '../model/eventtypes';
@@ -148,7 +148,7 @@ export class IrrigationControllerService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
-    getIrrigationPrograms(id: number): Observable <IIrrigationProgram[]> {
+    getIrrigationPrograms(id: number): Observable <IIrrigationAction[]> {
         const url = `${this.restUrl}/devices/${id}/irrigationprograms`;
         return this.http.get(url)
             // ...and calling .json() on the response to return data
@@ -156,7 +156,7 @@ export class IrrigationControllerService {
             // ...errors if any
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
-    getActiveProgram(id: number): Observable <IIrrigationProgram> {
+    getActiveProgram(id: number): Observable <IIrrigationAction> {
         const url = `${this.restUrl}/devices/${id}/activeprogram`;
         return this.http.get(url)
             // ...and calling .json() on the response to return data

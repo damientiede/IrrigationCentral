@@ -8,9 +8,8 @@ const alarmsController = require('../controllers').alarms;
 const analogsController = require('../controllers').analogs;
 const spisController = require('../controllers').spis;
 const usersController = require('../controllers').users;
-const deviceStatusController = require('../controllers').deviceStatuses;
 const schedulesController = require('../controllers').schedules;
-const irrigationProgramsController = require('../controllers').irrigationPrograms;
+const irrigationActionsController = require('../controllers').irrigationActions;
 
 
 module.exports = (app) => {
@@ -51,12 +50,9 @@ module.exports = (app) => {
    //Users
    app.post('/api/users', usersController.create);
    app.get('/api/users/:id', usersController.single);  
-   // app.get('/api/userbyid/:uid', usersController.singleByUid); 
-   //app.get('/api/recoverpassword/uid',usersController.recoverPassword);
    app.get('/api/users', usersController.list);
    app.put('/api/users/:id', usersController.update);  
-   //app.post('/api/login', usersController.login);
-
+ 
    //Solenoids
    app.post('/api/solenoids', solenoidsController.create);
    app.get('/api/solenoids/:id', solenoidsController.single);
@@ -95,13 +91,13 @@ module.exports = (app) => {
    app.get('/api/devices/:deviceId/schedules', schedulesController.listByDevice);
    app.delete('/api/schedules/:id',schedulesController.delete);
 
-   //IrrigationPrograms
-   app.post('/api/irrigationprograms', irrigationProgramsController.create);
-   app.get('/api/irrigationprograms/:id', irrigationProgramsController.single);
-   app.get('/api/irrigationprograms', irrigationProgramsController.list);
-   app.put('/api/irrigationprograms/:id', irrigationProgramsController.update);
-   app.get('/api/devices/:deviceId/irrigationprograms', irrigationProgramsController.listByDevice);
-   app.get('/api/devices/:deviceId/activeprogram',irrigationProgramsController.activeByDevice);
+   //IrrigationActions
+   app.post('/api/irrigationactions', irrigationActionsController.create);
+   app.get('/api/irrigationactions/:id', irrigationActionsController.single);
+   app.get('/api/irrigationactions', irrigationActionsController.list);
+   app.put('/api/irrigationactions/:id', irrigationActionsController.update);
+   app.get('/api/devices/:deviceId/irrigationactions', irrigationActionsController.listByDevice);
+   app.get('/api/devices/:deviceId/currentaction',irrigationActionsController.activeByDevice);
   
 };
 

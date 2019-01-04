@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeviceController.Data
 {
-    public class IrrigationProgram
+    public class IrrigationAction
     {
         public int Id;
         public string Name;

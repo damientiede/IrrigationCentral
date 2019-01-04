@@ -1,4 +1,4 @@
-export class IIrrigationProgram {
+export class IIrrigationAction {
     constructor(
         public id: number,
         public Name: string,

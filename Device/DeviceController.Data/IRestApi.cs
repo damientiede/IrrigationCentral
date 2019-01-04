@@ -13,8 +13,8 @@ namespace DeviceController.Data
         List<Schedule> GetSchedules(int deviceId);
         Device Register(string macAddress);
         void PostEvent(Event e);
-        int PostIrrigationProgram(IrrigationProgram p);
-        void PutIrrigationProgram(IrrigationProgram p);
+        int PostIrrigationAction(IrrigationAction p);
+        void PutIrrigationAction(IrrigationAction p);
         void PutCommand(Command c);
         void PutSolenoid(Solenoid s);
         void PutAnalog(Analog a);

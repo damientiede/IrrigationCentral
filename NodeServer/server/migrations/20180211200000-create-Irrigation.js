@@ -203,8 +203,8 @@ module.exports = {
                 type: Sequelize.DATE
             }
         }),
-        //irrigation programs
-        queryInterface.createTable('IrrigationPrograms', {
+        //irrigation actions
+        queryInterface.createTable('IrrigationActions', {
             Id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -596,7 +596,7 @@ module.exports = {
         //schedules
         queryInterface.dropTable('Schedules'),   
         //irrigation programs
-        queryInterface.dropTable('IrrigationPrograms'),   
+        queryInterface.dropTable('IrrigationActions'),   
         //spis
         queryInterface.dropTable('Spis'),
         //solenoids

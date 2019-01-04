@@ -114,17 +114,17 @@ namespace DeviceController.Data
             string data = JsonConvert.SerializeObject(e);
             string response = Post("events", data);
         }
-        public int PostIrrigationProgram(IrrigationProgram p)
+        public int PostIrrigationAction(IrrigationAction p)
         {
             string data = JsonConvert.SerializeObject(p);
-            string response = Post("irrigationprograms", data);
-            IrrigationProgram program = JsonConvert.DeserializeObject<IrrigationProgram>(response);
+            string response = Post("irrigationactions", data);
+            IrrigationAction program = JsonConvert.DeserializeObject<IrrigationAction>(response);
             return program.Id;
         }
-        public void PutIrrigationProgram(IrrigationProgram p)
+        public void PutIrrigationAction(IrrigationAction p)
         {
             string data = JsonConvert.SerializeObject(p);
-            IRestResponse response = Put(string.Format("irrigationprograms/{0}", p.Id), data);
+            IRestResponse response = Put(string.Format("irrigationactions/{0}", p.Id), data);
         }
         public void PutCommand(Command c)
         {

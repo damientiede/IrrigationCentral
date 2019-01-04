@@ -9,7 +9,7 @@ import { IDevice } from '../model/device';
 import { ISolenoid } from '../model/solenoid';
 import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
-import { IIrrigationProgram } from '../model/irrigationprogram';
+import { IIrrigationAction } from '../model/irrigationaction';
 import { DeviceMenuComponent } from '../device-menu/device-menu.component';
 @Component({
   selector: 'app-status',
@@ -22,7 +22,7 @@ export class StatusComponent implements OnInit {
   status: IStatus;
   device: IDevice;
   solenoids: ISolenoid[];
-  activeProgram: IIrrigationProgram;
+  activeProgram: IIrrigationAction;
   manualStation = 1;
   manualDuration = 5;
   elapsed = 0;
@@ -69,7 +69,7 @@ export class StatusComponent implements OnInit {
 
   getData(id: number) {
     this.getDevice(id);
-    this.getActiveProgram(id);
+    this.getCurrentAction(id);
   }
   getDevice(id: number) {
     console.log('StatusComponent.getDevice()');
@@ -114,11 +114,11 @@ export class StatusComponent implements OnInit {
               // this._slimLoadingBarService.complete();
           });
   }
-  getActiveProgram(id: number) {
-    console.log('getActiveProgram()');
+  getCurrentAction(id: number) {
+    console.log('getCurrentAction()');
     this.dataService
-      .getActiveProgram(id)
-      .subscribe((p: IIrrigationProgram) => {
+      .getCurrentAction(id)
+      .subscribe((p: IIrrigationAction) => {
             console.log(p);
             const finished = moment.utc(p.Finished);
             if (moment.utc().isAfter(finished)) {

@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IDevice } from '../model/device';
-import { IIrrigationProgram} from '../model/irrigationprogram';
+import { IIrrigationAction} from '../model/irrigationaction';
 import { IEvent } from '../model/event';
 import { ICommand } from '../model/command';
 import { isMoment } from 'moment';
@@ -27,7 +27,7 @@ export class ConfigComponent implements OnInit {
   ticks= 0;
   device: IDevice;
   pumpSolenoid: ISolenoid;
-  irrigationPrograms: IIrrigationProgram[];
+  irrigationPrograms: IIrrigationAction[];
   solenoids: ISolenoid[];
   solenoidsLoaded = false;
   alarms: IAlarm[];
@@ -110,8 +110,8 @@ export class ConfigComponent implements OnInit {
   }
   getIrrigationPrograms() {
       if (this.device != null) {
-        this.service.getIrrigationPrograms(this.device.id)
-        .subscribe((data: IIrrigationProgram[]) => {
+        this.service.getIrrigationActions(this.device.id)
+        .subscribe((data: IIrrigationAction[]) => {
             this.irrigationPrograms = data;
         });
       }
