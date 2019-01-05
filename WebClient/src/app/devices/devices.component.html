@@ -4,7 +4,7 @@
         Welcome {{user.FirstName}}.<br/>
         Here are your controllers.
     </p>
-    <div class="row" *ngFor="let device of user.devices" (click)="navToDevice(device)">
+    <div class="row" *ngFor="let device of user.Devices" (click)="navToDevice(device)">
         <div class="col-sm-12"> 
             <div [ngClass]="getStatusClass(device)">
                 <div class="panel-title">

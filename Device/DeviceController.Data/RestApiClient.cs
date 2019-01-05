@@ -41,7 +41,7 @@ namespace DeviceController.Data
             IRestResponse response = null; 
             try
             {
-                response = client.Execute(request);
+                response = client.Execute(request);                              
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     //auth token may have expired - try renewing
@@ -49,9 +49,9 @@ namespace DeviceController.Data
                     // retry
                     response = client.Execute(request);
                 }
-                if (response.StatusCode > System.Net.HttpStatusCode.NoContent)
+                if (!response.IsSuccessful)
                 {
-                    log.WarnFormat("RestApiClient unexpected response from API : {0}, {1}", response.StatusCode.ToString(), response.Content);
+                    log.WarnFormat("RestApiClient unsuccessful response from API : {0}, {1}", response.StatusCode.ToString(), response.Content);
                 }
             }
             catch(Exception ex)
@@ -155,6 +155,7 @@ namespace DeviceController.Data
         {
             string Uri = string.Format("devices/{0}/pendingcommands", deviceId);
             string response = Get(Uri);
+            log.Debug(response);
             List<Command> commands = JsonConvert.DeserializeObject<List<Command>>(response);
             return commands;
         }

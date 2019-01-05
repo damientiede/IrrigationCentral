@@ -62,7 +62,14 @@ module.exports = (sequelize, DataTypes) => {
     Device.hasMany(models.Schedule, {
       foreignKey: 'DeviceId',
       as: 'Schedules'
-    });     
+    });   
+    Device.associate = (models) => {
+      Device.belongsToMany(models.User, {
+        through: 'UserDevices',
+        as: 'Users',
+        foreignKey: 'DeviceId'
+      });
+    };  
   };
 
   return Device;

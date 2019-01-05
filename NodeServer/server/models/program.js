@@ -8,15 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false
       },
-      Finished: {
-        type: DataTypes.DATE,
-        allowNull: true
-      },
       Enabled: DataTypes.BOOLEAN
     });
 
     Program.associate = (models) => {
-        Program.hasMany(models.Steps, {
+        Program.hasMany(models.Step, {
           foreignKey: 'ProgramId',
           as: 'Steps',
         });

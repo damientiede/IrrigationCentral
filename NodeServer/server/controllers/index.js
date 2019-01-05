@@ -7,9 +7,10 @@ const analogs = require('./analogs');
 const spis = require('./spis');
 const commands = require('./commands');
 const commandTypes = require('./commandtypes');
-const deviceStatuses = require('./deviceStatuses');
+// const deviceStatuses = require('./deviceStatuses');
 const schedules = require('./schedules');
 const users = require('./users');
+const programs = require('./programs');
 const irrigationActions = require('./irrigationactions');
 
 module.exports = {
@@ -25,5 +26,5 @@ module.exports = {
    schedules,
    users,
    irrigationActions,
-   deviceStatuses
+   programs
 };

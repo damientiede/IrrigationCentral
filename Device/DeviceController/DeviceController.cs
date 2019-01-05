@@ -367,7 +367,7 @@ namespace DeviceController
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("GetCommands(): {0}", ex.Message);
+                log.ErrorFormat("ProcessCommands(): {0}", ex.Message);
             }
 
         }

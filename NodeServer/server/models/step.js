@@ -1,16 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
     const Step = sequelize.define('Step', {
-      Name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       Sequence: {
         type: DataTypes.INTEGER,
         allowNull: false
-      },
-      Finished: {
-        type: DataTypes.DATE,
-        allowNull: true
       },
       Duration:{
         type: DataTypes.INTEGER,
@@ -27,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       RequiresPump:{
         type: DataTypes.BOOLEAN,
         allowNull: false
+      },
+      IrrigationActionId: { 
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
     });
 
@@ -37,5 +33,12 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
   
+    /* Step.associate = (models) => {
+        Step.belongsTo(models.IrrigationAction, {
+            foreignKey: 'IrrigationActionId',
+            onDelete: 'CASCADE',
+        });
+    }; */
+
     return Step;
 }

@@ -1,7 +1,7 @@
 const Solenoid = require('../models').Solenoid;
 
 module.exports = {
-    seed(schedules, callback) {
+    seed(programs, steps, callback) {
        Solenoid
 	    .count()
 	    .then(s => { 
@@ -43,7 +43,7 @@ module.exports = {
         });
         if (typeof callback === "function")
         {
-            callback(schedules);
+            callback(programs, steps);
         }
     }
 };

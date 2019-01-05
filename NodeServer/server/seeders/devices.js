@@ -1,7 +1,7 @@
 const Device = require('../models').Device;
 
 module.exports = {    
-   seed(spis, analogs, solenoids, alarms, users, schedules, callback) {
+   seed(spis, analogs, solenoids, alarms, users, programs, steps, callback) {
       Device
 	    .count()
 	    .then(d => { 
@@ -33,12 +33,13 @@ module.exports = {
                 DeviceMAC:'1234567'
 	          });
           console.log('Created 2 device records');	   		
-	   }
-    });    
+	    }
+    }); 
+
     if (typeof callback === "function")
     {
         console.log('About to call callback');
-        callback(spis, analogs, solenoids, alarms, users, schedules);
+        callback(spis, analogs, solenoids, alarms, users, programs, steps);
     }
    }
 };

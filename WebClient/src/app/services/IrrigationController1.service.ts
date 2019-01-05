@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { IStatus } from '../model/status';
 import { IDevice } from '../model/device';
 import { IUser } from '../model/user';
+import { IProgram } from '../model/program';
+import { IStep } from '../model/step';
 import { ISchedule } from '../model/schedule';
 import { ISolenoid } from '../model/solenoid';
 import { IAlarm } from '../model/alarm';
@@ -20,6 +22,7 @@ import { environment } from './../../environments/environment';
 
 // Import RxJs required methods
 import {Observable} from 'rxjs/Rx';
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -80,6 +83,31 @@ export class IrrigationControllerService {
         return this.client.get<IDevice[]>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
+    }
+    getPrograms(id: number): Observable <IProgram[]> {
+        const url = `${this.restUrl}/devices/${id}/programs`;
+        return this.client.get<IProgram[]>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
+    getProgram(id: number): Observable <IProgram> {
+        const steps = [
+            new IStep(1, 'Step1', 1, 60, 1, 'Shelter', true, 1, 0, new Date(), new Date()),
+            new IStep(2, 'Step2', 2, 60, 1, 'Station 1', true, 1, 0, new Date(), new Date()),
+            new IStep(3, 'Step3', 3, 60, 1, 'Station 2', true, 1, 0, new Date(), new Date())];
+
+            // new IStep(1, 'Step1', 1, 60, 1, 'Station1', true, 1, 1, new Date(), new Date())];
+            /* new IStep(2, 'Step2', 2, 60, 1, 'Station2', true, 1, 0, new Date(), new Date()),
+            new IStep(3, 'Step3', 3, 60, 1, 'Station3', true, 1, 0, new Date(), new Date())
+        ]; */
+
+        const mocked = new IProgram(1, 'Spring program 1',new Date(),null,true,1, steps, new Date(), new Date());
+        return of (mocked);
+
+        /* const url = `${this.restUrl}/programs/${id}`;
+        return this.client.get<IProgram>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        }); */
     }
     getSchedules(id: number): Observable <ISchedule[]> {
         const url = `${this.restUrl}/devices/${id}/schedules`;
@@ -183,6 +211,12 @@ export class IrrigationControllerService {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
+    createProgram(program: IProgram): Observable <IProgram> {
+        const url = `${this.restUrl}/programs`;
+        return this.client.post<IProgram>(url, program, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
     createAlarm(alarm: IAlarm): Observable <IAlarm> {
         const url = `${this.restUrl}/alarms`;
         return this.client.post<IAlarm>(url, alarm, {
@@ -216,6 +250,12 @@ export class IrrigationControllerService {
     saveSolenoid(solenoid: ISolenoid): Observable <ISolenoid> {
         const url = `${this.restUrl}/solenoids/${solenoid.id}`;
         return this.client.put<ISolenoid>(url, solenoid, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
+    saveProgram(program: IProgram): Observable <IProgram> {
+        const url = `${this.restUrl}/programs/${program.id}`;
+        return this.client.put<IProgram>(url, program, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }

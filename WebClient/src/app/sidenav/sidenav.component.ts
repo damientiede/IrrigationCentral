@@ -49,7 +49,7 @@ export class SidenavComponent implements OnInit {
   }
   getActiveClass(item) {
     if ((item === 'status' ||
-        item === 'schedules' ||
+        item === 'programs' ||
         item === 'history' ||
         item === 'config')
        && (this.deviceId === undefined)) {
@@ -78,7 +78,7 @@ export class SidenavComponent implements OnInit {
   }
   schedules() {
     this.dismissMenu();
-    this.router.navigate([`/device/${this.deviceId}/schedules`]);
+    this.router.navigate([`/device/${this.deviceId}/programs`]);
   }
   status() {
     this.dismissMenu();

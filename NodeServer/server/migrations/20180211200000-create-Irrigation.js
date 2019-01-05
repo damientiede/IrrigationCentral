@@ -553,7 +553,99 @@ module.exports = {
                     as: 'SolenoidId'
                 }
             }
-        }),   
+        }),
+        //programs
+        queryInterface.createTable('Programs', {
+            Id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            Name: {
+                type: Sequelize.STRING
+            },            
+            Start: {
+                type: Sequelize.DATE
+            },
+            Enabled: {
+                type: Sequelize.BOOLEAN
+            },
+            CreatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            UpdatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            DeviceId: {
+                type: Sequelize.INTEGER,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Devices',
+                    key: 'Id',
+                    as: 'DeviceId'
+                },
+            }
+        }),  
+        //step
+        queryInterface.createTable('Steps', {
+            Id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            Sequence: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
+            Duration: {
+                type: Sequelize.INTEGER
+            },
+            SolenoidId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Solenoids',
+                    key: 'Id',
+                    as: 'SolenoidId'
+                }
+            },
+            SolenoidName: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },  
+            RequiresPump: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false
+            },                      
+            IrrigationActionId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'IrrigationActions',
+                    key: 'Id',
+                    as: 'IrrigationActionId'
+                }
+            },
+            ProgramId: {
+                type: Sequelize.INTEGER,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Programs',
+                    key: 'Id',
+                    as: 'ProgramId'
+                },
+            },            
+            CreatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            UpdatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            }            
+        }),         
         //event
         queryInterface.createTable('Events', {
             Id: {
@@ -594,7 +686,9 @@ module.exports = {
         //alarms
         queryInterface.dropTable('Alarms'),
         //schedules
-        queryInterface.dropTable('Schedules'),   
+        queryInterface.dropTable('Schedules'), 
+        queryInterface.dropTable('Programs'), 
+        queryInterface.dropTable('Steps'),   
         //irrigation programs
         queryInterface.dropTable('IrrigationActions'),   
         //spis

@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { DevicesComponent } from './devices/devices.component';
 import { StatusComponent } from './status/status.component';
 import { SchedulesComponent } from './schedules/schedules.component';
+import { ProgramsComponent } from './programs/programs.component';
+import { ProgramComponent } from './program/program.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { HistoryComponent } from './history/history.component';
 import { ConfigComponent } from './config/config.component';
@@ -23,8 +25,8 @@ export const routes: Routes = [
   { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid', component: StatusComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/status', component: StatusComponent, canActivate: [AuthGuard] },
-  { path: 'device/:deviceid/schedules', component: SchedulesComponent, canActivate: [AuthGuard] },
-  { path: 'device/:deviceid/schedule/:id', component: ScheduleComponent, canActivate: [AuthGuard] },
+  { path: 'device/:deviceid/programs', component: ProgramsComponent, canActivate: [AuthGuard] },
+  { path: 'device/:deviceid/programs/:id', component: ProgramComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/config', component: ConfigComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/solenoid/:id', component: SolenoidComponent, canActivate: [AuthGuard] },

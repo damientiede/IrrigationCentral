@@ -1,6 +1,5 @@
 const User = require('../models').User;
 const Device = require('../models').Device;
-const bcrypt = require('bcrypt');
 
 module.exports = {
     seed() {
@@ -24,13 +23,23 @@ module.exports = {
                 console.log('Created 2 user records');	 
 
                 //add device relations
+                Device.count().then(d => {
+                    console.log('there are '+d+' devices');
+                });
+
                 Device.findAll()
-                    .then((devices) => {
-                        for (let i =0; i < devices.count; i++) {                    
-                            user1.addDevice(devices[i]);
-                            user2.addDevice(devices[i]);
+                    .then(devices => {
+                        var device1 = devices[0];
+                        console.log('Found: '+device1.Name);
+
+                        for (let i =0; i < devices.count; i++) {   
+                            devices[i].addUser(user1);
+                            devices[i].addUser(user2);
+
+                            //user1.addDevice(devices[i]);
+                            //user2.addDevice(devices[i]);
                         }
-                        console.log('Created 2 userdevice records');
+                        console.log('Created '+devices.length+' userdevice records');
                     });  		
 	        }
         });        

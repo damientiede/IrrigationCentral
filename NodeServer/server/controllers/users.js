@@ -40,7 +40,7 @@ module.exports = {
    }, */
     single(req, res) {
         return User.findOne({
-            include: [{model: Device, as: 'devices'}],            
+            include: [{model: Device, as: 'Devices'}],            
             where: { Email: req.params.id } })
             .then(user => {
                 if (user) {

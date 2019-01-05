@@ -1,15 +1,13 @@
-<div class="row" *ngIf="loaded">
-  <div class="col-2"></div>
-  <div class="col-8">
-    <div *ngIf="loaded">
-        <div class="row left">
-
-          <button (click)="back()" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Back">
-              <i class="fa fa-angle-left"></i>
-          </button>
-          <h5>{{getTitle()}}</h5>
-        </div>
-        
+<div *ngIf="loaded">
+    <div class="row">        
+        <div class="col-sm-12">
+            <button (click)="back()" class="btn btn-nav" data-toggle="tooltip" data-placement="top" title="Back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h4>Solenoids</h4>
+        </div>        
+    </div>
+    <div class="row">  
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" [ngModel]="solenoid?.Name" (ngModelChange)="solenoid.Name=$event" required>
@@ -41,7 +39,6 @@
         <button class="btn btn-warning btn-sm" (click)="delete()">Delete</button>
         <button class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
 
-      </div>  
-  </div>
-  <div class="col-2"></div>
+     
+ 
 </div>
