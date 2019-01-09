@@ -39,7 +39,15 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 default: 0
             },
-            ScheduleId: {
+            CurrentProgram: {
+                type: Sequelize.INTEGER,
+                default: null
+            },
+            CurrentStep: {
+                type: Sequelize.INTEGER,
+                default: null
+            },
+            CurrentAction: {
                 type: Sequelize.INTEGER,
                 default: null
             },
@@ -571,14 +579,6 @@ module.exports = {
             Enabled: {
                 type: Sequelize.BOOLEAN
             },
-            CreatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            UpdatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
             DeviceId: {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
@@ -587,6 +587,14 @@ module.exports = {
                     key: 'Id',
                     as: 'DeviceId'
                 },
+            },
+            CreatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            UpdatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
             }
         }),  
         //step
@@ -630,12 +638,12 @@ module.exports = {
             },
             ProgramId: {
                 type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
                 references: {
                     model: 'Programs',
                     key: 'Id',
                     as: 'ProgramId'
                 },
+                onDelete: 'CASCADE'
             },            
             CreatedAt: {
                 allowNull: false,

@@ -41,7 +41,9 @@ module.exports = {
                 Status: req.body.Status,
                 Pressure: req.body.Pressure,
                 Flowrate: req.body.Flowrate,
-                ScheduleId: parseInt(req.body.ScheduleId),
+                CurrentProgram: parseInt(req.body.CurrentProgram),
+                CurrentStep: parseInt(req.body.CurrentStep),
+                CurrentAction: parseInt(req.body.CurrentAction),
                 Inputs: req.body.Inputs,
                 Outputs: req.body.Outputs,                
                 UpdatedAt:new Date()            

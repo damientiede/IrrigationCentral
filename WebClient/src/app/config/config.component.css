@@ -5,5 +5,5 @@ table.solenoids td {border-top:1px solid #777;}
 table.solenoids tr:hover {cursor: pointer;}
 
 h4 {float:left;margin-top:8px;}
-button {float:left;margin:5px;}
+button {float:left;margin:5px 5px 5px 0px;}
 i.fa {padding-right:3px;}

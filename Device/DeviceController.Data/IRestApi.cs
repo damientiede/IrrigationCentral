@@ -12,7 +12,12 @@ namespace DeviceController.Data
         List<Event> GetEvents(int deviceId);
         List<Schedule> GetSchedules(int deviceId);
         Device Register(string macAddress);
-        void PostEvent(Event e);
+        void PostEvent(Event e);        
+        Program GetProgram(int Id);
+        void PutProgram(Program p);
+        Step GetStep(int id);
+        void PutStep(Step s);
+        IrrigationAction GetIrrigationAction(int id);
         int PostIrrigationAction(IrrigationAction p);
         void PutIrrigationAction(IrrigationAction p);
         void PutCommand(Command c);
@@ -26,6 +31,7 @@ namespace DeviceController.Data
         List<Alarm> GetAlarms(int deviceId);
         List<Spi> GetSpis(int deviceId);
         List<Analog> GetAnalogs(int deviceId);
+        List<Program> GetPrograms(int deviceid);
         Device GetDevice(int deviceId);
     }
 }

@@ -18,21 +18,7 @@ export class CallbackComponent implements OnInit {
 
   ngOnInit() {
     this.authService.handleLoginCallback(() => {
-      if (this.authService.isLoggedIn) {
-        const username = this.authService.userProfile.name;
-        this.service.getUser(username)
-            .subscribe((user: IUser) => {
-                if (user === null) { return; }
-                if (user.devices.length > 1) {
-                this.router.navigate(['/devices']);
-                } else {
-                const device = user.devices[0];
-                if (device != null) {
-                    this.router.navigate([`/device/${device.id}`]);
-                }
-            }
-        });
-      }
+      this.router.navigate(['home']);
     });
   }
 }

@@ -33,13 +33,15 @@ export class ProgramsComponent implements OnInit {
   }
 
   getData() {
-    const instant = new Date();
-    this.programs = [new IProgram(1, 'Program 1', instant, null, true, 1, null, instant, instant),
-                     new IProgram(1, 'Program 2', instant, null, true, 1, null, instant, instant),
-                     new IProgram(1, 'Program 3', instant, null, true, 1, null, instant, instant)];
-    this.loaded = true;
+    this.service.getPrograms(this.deviceId)
+                .subscribe((programs: IProgram[]) => {
+                  this.programs = programs;
+                  this.loaded = true;
+                });
   }
-
+  back() {
+    this.router.navigate([`/device/${this.deviceId}/status`]);
+  }
   getStatusClass(p: IProgram) {
     if (p == null) {return; }
     /*
@@ -65,6 +67,6 @@ export class ProgramsComponent implements OnInit {
     this.router.navigate([`/device/${this.deviceId}/programs/${program.id}`]);
   }
   newProgram() {
-    this.router.navigate([`/device/${this.deviceId}/program/new`]);
+    this.router.navigate([`/device/${this.deviceId}/programs/new`]);
   }
 }

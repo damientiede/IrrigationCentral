@@ -18,7 +18,9 @@ namespace DeviceController.Data
         public string Status;
         public double Pressure;
         public double Flowrate;
-        public int? ScheduleId;
+        public int? CurrentProgram;
+        public int? CurrentStep;
+        public int? CurrentAction;
         public string Inputs;
         public string Outputs;
         public string SoftwareVersion;        

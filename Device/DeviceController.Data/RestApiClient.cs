@@ -103,6 +103,41 @@ namespace DeviceController.Data
             List<Schedule> schedules = JsonConvert.DeserializeObject<List<Schedule>>(response);
             return schedules;
         }
+        public Program GetProgram(int id)
+        {
+            string response = Get(string.Format("programs/{0}", id));
+            Program program = JsonConvert.DeserializeObject<Program>(response);
+            return program;
+        }
+        public List<Program> GetPrograms(int deviceid)
+        {
+            string Uri = string.Format("devices/{0}/solenoids", deviceid);
+            string response = Get(Uri);
+            List<Program> programs = JsonConvert.DeserializeObject<List<Program>>(response);
+            return programs;
+        }
+        public void PutProgram(Program p)
+        {
+            string data = JsonConvert.SerializeObject(p);
+            IRestResponse response = Put(string.Format("programs/{0}", p.Id), data);
+        }
+        public Step GetStep(int id)
+        {
+            string response = Get(string.Format("steps/{0}", id));
+            Step step = JsonConvert.DeserializeObject<Step>(response);
+            return step;
+        }
+        public void PutStep(Step s)
+        {
+            string data = JsonConvert.SerializeObject(s);
+            IRestResponse response = Put(string.Format("steps/{0}", s.Id), data);
+        }
+        public IrrigationAction GetIrrigationAction(int id)
+        {
+            string response = Get(string.Format("irrigationactions/{0}", id));
+            IrrigationAction irrigationAction = JsonConvert.DeserializeObject<IrrigationAction>(response);
+            return irrigationAction;
+        }
         public Device Register(string macAddress)
         {
             string response = Get(string.Format("devices/{0}/register", macAddress));

@@ -19,7 +19,6 @@ import { AnalogComponent } from './analog/analog.component';
 import { SpiComponent } from './spi/spi.component';
 import { StatusComponent } from './status/status.component';
 import { SchedulesComponent } from './schedules/schedules.component';
-import { DevicesComponent } from './devices/devices.component';
 import { StatusWidgetComponent } from './status-widget/status-widget.component';
 import { DeviceMenuComponent } from './device-menu/device-menu.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -29,6 +28,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ProgramComponent } from './program/program.component';
 import { ProgramsComponent } from './programs/programs.component';
+import { StepComponent } from './step/step.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,6 @@ import { ProgramsComponent } from './programs/programs.component';
     AnalogComponent,
     SpiComponent,
     SchedulesComponent,
-    DevicesComponent,
     StatusWidgetComponent,
     DeviceMenuComponent,
     ScheduleComponent,
@@ -49,7 +48,8 @@ import { ProgramsComponent } from './programs/programs.component';
     CallbackComponent,
     SidenavComponent,
     ProgramComponent,
-    ProgramsComponent
+    ProgramsComponent,
+    StepComponent
   ],
   imports: [
     BrowserModule,

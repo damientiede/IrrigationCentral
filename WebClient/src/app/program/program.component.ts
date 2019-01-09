@@ -27,7 +27,9 @@ export class ProgramComponent implements OnInit {
     private route: ActivatedRoute,
     public toastr: ToastsManager,
     vcr: ViewContainerRef,
-    private router: Router) { }
+    private router: Router) {
+      this.toastr.setRootViewContainerRef(vcr);
+    }
 
   ngOnInit() {
     // extract route params
@@ -36,14 +38,14 @@ export class ProgramComponent implements OnInit {
       if (Number.isNaN(this.deviceId)) {
         alert('Missing Device ID');
       }
-      // parse schedule id
+      // parse program id
       const id = params['id'];
       if (id === 'new') {
         this.startDate = moment().toISOString().slice(0, 16);
         this.program = new IProgram(-1, 'New program', new Date(), null, true, this.deviceId, [], new Date(), new Date());
         this.loaded = true;
       } else if (Number.isNaN(id)) {
-          alert(`Invalid Schedule ID ${id}`);
+          alert(`Invalid Program ID ${id}`);
       } else {
         this.programId = id;
         this.GetData();
@@ -71,6 +73,22 @@ export class ProgramComponent implements OnInit {
     if (d.State.indexOf('Irrigating') > -1) { return 'alert alert-success col-sm-12'; }
     if (d.State.indexOf('Fault') > -1) { return 'alert alert-danger col-sm-12'; } */
     return 'alert alert-secondary col-sm-12';
+  }
+  back() {
+    this.router.navigate([`/device/${this.deviceId}/programs`]);
+  }
+  delete() {
+    this.service.deleteProgram(this.program)
+    .subscribe(() => {},
+    error => () => {
+      console.log('Something went wrong...');
+      this.toastr.error('Something went wrong...', 'Damn');
+    },
+    () => {
+      console.log('Success');
+      // this.toastr.success('Changes saved' );
+    });
+    this.router.navigate([`/device/${this.deviceId}/programs`]);
   }
   save() {
     this.program.Start = moment.utc(this.startDate).toDate();
@@ -105,6 +123,12 @@ export class ProgramComponent implements OnInit {
         console.log('Success');
         this.toastr.success('Changes saved' );
     });
+  }
+  newStep() {
+    this.router.navigate([`device/${this.deviceId}/programs/${this.program.id}/steps/new`]);
+  }
+  stepClick(step: IStep) {
+    this.router.navigate([`device/${this.deviceId}/programs/${this.program.id}/steps/${step.id}`]);
   }
   loadSchedules() {
     const cmd = new ICommand(

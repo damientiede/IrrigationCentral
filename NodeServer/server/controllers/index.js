@@ -12,6 +12,7 @@ const schedules = require('./schedules');
 const users = require('./users');
 const programs = require('./programs');
 const irrigationActions = require('./irrigationactions');
+const steps = require('./steps');
 
 module.exports = {
    accounts,
@@ -26,5 +27,6 @@ module.exports = {
    schedules,
    users,
    irrigationActions,
-   programs
+   programs,
+   steps
 };

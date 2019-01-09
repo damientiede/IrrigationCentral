@@ -166,6 +166,30 @@ export class ConfigComponent implements OnInit {
       });
     }
   }
+  getSolenoidClass(solenoid: ISolenoid) {
+    if (solenoid === undefined) { return 'alert alert-secondary'; }
+    if (solenoid.Value === 1) {
+      return 'alert alert-success';
+    }
+    return 'alert alert-secondary';
+  }
+  getAlarmClass(alarm: IAlarm) {
+    if (alarm === undefined) { return 'alert alert-secondary'; }
+    if (alarm.Value === 1) {
+      return 'alert alert-success';
+    }
+    return 'alert alert-secondary';
+  }
+  getAnalogClass(analog: IAnalog) {
+    if (analog === undefined) { return 'alert alert-secondary'; }
+    if (analog.Value === 1) {
+      return 'alert alert-success';
+    }
+    return 'alert alert-secondary';
+  }
+  getSpiClass(spi: ISpi) {
+    return 'alert alert-secondary';
+  }
   getLastUpdated() {
     if (this.device != null) {
       return moment(this.device.updatedAt).format('Do MMM YYYY h:mm:ss a');

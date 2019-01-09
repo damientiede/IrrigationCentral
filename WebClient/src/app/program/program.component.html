@@ -4,7 +4,7 @@
             <button (click)="back()" class="btn btn-nav" data-toggle="tooltip" data-placement="top" title="Back">
                 <i class="fa fa-angle-left"></i>
             </button>
-            <h4>Program {{program.Name}}</h4>
+            <h4>{{program.Name}}</h4>
         </div>        
     </div>
 
@@ -18,8 +18,8 @@
           <div class="form-group">
               <label for="startdate">Start</label>
               <input type="datetime-local" class="form-control" id="startdate" name="start"             
-                [ngModel]="program.Start" (ngModelChange)="program.Start=$event"/>
-                <!-- [value]="startDate" (change)="startDate=$event.target.value"/> -->
+                [value]="startDate" (change)="startDate=$event.target.value"/>
+                <!-- [ngModel]="program.Start" (ngModelChange)="program.Start=$event"/> -->
           </div>
           <div class="form-group">
               <label for="enabled">Enabled</label>
@@ -31,11 +31,12 @@
   <div class="row">
       <div class="col-sm-12">        
         <button type="button" class="btn btn-success" (click)="save()">
-            <!-- <i class="fa fa-save"></i> -->
-            Save changes
+            Save
+        </button>
+        <button type="button" class="btn btn-danger" (click)="delete()">
+            Delete
         </button>
         <button type="button" class="btn btn-success" (click)="refreshConfig()">
-            <!-- <i class="fa fa-sync-alt"></i> -->
             Refresh config
         </button>        
       </div>
@@ -46,7 +47,8 @@
       <div class="col-sm-12"> 
           <div [ngClass]="getStatusClass(step)">
               <div class="panel-title">
-                  <i class="fa fa-cog"></i>
+                  <!-- <i class="fa fa-cog"></i> -->
+                  ({{step.Sequence}})&nbsp;
                   {{step.SolenoidName}} for {{step.Duration}} minutes.
               </div>
           </div>
@@ -55,7 +57,7 @@
     <div class="row">
       <div class="col-sm-3">
           <button type="button" class="btn btn-success" (click)="newStep()">
-              <i class="fa fa-plus"></i>
+              <i class="fa fa-plus"></i>Add step
           </button>
       </div>
     </div>

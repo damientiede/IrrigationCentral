@@ -17,7 +17,7 @@ module.exports = {
                     Name:'Station2',                    
                     Description:'Test alarm 2',
                     HardwareType:'GPIO',
-                    Address:'P1Pin29',	
+                    Address:'P1Pin16',	
                     DeviceId:1,		        
                     Value:0});
                 Alarm.create({
@@ -27,14 +27,7 @@ module.exports = {
                     Address:'1',	
                     DeviceId:1,		        
                     Value:0});
-                Alarm.create({
-                    Name:'Station4',
-                    Description:'Test alarm 4',
-                    HardwareType:'GPIO',
-                    Address:'P1Pin31',
-                    DeviceId:1,			        
-                    Value:0});
-                console.log('Created 4 alarms records');	   		
+                console.log('Created 3 alarms records');	   		
 	        }
 	    })
     }

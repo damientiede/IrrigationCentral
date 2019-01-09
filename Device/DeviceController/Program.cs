@@ -12,7 +12,7 @@ namespace DeviceController
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();          
-            DeviceController d = new DeviceController();            
+            IrrigationController d = new IrrigationController();            
             d.Run();
         }
     }

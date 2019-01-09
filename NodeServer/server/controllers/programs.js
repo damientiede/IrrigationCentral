@@ -1,5 +1,5 @@
 const Program = require('../models').Program;
-const Step = require('../models/step').Step;
+const Step = require('../models').Step;
 
 module.exports = {
    create(req, res) {   
@@ -19,14 +19,18 @@ module.exports = {
         return Program
             .find({
                 where: { id: req.params.id},
-                include: [{all:true}] })
-                // include: [{model: Step, as: 'Steps'}] })
+                //include: [{model: Step}] })
+                include: [{model: Step, as: 'Steps'}] 
+            })
             .then(program => res.status(200).send(program))
             .catch(error => res.status(400).send(error));   
    },
    list(req, res) {
         return Program
-            .findAll({include: [{all:true}]})
+            .findAll({
+                include: [{model: Step, as: 'Steps'}] 
+                //include: [{model: Step}]
+            })
             .then(programs => res.status(200).send(programs))
             .catch(error => res.status(400).send(error));
    },
@@ -39,25 +43,26 @@ module.exports = {
                 Enabled:req.body.Enabled,
                 DeviceId: parseInt(req.body.DeviceId)
             }, {
-	            where: { Id: parseInt(req.body.id) }
+	            where: { id: parseInt(req.body.id) }
             })
             .then(program => res.status(200).send(program))
             .catch(error => res.status(400).send(error));
    },
    listByDevice(req, res) {    
-    return Program
-    .findAll({
-        include: [{model: Step, as: 'Steps'}],
-        where: {DeviceId: req.params.deviceId}        
-    })
-    .then(programs => res.status(200).send(programs))
-    .catch(error => res.status(400).send(error));  
+        return Program
+            .findAll({
+                include: [{model: Step, as: 'Steps'}],
+                where: {DeviceId: req.params.deviceId}        
+            })
+            .then(programs => res.status(200).send(programs))
+            .catch(error => res.status(400).send(error));  
     },
     delete (req, res) {
-        return Program.destroy({
-            where: { Id: req.params.id }
-        })
-        .then(affectedRows => res.status(204))
-        .catch(error => res.status(400).send(error));
+        return Program
+            .destroy({
+                where: { Id: req.params.id }
+            })
+            .then(affectedRows => res.status(204))
+            .catch(error => res.status(400).send(error));
     }
 };

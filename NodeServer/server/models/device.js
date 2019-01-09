@@ -25,7 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DOUBLE,
       allowNull:false
     },
-    ScheduleId: {
+    CurrentProgram: {
+      type: DataTypes.INTEGER,
+      allowNull:true
+    },
+    CurrentStep: {
+      type: DataTypes.INTEGER,
+      allowNull:true
+    },
+    CurrentAction: {
       type: DataTypes.INTEGER,
       allowNull:true
     },
@@ -59,9 +67,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'DeviceId',
       as: 'Spis'
     });
-    Device.hasMany(models.Schedule, {
+    Device.hasMany(models.Program, {
       foreignKey: 'DeviceId',
-      as: 'Schedules'
+      as: 'Programs'
     });   
     Device.associate = (models) => {
       Device.belongsToMany(models.User, {

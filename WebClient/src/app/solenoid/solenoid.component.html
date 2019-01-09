@@ -4,10 +4,12 @@
             <button (click)="back()" class="btn btn-nav" data-toggle="tooltip" data-placement="top" title="Back">
                 <i class="fa fa-angle-left"></i>
             </button>
-            <h4>Solenoids</h4>
+            <h4>Edit solenoid - {{solenoid.Name}}</h4>
         </div>        
     </div>
-    <div class="row">  
+    <div class="row"> 
+      <div class="col-sm-12"> 
+          <div *ngIf="solenoid">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" [ngModel]="solenoid?.Name" (ngModelChange)="solenoid.Name=$event" required>
@@ -35,10 +37,9 @@
           <input type="checkbox" class="form-control" id="address" [ngModel]="solenoid?.RequiresPump" (ngModelChange)="solenoid.RequiresPump=$event">
         </div>
 
-        <button class="btn btn-success btn-sm" (click)="save()">Save</button>
-        <button class="btn btn-warning btn-sm" (click)="delete()">Delete</button>
-        <button class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+        <button class="btn btn-success" (click)="save()">Save</button>
+        <button class="btn btn-danger" (click)="delete()">Delete</button>
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div> 
 
-     
- 
 </div>

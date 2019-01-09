@@ -26,7 +26,7 @@ export class AuthService {
   refreshSub: any;
 
   constructor(private router: Router) {
-    this.getAccessToken();
+    // this.getAccessToken();
   }
 
   login() {
@@ -50,11 +50,18 @@ export class AuthService {
     });
   }
 
-  getAccessToken() {
+  getAccessToken(callbackSuccess, callbackFailed) {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken) {
         this.getUserInfo(authResult, () => {
+          if (typeof(callbackSuccess) === 'function') {
+            callbackSuccess();
+          }
         });
+      } else {
+        if (typeof(callbackFailed) === 'function') {
+          callbackFailed();
+        }
       }
     });
   }

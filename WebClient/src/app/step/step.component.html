@@ -1,0 +1,56 @@
+<div *ngIf="loaded">
+    <div class="row">        
+        <div class="col-sm-12">
+            <button (click)="back()" class="btn btn-nav" data-toggle="tooltip" data-placement="top" title="Back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h4>Step {{step.Sequence}}</h4>
+        </div>        
+    </div>
+
+    <div class="row">        
+      <div class="col-sm-12"> 
+        <div *ngIf="step">
+          <div class="form-group">
+              <label for="address">Sequence</label>
+              <input type="number" class="form-control" id="address" [(ngModel)]="step.Sequence" required>
+          </div>
+          <div class="form-group">
+              <label for="stepSolenoid">Solenoid</label>
+              <select id="stepSolenoid" class="form-control" [(ngModel)]="stepSolenoid" required>
+                <option *ngFor="let sol of solenoids" [ngValue]="sol">
+                    {{sol.Name}}
+                </option>       
+            </select> 
+          </div>
+          <div class="form-group">
+              <label for="duration">Duration</label>
+              <select id="duration" class="form-control" [(ngModel)]="step.Duration" required>
+                    <option value="5">5 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
+                    <option value="150">2.5 hours</option>
+                    <option value="180">3 hours</option>
+                    <option value="210">3.5 hours</option>               
+                    <option value="240">4 hours</option>
+                    <option value="270">4.5 hours</option>
+                    <option value="300">5 hours</option>
+                    <option value="330">5.5 hours</option>               
+                    <option value="360">6 hours</option>               
+                </select>
+          </div>          
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-12">        
+        <button type="button" class="btn btn-success" (click)="save()">
+            Save
+        </button>
+        <button type="button" class="btn btn-danger" (click)="delete()">
+            Delete
+        </button> 
+      </div>
+    </div>

@@ -91,7 +91,7 @@ export class IrrigationControllerService {
         });
     }
     getProgram(id: number): Observable <IProgram> {
-        const steps = [
+        /* const steps = [
             new IStep(1, 'Step1', 1, 60, 1, 'Shelter', true, 1, 0, new Date(), new Date()),
             new IStep(2, 'Step2', 2, 60, 1, 'Station 1', true, 1, 0, new Date(), new Date()),
             new IStep(3, 'Step3', 3, 60, 1, 'Station 2', true, 1, 0, new Date(), new Date())];
@@ -101,13 +101,19 @@ export class IrrigationControllerService {
             new IStep(3, 'Step3', 3, 60, 1, 'Station3', true, 1, 0, new Date(), new Date())
         ]; */
 
-        const mocked = new IProgram(1, 'Spring program 1',new Date(),null,true,1, steps, new Date(), new Date());
-        return of (mocked);
+        /* const mocked = new IProgram(1, 'Spring program 1',new Date(),null,true,1, steps, new Date(), new Date());
+        return of (mocked); */ 
 
-        /* const url = `${this.restUrl}/programs/${id}`;
+        const url = `${this.restUrl}/programs/${id}`;
         return this.client.get<IProgram>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
-        }); */
+        });
+    }
+    getStep(id: number): Observable <IStep> {
+        const url = `${this.restUrl}/steps/${id}`;
+        return this.client.get<IStep>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
     }
     getSchedules(id: number): Observable <ISchedule[]> {
         const url = `${this.restUrl}/devices/${id}/schedules`;
@@ -217,6 +223,12 @@ export class IrrigationControllerService {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
+    createStep(step: IStep): Observable <IStep> {
+        const url = `${this.restUrl}/steps`;
+        return this.client.post<IStep>(url, step, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
     createAlarm(alarm: IAlarm): Observable <IAlarm> {
         const url = `${this.restUrl}/alarms`;
         return this.client.post<IAlarm>(url, alarm, {
@@ -259,6 +271,12 @@ export class IrrigationControllerService {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }
+    saveStep(step: IStep): Observable <IStep> {
+        const url = `${this.restUrl}/steps/${step.id}`;
+        return this.client.put<IStep>(url, step, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
     saveSchedule(schedule: ISchedule): Observable <ISchedule> {
         const url = `${this.restUrl}/schedules/${schedule.id}`;
         return this.client.put<ISchedule>(url, schedule, {
@@ -295,6 +313,18 @@ export class IrrigationControllerService {
     deleteSchedule(schedule: ISchedule): Observable <ISchedule> {
         const url = `${this.restUrl}/schedules/${schedule.id}`;
         return this.client.delete<ISchedule>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
+    deleteProgram(program: IProgram): Observable <IProgram> {
+        const url = `${this.restUrl}/programs/${program.id}`;
+        return this.client.delete<IProgram>(url, {
+            headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
+        });
+    }
+    deleteStep(step: IStep): Observable <IStep> {
+        const url = `${this.restUrl}/programs/${step.id}`;
+        return this.client.delete<IStep>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
     }

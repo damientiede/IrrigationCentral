@@ -9,6 +9,7 @@ const analogsController = require('../controllers').analogs;
 const spisController = require('../controllers').spis;
 const usersController = require('../controllers').users;
 const programsController = require('../controllers').programs;
+const stepsController = require('../controllers').steps;
 const schedulesController = require('../controllers').schedules;
 const irrigationActionsController = require('../controllers').irrigationActions;
 
@@ -96,8 +97,15 @@ module.exports = (app) => {
    app.get('/api/programs/:id', programsController.single);
    app.get('/api/programs', programsController.list);
    app.put('/api/programs/:id', programsController.update);
-   app.get('/api/programs/:deviceId/schedules', programsController.listByDevice);
+   app.get('/api/devices/:deviceId/programs', programsController.listByDevice);
    app.delete('/api/programs/:id',programsController.delete);
+
+   //Steps
+   app.post('/api/steps', stepsController.create);
+   app.get('/api/steps/:id', stepsController.single);
+   app.get('/api/steps', stepsController.list);
+   app.put('/api/steps/:id', stepsController.update);
+   app.delete('/api/steps/:id',stepsController.delete);
 
    //IrrigationActions
    app.post('/api/irrigationactions', irrigationActionsController.create);

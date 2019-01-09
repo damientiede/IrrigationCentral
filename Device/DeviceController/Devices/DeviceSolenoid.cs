@@ -45,6 +45,10 @@ namespace DeviceController.Devices
                     throw new Exception("Unknown Solenoid type");
             }                             
         }
+        public bool IsOn()
+        {
+            return dataSolenoid.Value == 1;
+        }
         public void On()
         {
             hardwareSolenoid.On();

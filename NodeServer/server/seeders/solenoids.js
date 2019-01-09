@@ -7,16 +7,16 @@ module.exports = {
 	    .then(s => { 
 	        if (s ==0) {
                 Solenoid.create({
-                    Name:'Station1',
-                    Description:'Test solenoid 1',
+                    Name:'Pump',
+                    Description:'Pump solenoid',
                     HardwareType:'GPIO',
                     Address:'P1Pin32',
                     RequiresPump:true,
                     DeviceId:1,			        
                     Value:0});
                 Solenoid.create({
-                    Name:'Station2',
-                    Description:'Test solenoid 2',
+                    Name:'LED',
+                    Description:'Breadboard test LED',
                     HardwareType:'GPIO',
                     Address:'P1Pin36',
                     RequiresPump:true,

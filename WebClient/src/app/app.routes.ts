@@ -1,11 +1,10 @@
 // Import our dependencies
 import { Routes } from '@angular/router';
-import { DevicesComponent } from './devices/devices.component';
 import { StatusComponent } from './status/status.component';
 import { SchedulesComponent } from './schedules/schedules.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { ProgramComponent } from './program/program.component';
-import { ScheduleComponent } from './schedule/schedule.component';
+import { StepComponent } from './step/step.component';
 import { HistoryComponent } from './history/history.component';
 import { ConfigComponent } from './config/config.component';
 import { SolenoidComponent } from './solenoid/solenoid.component';
@@ -22,11 +21,11 @@ export const routes: Routes = [
   { path: 'home',  component: HomeComponent, },
   { path: 'callback', component: CallbackComponent },
   // { path: 'password',  component: PasswordComponent, },
-  { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid', component: StatusComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/status', component: StatusComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/programs', component: ProgramsComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/programs/:id', component: ProgramComponent, canActivate: [AuthGuard] },
+  { path: 'device/:deviceid/programs/:programid/steps/:id', component: StepComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/config', component: ConfigComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/solenoid/:id', component: SolenoidComponent, canActivate: [AuthGuard] },

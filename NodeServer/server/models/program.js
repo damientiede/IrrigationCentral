@@ -14,9 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     Program.associate = (models) => {
         Program.hasMany(models.Step, {
           foreignKey: 'ProgramId',
+          onDelete: 'CASCADE',
           as: 'Steps',
         });
+        Program.belongsTo(models.Device, {
+            foreignKey: 'DeviceId',
+            onDelete: 'CASCADE'
+        });
     }
+
 
     return Program;
 }

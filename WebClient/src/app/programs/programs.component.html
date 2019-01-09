@@ -8,13 +8,13 @@
         </div>        
     </div>
 
-
+    <h5 *ngIf="programs?.length==0">No programs configured</h5>
     <div class="row" *ngFor="let program of programs" (click)="programClick(program)">
         <div class="col-sm-12"> 
             <div [ngClass]="getStatusClass(program)">
                 <div class="panel-title">
-                    <i class="fa fa-cog"></i>
-                    {{getStatusText(program)}} 
+                    <i class="fa fa-cog"></i> 
+                    {{program.Name}}                    
                 </div>
             </div>
         </div>

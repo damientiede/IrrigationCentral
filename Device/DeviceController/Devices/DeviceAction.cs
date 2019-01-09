@@ -8,27 +8,27 @@ namespace DeviceController.Devices
     public class DeviceAction
     {
         ILog log = LogManager.GetLogger("Device");
-        IrrigationAction program;
+        IrrigationAction irrigationAction;
         DeviceSolenoid solenoid;
         Schedule schedule;
         Timer timer;
         public string Name
         {
-            get { return program.Name; }
-            set { program.Name = value; }
+            get { return irrigationAction.Name; }
+            set { irrigationAction.Name = value; }
         }
         public DateTime Start
         {
-            get { return program.Start; }
+            get { return irrigationAction.Start; }
         }
         public DateTime Finished
         {
-            get { return program.Finished;}
-            set { program.Finished = value;}
+            get { return irrigationAction.Finished;}
+            set { irrigationAction.Finished = value;}
         }
         public int Duration
         {
-            get { return program.Duration; }
+            get { return irrigationAction.Duration; }
         }
         public DeviceSolenoid Solenoid
         {
@@ -36,60 +36,93 @@ namespace DeviceController.Devices
         }
         public int DeviceId
         {
-            get { return program.DeviceId; }
+            get { return irrigationAction.DeviceId; }
+        }
+        public IrrigationAction ActiveIrrigationAction
+        {
+            get { return irrigationAction; }
         }
         public Schedule ActiveSchedule
         {
             get { return schedule; }
             set { schedule = value; }
         }
-        public delegate void ProgramCompletedEventHandler(object sender, EventArgs e);
-        public event ProgramCompletedEventHandler ProgramCompleted;
+        public delegate void DeviceActionCompletedEventHandler(object sender, EventArgs e);
+        public event DeviceActionCompletedEventHandler DeviceActionCompleted;
 
-        public DeviceAction(string name, DeviceSolenoid sol, int duration)
+        public DeviceAction(IrrigationAction action, DeviceSolenoid sol)
+        {
+            solenoid = sol;
+            irrigationAction = action;
+            if (!Completed)
+            {
+                if (!solenoid.IsOn())
+                {
+                    solenoid.On();
+                    if (solenoid.RequiresPump)
+                    {
+                        if (IrrigationController.Pump != null)
+                        {
+                            if (!IrrigationController.Pump.IsOn())
+                            {
+                                IrrigationController.Pump.On();
+                            }
+                        }
+                        else
+                        {
+                            log.Debug("Device.Pump is NULL!");
+                        }
+                    }
+                }
+            }
+            InitTimer();
+        }
+        public DeviceAction(string name, int duration, DeviceSolenoid sol)
         {
             log.Debug("DeviceAction()");
             solenoid = sol;
-            program = new IrrigationAction()
+            this.irrigationAction = new IrrigationAction()
             {
                 Name = name,
                 Start = DateTime.Now,
                 Duration = duration,
-                DeviceId = DeviceController.DeviceId,
+                DeviceId = IrrigationController.DeviceId,
                 SolenoidId = solenoid.Id,
                 SolenoidName = solenoid.Name
             };
-            program.Id = DataService.Proxy.PostIrrigationAction(program);
+            this.irrigationAction.Id = DataService.Proxy.PostIrrigationAction(this.irrigationAction);
             solenoid.On();
             if (solenoid.RequiresPump)
             {
-                if (DeviceController.Pump != null)
+                if (IrrigationController.Pump != null)
                 {
-                    DeviceController.Pump.On();
+                    IrrigationController.Pump.On();
                 }
                 else
                 {
                     log.Debug("Device.Pump is NULL!");
                 }                
             }
-            log.Debug("Starting timer");            
+            InitTimer();
+        }
+        protected void InitTimer()
+        {
+            log.Debug("Starting timer");
             timer = new Timer(1000);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
-
         }
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //log.DebugFormat("{0} Timer_Elapsed()", this.Name);
             if (Completed)
             {
                 Stop();                             
-                if (ProgramCompleted != null)
+                if (DeviceActionCompleted != null)
                 {
                     log.Debug("Calling ProgramCompleted");
                     //EventArgs ea = new EventArgs();                    
-                    ProgramCompleted(this, null);
+                    DeviceActionCompleted(this, null);
                 }                
             }
             else
@@ -106,24 +139,24 @@ namespace DeviceController.Devices
             solenoid.Off();
             if (solenoid.RequiresPump)
             {
-                DeviceController.Pump.Off();
+                IrrigationController.Pump.Off();
             }
-            program.Finished = DateTime.Now;
-            DataService.Proxy.PutIrrigationAction(program);
-            DataService.CreateEvent(EventTypes.IrrigationStop, string.Format("{0} stopped", Name),program.DeviceId);
+            irrigationAction.Finished = DateTime.Now;
+            DataService.Proxy.PutIrrigationAction(irrigationAction);
+            DataService.CreateEvent(EventTypes.IrrigationStop, string.Format("{0} stopped", Name),irrigationAction.DeviceId);
         }
         public bool Completed
         {
             get
             {
-                return (program.Start.AddMinutes(program.Duration) < DateTime.Now);
+                return (irrigationAction.Start.AddMinutes(irrigationAction.Duration) < DateTime.Now);
             }
         }
         public TimeSpan Remaining
         {
             get
             {
-                return (program.Start.AddMinutes(program.Duration) - DateTime.Now);
+                return (irrigationAction.Start.AddMinutes(irrigationAction.Duration) - DateTime.Now);
             }
         }
     }

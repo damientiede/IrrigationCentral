@@ -10,6 +10,7 @@ using DeviceController.Devices;
 using System.Threading;
 using log4net;
 
+
 namespace DeviceController
 {    
     public class IrrigationController
@@ -20,13 +21,13 @@ namespace DeviceController
 
         List<DeviceSolenoid> Solenoids;
         List<DeviceAnalog> Analogs;
-        List<DeviceAlarm> Alarms;
-        List<Schedule> Schedules;
+        List<DeviceAlarm> Alarms;        
+        List<DeviceProgram> Programs;
         static DeviceSolenoid pumpSolenoid;
-
-        IrrigationAction CurrentAction;
-        IrrigationController.Data.Program CurrentProgram;
-        Step CurrentStep;
+        
+        DeviceProgram CurrentProgram;
+        // Step CurrentStep;
+        DeviceAction CurrentAction;
 
         public static DeviceSolenoid Pump
         {
@@ -38,16 +39,7 @@ namespace DeviceController
 
         //private int deviceId = -1;
         private string macAddress = String.Empty;
-        //private IOFactory ioFactory;
-
-        //private HardwareService hardwareService;
-        //private DataService dataService;
-          
-        DeviceAction CurrentAction;
-        //ISolenoid ActiveSolenoid;
-
-        Device device;
-        //Schedule ActiveSchedule;      
+        Device device;       
 
         public IrrigationController()
         {
@@ -102,15 +94,17 @@ namespace DeviceController
                 Solenoids = new List<DeviceSolenoid>();
                 Analogs = new List<DeviceAnalog>();
                 Alarms = new List<DeviceAlarm>();
-                Schedules = new List<Schedule>();
-
+                Programs = new List<DeviceProgram>();
+                
                 LoadConfig();
 
+                // get current irrigation action                
                 if (device.CurrentAction != null)
                 {
-
-                }
-
+                    IrrigationAction irrigationAction = DataService.Proxy.GetIrrigationAction((int)device.CurrentAction);
+                    DeviceSolenoid solenoid = GetSolenoidById(irrigationAction.SolenoidId);
+                    CurrentAction = new DeviceAction(irrigationAction, solenoid);           
+                }               
             }
             catch (Exception ex)
             {
@@ -157,8 +151,18 @@ namespace DeviceController
                 DeviceAlarm al = new DeviceAlarm(a);
                 Alarms.Add(al);
             }
-            
-            Schedules = DataService.Proxy.GetSchedules(device.Id);            
+
+            Programs.Clear();
+            List<DeviceController.Data.Program> programs = DataService.Proxy.GetPrograms(DeviceId);
+            foreach (DeviceController.Data.Program p in programs)
+            {
+                DeviceProgram program = new DeviceProgram(p, device.CurrentStep);
+                Programs.Add(program);
+                if (device.CurrentProgram == p.Id)
+                {
+                    CurrentProgram = program;
+                }
+            }                       
         }
         public void ReadAnalogs()
         {
@@ -180,9 +184,9 @@ namespace DeviceController
                       
                         //read analogs
                         ReadAnalogs();
-                        device.Pressure = Analogs[0].Sample();                        
-                       
-                        RunSchedules();
+                        device.Pressure = Analogs[0].Sample();
+                                               
+                        RunPrograms();
                            
                         //update the server
                         ReportStatus();                        
@@ -200,9 +204,8 @@ namespace DeviceController
 
             GPIOService.Gpio.Close();
             log.InfoFormat("Device controller shutdown.");
-        }
-        
-        public void RunSchedules()
+        }        
+        public void RunPrograms()
         {
             if (device.Mode != DeviceMode.Auto || CurrentAction != null)
             {
@@ -210,8 +213,22 @@ namespace DeviceController
                 return;
             }
 
+            if (CurrentProgram == null)
+            {
+                foreach (DeviceProgram p in Programs)
+                {
+                    if (p.Enabled)
+                    {
+                        if (p.StartDate < DateTime.Now)
+                        {
+                            foreach 
+                        }
+                    }
+                }
+
+
             //check scheduled programs
-            foreach (Schedule s in Schedules)
+            foreach (DeviceController.Data.Program p in Programs)
             {
                 //if (CurrentAction != null)
                 //{
@@ -225,7 +242,7 @@ namespace DeviceController
                 //    }
                 //}
 
-                if (s.Enabled)
+                if (p.Enabled)
                 {
                     log.DebugFormat("Schedule {0}", s.Name);
 
@@ -251,7 +268,7 @@ namespace DeviceController
 
                             //new active schedule                            
                             CurrentAction = new DeviceAction(s.Name, GetSolenoidById(s.SolenoidId), s.Duration);
-                            CurrentAction.ProgramCompleted += OnProgramCompleted;
+                            CurrentAction.DeviceActionCompleted += OnProgramCompleted;
                             CurrentAction.ActiveSchedule = s;
 
                             DataService.CreateEvent(EventTypes.IrrigationStart, string.Format("Scheduled program '{0}' started", CurrentAction.Name), device.Id);
@@ -319,7 +336,7 @@ namespace DeviceController
                                         GetSolenoidById(solenoidId),
                                          duration);
 
-                                    CurrentAction.ProgramCompleted += OnProgramCompleted;
+                                    CurrentAction.DeviceActionCompleted += OnProgramCompleted;
                                     DataService.CreateEvent(EventTypes.IrrigationStart,
                                         string.Format("Manual irrigation program: {0} for {1} minutes", CurrentAction.Solenoid.Id, CurrentAction.Duration),
                                         DeviceId);                                                                       
