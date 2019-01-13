@@ -25,21 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DOUBLE,
       allowNull:false
     },
-    CurrentProgram: {
-      type: DataTypes.INTEGER,
-      allowNull:true
-    },
-    CurrentStep: {
-      type: DataTypes.INTEGER,
-      allowNull:true
-    },
-    CurrentAction: {
-      type: DataTypes.INTEGER,
-      allowNull:true
-    },
     Inputs: DataTypes.STRING,
     Outputs: DataTypes.STRING,    
     PumpSolenoidId: DataTypes.INTEGER,
+    ActiveProgramId: DataTypes.INTEGER,
+    IrrigationActionId: DataTypes.INTEGER,
     SoftwareVersion: {
       type: DataTypes.STRING,
       allowNull: false
@@ -70,14 +60,20 @@ module.exports = (sequelize, DataTypes) => {
     Device.hasMany(models.Program, {
       foreignKey: 'DeviceId',
       as: 'Programs'
-    });   
-    Device.associate = (models) => {
-      Device.belongsToMany(models.User, {
-        through: 'UserDevices',
-        as: 'Users',
-        foreignKey: 'DeviceId'
-      });
-    };  
+    }); 
+    /* Device.hasOne(models.Program, {
+      foreignKey: 'Id',
+      as: 'ActiveProgram'
+    }); */ 
+    Device.belongsTo(models.IrrigationAction, {
+      foreignKey: 'IrrigationActionId',
+      as: 'IrrigationAction'
+    });    
+    Device.belongsToMany(models.User, {
+      through: 'UserDevices',
+      as: 'Users',
+      foreignKey: 'DeviceId'
+    });
   };
 
   return Device;

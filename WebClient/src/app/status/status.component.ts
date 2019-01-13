@@ -22,12 +22,9 @@ export class StatusComponent implements OnInit {
   status: IStatus;
   device: IDevice;
   solenoids: ISolenoid[];
-  activeProgram: IIrrigationAction;
+  irrigationAction: IIrrigationAction;
   manualStation = 1;
   manualDuration = 5;
-  elapsed = 0;
-  duration = 0;
-  percentComplete = 0;
   loaded = false;
   irrigating = false;
 
@@ -69,7 +66,7 @@ export class StatusComponent implements OnInit {
 
   getData(id: number) {
     this.getDevice(id);
-    this.getCurrentAction(id);
+    // this.getCurrentAction(id);
   }
   getDevice(id: number) {
     console.log('StatusComponent.getDevice()');
@@ -114,7 +111,7 @@ export class StatusComponent implements OnInit {
               // this._slimLoadingBarService.complete();
           });
   }
-  getCurrentAction(id: number) {
+  /* getCurrentAction(id: number) {
     console.log('getCurrentAction()');
     this.dataService
       .getCurrentAction(id)
@@ -123,7 +120,7 @@ export class StatusComponent implements OnInit {
             const finished = moment.utc(p.Finished);
             if (moment.utc().isAfter(finished)) {
               // this program is finished
-              this.activeProgram = null;
+              this.irrigationAction = null;
               this.irrigating = false;
               return;
             }
@@ -135,7 +132,7 @@ export class StatusComponent implements OnInit {
             this.duration = p.Duration * 60 * 1000;
             this.percentComplete = Math.ceil(this.elapsed / this.duration * 100);
             if (moment.utc().isBefore(fin)) {
-              this.activeProgram = p;
+              this.irrigationAction = p;
               this.irrigating = true;
             }
           },
@@ -145,8 +142,8 @@ export class StatusComponent implements OnInit {
           () => {
               console.log('Success');
           });
-  }
-  getStatus() {
+  } */
+  /* getStatus() {
     console.log('getStatus()');
     this.dataService
       .getStatus()
@@ -163,14 +160,24 @@ export class StatusComponent implements OnInit {
           () => {
               console.log('Success');
           });
+  } */
+  percentComplete() {
+    if (this.device.IrrigationAction == null) { return 0; }
+    if (this.device.IrrigationAction.Finished != null) { return 100; }
+    const now = moment.utc();
+    const start = moment.utc(this.device.IrrigationAction.Start);
+    const fin = moment.utc(this.device.IrrigationAction.Start);
+    fin.add(this.device.IrrigationAction.Duration, 'minutes');
+    const elapsed = now.diff(start);
+    const duration = this.device.IrrigationAction.Duration * 60 * 1000;
+    return Math.ceil(elapsed / duration * 100);
   }
-
   isLoaded() {
     return this.loaded;
   }
   getDuration() {
-    if (this.activeProgram != null) {
-      return this.activeProgram.Duration;
+    if (this.irrigationAction != null) {
+      return this.irrigationAction.Duration;
     }
     return 0;
   }
@@ -243,14 +250,14 @@ export class StatusComponent implements OnInit {
     }
   }
   getStartTime() {
-    if (this.activeProgram != null) {
-      return moment(this.activeProgram.Start).format('DD MMM YYYY HH:mm');
+    if (this.irrigationAction != null) {
+      return moment(this.irrigationAction.Start).format('DD MMM YYYY HH:mm');
     }
     return '';
   }
   getEnd() {
-    if (this.activeProgram != null) {
-      return moment(this.activeProgram.Start).add(this.activeProgram.Duration, 'minutes').format('DD MMM YYYY HH:mm');
+    if (this.irrigationAction != null) {
+      return moment(this.irrigationAction.Start).add(this.irrigationAction.Duration, 'minutes').format('DD MMM YYYY HH:mm');
     }
     return '';
   }

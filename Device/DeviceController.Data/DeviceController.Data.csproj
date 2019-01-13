@@ -90,6 +90,7 @@
     <Compile Include="Spi.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Step.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

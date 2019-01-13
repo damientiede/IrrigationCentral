@@ -1,6 +1,6 @@
 export class ICommand {
     constructor(
-        public Id:number,
+        public id:number,
         public CommandType:string,
         public Params:string,
         public Issued:Date,

@@ -11,6 +11,7 @@ const spis = require('./spis');
 const alarms = require('./alarms');
 const commands = require('./commands');
 const users = require('./users');
+const irrigationactions = require('./irrigationactions');
 
 const seedAll = () => {
     eventTypes.seed();
@@ -28,7 +29,7 @@ const seedAll = () => {
         users.seed(); 
     });            
     commands.seed();
-    
+    irrigationactions.seed();
 }
 
 module.exports = {    

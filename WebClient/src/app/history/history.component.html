@@ -8,16 +8,14 @@
         </div>        
     </div>
     <div class="row">        
-        <div class="col-12">            
-            <table class="table table-striped">
-                <tbody>
-                <!--tbody class="tr"-->
-                    <tr *ngFor="let event of events" class="tr">
-                        <td>{{timeFormat(event.createdAt)}} </td>
-                        <td>{{this.eventTypes[event.EventType-1]}} </td>
-                        <td>{{event.EventValue}} </td>
-                    </tr>
-                </tbody>
+        <div *ngFor="let event of events" id="history" class="col-sm-12">            
+            <table>
+                <tr>
+                    <th>{{timeFormat(event.createdAt)}} - {{this.eventTypes[event.EventType-1]}}</th>
+                </tr>
+                <tr>
+                    <td>{{event.EventValue}}</td>
+                </tr>
             </table>
         </div>        
     </div>

@@ -1,3 +1,5 @@
+import { IIrrigationAction } from "./irrigationaction";
+
 export class IStep {
     constructor(
         public id: number,
@@ -8,6 +10,7 @@ export class IStep {
         public RequiresPump: boolean,
         public ProgramId: number,
         public IrrigationActionId: number,
+        public IrrigationAction: IIrrigationAction,
         public createdAt: Date,
         public updatedAt: Date
     ) {}

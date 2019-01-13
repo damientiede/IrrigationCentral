@@ -64,7 +64,7 @@ export class StepComponent implements OnInit {
           }
         }
         if (this.stepId === 'new') {
-          this.step = new IStep(-1,  1, 60, 1, 'solenoidName', true, 1, 0, new Date(), new Date());
+          this.step = new IStep(-1,  1, 60, 1, 'solenoidName', true, 1, 0, null, new Date(), new Date());
           this.loaded = true;
         } else {
           this.service.getStep(this.stepId).subscribe((step: IStep) => {
@@ -104,6 +104,7 @@ export class StepComponent implements OnInit {
       this.step.RequiresPump = this.stepSolenoid.RequiresPump;
       console.log(this.step);
       if (this.step.id === -1) {
+        this.step.ProgramId = this.programId;
         this.service.createStep(this.step)
         .subscribe((s: IStep) => {
           console.log(s);

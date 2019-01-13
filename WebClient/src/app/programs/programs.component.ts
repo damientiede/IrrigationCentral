@@ -44,23 +44,22 @@ export class ProgramsComponent implements OnInit {
   }
   getStatusClass(p: IProgram) {
     if (p == null) {return; }
-    /*
-    const duration = this.lastSeenDuration(d);
-    if (duration.as('seconds') > (30000)) {
-      return 'alert alert-danger col-sm-12';
+    if (p.CurrentStep !== null) {
+      return 'alert alert-success col-sm-12';
     }
-    if (d.State.indexOf('Irrigating') > -1) { return 'alert alert-success col-sm-12'; }
-    if (d.State.indexOf('Fault') > -1) { return 'alert alert-danger col-sm-12'; } */
-    return 'alert alert-secondary col-sm-12';
+    if (p.Enabled === false) {
+      return 'alert alert-secondary col-sm-12';
+    }
+    return 'alert alert-primary col-sm-12';
   }
   getStatusText(p: IProgram) {
     if (p == null) {return 'Unknown program'; }
-    // let status = '';
-    /* const duration = this.lastSeenDuration(d);
-    if (duration.as('seconds') > (30000)) {
-      status =  `Device offline for ${Math.floor(duration.as('minutes'))} minutes`;
-    } */
-    // status = d.Status;
+    if (p.CurrentStep != null) {
+      return `${p.Name} - Step${p.CurrentStep} in progress...`;
+    }
+    if (p.Finished !== null) {
+      return `${p.Name} - finished.`;
+    }
     return p.Name;
   }
   programClick(program: IProgram) {

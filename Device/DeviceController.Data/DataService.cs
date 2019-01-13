@@ -58,13 +58,13 @@ namespace DeviceController.Data
             Event e = new Event { EventType = (int)eventType, CreatedAt = DateTime.Now, EventValue = desc, DeviceId = deviceId };
             proxy.PostEvent(e);            
         }
-        //public static void PutDevice(Device d)
+        //public static void PutDeviceStatus(Device d)
         //{
         //    ILog log = LogManager.GetLogger("Device");
         //    try
         //    {
-        //        IRestResponse response = proxy.PutDevice(d);
-        //        log.DebugFormat("DataService.PutDevice() {0} {1}", response.ResponseStatus.ToString(), response.Content);         
+        //        IRestResponse response = proxy.PutDeviceStatus(d);
+        //        log.DebugFormat("DataService.PutDeviceStatus() {0} {1}", response.ResponseStatus.ToString(), response.Content);         
         //    }
         //    catch (Exception ex)
         //    {

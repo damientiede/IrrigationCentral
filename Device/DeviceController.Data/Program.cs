@@ -11,6 +11,8 @@ namespace DeviceController.Data
         public int Id;
         public string Name;
         public DateTime Start;
+        public DateTime? Finished;
+        public int? CurrentStep;
         public bool Enabled;
         public int DeviceId;
         public Step[] Steps;

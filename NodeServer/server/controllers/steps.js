@@ -1,4 +1,5 @@
 const Step = require('../models').Step;
+const IrrigationAction = require('../models').IrrigationAction;
 
 module.exports = {
    create(req, res) {   
@@ -13,20 +14,23 @@ module.exports = {
                 ProgramId: req.body.ProgramId,
                 Enabled: req.body.Enabled
             })
-            .then(program => res.status(201).send(program))
+            .then(step => res.status(201).send(step))
             .catch(error => res.status(400).send(error));
    },
    single(req, res) {
         return Step
             .find({
                 where: { id: req.params.id},
+                include: [{model: IrrigationAction, as: 'IrrigationAction'}]
             })
             .then(step => res.status(200).send(step))
             .catch(error => res.status(400).send(error));   
    },
    list(req, res) {
         return Step
-            .findAll()
+            .findAll({
+                include: [{model: IrrigationAction, as: 'IrrigationAction'}]
+            })
             .then(steps => res.status(200).send(steps))
             .catch(error => res.status(400).send(error));
    },
@@ -42,7 +46,7 @@ module.exports = {
                 IrrigationActionId: req.body.IrrigationActionId,
                 Enabled: req.body.Enabled
             }, {
-	            where: { id: parseInt(req.body.id) }
+	            where: { id: parseInt(req.body.id != undefined?req.body.id:req.body.Id) }
             })
             .then(step => res.status(200).send(step))
             .catch(error => res.status(400).send(error));

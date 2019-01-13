@@ -29,6 +29,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { ProgramComponent } from './program/program.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { StepComponent } from './step/step.component';
+import { StepItemComponent } from './step-item/step-item.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { StepComponent } from './step/step.component';
     SidenavComponent,
     ProgramComponent,
     ProgramsComponent,
-    StepComponent
+    StepComponent,
+    StepItemComponent
   ],
   imports: [
     BrowserModule,

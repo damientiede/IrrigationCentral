@@ -40,12 +40,13 @@ export class HistoryComponent implements OnInit {
       if (Number.isNaN(this.deviceid)) {
         alert('Missing Device ID');
       }
-      const timer = Observable.timer(0, 5000);
+      this.getDevice(this.deviceid);
+      /* const timer = Observable.timer(0, 5000);
       timer
         .takeUntil(this.router.events)
         .subscribe(t => {
           this.onTick(t);
-        });
+        }); */
       // this.getDevice(this.deviceid);
     });
   }
@@ -95,6 +96,12 @@ export class HistoryComponent implements OnInit {
   getDeviceName() {
     if (this.device != null) {
       return this.device.Name;
+    }
+  }
+  getRowClass(event: IEvent) {
+    if (event === null) { return `col-sm-12`}
+    if (event.id % 2 === 0) {
+      return 'col-sm-12 striped';
     }
   }
   getEventType(et) {

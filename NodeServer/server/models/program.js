@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false
       },
+      Finished: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
+      CurrentStep: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       Enabled: DataTypes.BOOLEAN
     });
 

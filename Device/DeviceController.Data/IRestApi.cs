@@ -23,7 +23,8 @@ namespace DeviceController.Data
         void PutCommand(Command c);
         void PutSolenoid(Solenoid s);
         void PutAnalog(Analog a);
-        void PutDevice(Device d);
+        void PutDeviceStatus(Device d);
+        void PutDeviceConfig(Device d);
         void PutStatus(Status s);
         List<Command> GetCommands(int deviceId);
         List<CommandType> GetCommandTypes();

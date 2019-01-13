@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
       .subscribe((data: IUser) => {
           this.user = data;
           this.loaded = true;
-          console.log(data);
+          console.log(this.user);
       });
   }
   getStatusClass(d: IDevice) {

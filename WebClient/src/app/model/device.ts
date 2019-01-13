@@ -1,3 +1,5 @@
+import { IIrrigationAction } from "./irrigationaction";
+
 export class IDevice {
     constructor(
         public id: number,
@@ -10,6 +12,9 @@ export class IDevice {
         public PumpSolenoidId: number,
         public SoftwareVersion: string,
         public DeviceMAC: string,
+        public ActiveProgramId: number,
+        public IrrigationActionId: number,
+        public IrrigationAction: IIrrigationAction,
         public createdAt: Date,
         public updatedAt: Date
     ) {}

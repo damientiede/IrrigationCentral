@@ -38,18 +38,14 @@ module.exports = {
             Flowrate: {
                 type: Sequelize.INTEGER,
                 default: 0
-            },
-            CurrentProgram: {
+            },            
+            ActiveProgramId: {
                 type: Sequelize.INTEGER,
-                default: null
+                default: null               
             },
-            CurrentStep: {
+            IrrigationActionId: {
                 type: Sequelize.INTEGER,
-                default: null
-            },
-            CurrentAction: {
-                type: Sequelize.INTEGER,
-                default: null
+                default: null               
             },
             Inputs: {
                 type: Sequelize.STRING
@@ -164,7 +160,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             } 
-        }),         
+        }),        
         //commandtype
         queryInterface.createTable('CommandTypes', {
             Id: {
@@ -257,13 +253,23 @@ module.exports = {
             },
             DeviceId: {
                 type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
+                onDelete: 'cascade',
                 references: {
                     model: 'Devices',
                     key: 'Id',
                     as: 'DeviceId'
                 },
             }
+        }),
+        //Devices - IrrigationAction foriegn key
+        queryInterface.addConstraint('Devices',['IrrigationActionId'],{
+            type: 'foreign key',
+            name: 'fk_devices_irrigation_action_constraint',
+            references: { //Required field
+              table: 'IrrigationActions',
+              field: 'Id'
+            },
+            onDelete: 'cascade'
         }),
         //solenoids
         queryInterface.createTable('Solenoids', {
@@ -597,6 +603,16 @@ module.exports = {
                 type: Sequelize.DATE
             }
         }),  
+        //Devices - ActiveProgram foriegn key
+        queryInterface.addConstraint('Devices',['ActiveProgramId'],{
+            type: 'foreign key',
+            name: 'fk_devices_activeprogram_constraint',
+            references: { //Required field
+              table: 'Programs',
+              field: 'Id'
+            },
+            onDelete: 'cascade'
+        }),
         //step
         queryInterface.createTable('Steps', {
             Id: {
@@ -688,7 +704,10 @@ module.exports = {
         })             
     ]},      
     down: function(queryInterface, Sequelize) {
-    return [        
+    return [  
+        queryInterface.removeConstraint('Devices','fk_devices_activeprogram_constraint'),
+        queryInterface.removeConstraint('Devices','fk_devices_irrigation_action_constraint'),
+        
         //accounts
         queryInterface.dropTable('Accounts'),
         //alarms
@@ -718,7 +737,8 @@ module.exports = {
         //userdevices
         queryInterface.dropTable('UserDevices'),
         //devices
-        queryInterface.dropTable('Devices'),
+        queryInterface.dropTable('Devices')
+        //queryInterface.dropAllTables()
     ]
   }
 };

@@ -1,4 +1,6 @@
 const Device = require('../models').Device;
+const IrrigationAction = require('../models').IrrigationAction;
+// const Program = require('../models').Program;
 const Utils = require('../utils');
 
 module.exports = {
@@ -20,20 +22,22 @@ module.exports = {
    single(req, res) {
         return Device
             .find({
-                where: {Id: req.params.id}
-                //include: [{all:true}]
+                where: {Id: req.params.id},
+                include: [{model: IrrigationAction, as: 'IrrigationAction'}]
              })
             .then(device => res.status(200).send(device))
             .catch(error => res.status(400).send(error));   
    },
    list(req, res) {
         return Device
-            .findAll()
+            .findAll({
+                include: [{model: IrrigationAction, as: 'IrrigationAction'}]
+            })
             .then(devices => res.status(200).send(devices))
             .catch(error => res.status(400).send(error));
    },
    updateStatus(req, res) {
-       //console.log(req);
+        //console.log(req);
         return Device
             .update({        
                 Mode: Utils.parseDeviceMode(req.body.Mode),
@@ -41,9 +45,8 @@ module.exports = {
                 Status: req.body.Status,
                 Pressure: req.body.Pressure,
                 Flowrate: req.body.Flowrate,
-                CurrentProgram: parseInt(req.body.CurrentProgram),
-                CurrentStep: parseInt(req.body.CurrentStep),
-                CurrentAction: parseInt(req.body.CurrentAction),
+                ActiveProgramId: req.body.ActiveProgramId,                
+                IrrigationActionId: req.body.IrrigationActionId,
                 Inputs: req.body.Inputs,
                 Outputs: req.body.Outputs,                
                 UpdatedAt:new Date()            
@@ -72,6 +75,7 @@ module.exports = {
         return Device
             .findOrCreate({
                 where:{DeviceMAC:req.params.DeviceMAC},
+                // include: [{model: IrrigationAction, as: 'IrrigationAction'}],
                 defaults:{
                     Name:'DeviceName',
                     Description:'Device description',

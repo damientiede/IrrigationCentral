@@ -14,7 +14,8 @@ namespace DeviceController.Data
         public int SolenoidId;
         public string SolenoidName;
         public bool RequiresPump;
-        public int IrrigationActionId;
+        public int? IrrigationActionId;
+        public IrrigationAction IrrigationAction;
         public DateTime CreatedAt;
         public DateTime UpdatedAt;
     }

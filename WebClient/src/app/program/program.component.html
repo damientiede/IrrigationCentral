@@ -44,15 +44,18 @@
     <h5 *ngIf="program.Steps?.length==0">No program steps configured</h5>
     <h5 *ngIf="program.Steps?.length>0">Program steps</h5>
     <div class="row" *ngFor="let step of program.Steps" (click)="stepClick(step)">
-      <div class="col-sm-12"> 
+        <div class="col-sm-12">
+            <app-step-item [Step]="step"></app-step-item>
+        </div>
+      <!-- <div class="col-sm-12"> 
           <div [ngClass]="getStatusClass(step)">
               <div class="panel-title">
-                  <!-- <i class="fa fa-cog"></i> -->
+                  
                   ({{step.Sequence}})&nbsp;
                   {{step.SolenoidName}} for {{step.Duration}} minutes.
               </div>
           </div>
-      </div>
+      </div> -->
     </div> 
     <div class="row">
       <div class="col-sm-3">

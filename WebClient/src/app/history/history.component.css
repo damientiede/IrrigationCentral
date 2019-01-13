@@ -1,3 +1,5 @@
 h4 {float:left;margin-top:8px;}
 button {float:left;margin:5px;}
-table.table-striped { font-size:12px;}
+table td {padding:.2rem;}
+div#history {border-top:1px solid #333399;}
+div#history:nth-child(even){ background-color:#cccccc;}

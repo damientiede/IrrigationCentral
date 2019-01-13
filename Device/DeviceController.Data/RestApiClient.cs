@@ -38,25 +38,35 @@ namespace DeviceController.Data
         }
         private IRestResponse execute(RestRequest request)
         {
-            IRestResponse response = null; 
-            try
+            IRestResponse response = null;
+            int retries = 2;
+            while (retries > 0)
             {
-                response = client.Execute(request);                              
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                try
                 {
-                    //auth token may have expired - try renewing
-                    fetchAuthToken();
-                    // retry
                     response = client.Execute(request);
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        //auth token may have expired - try renewing
+                        fetchAuthToken();
+                        // retry
+                        response = client.Execute(request);
+                    }
+                    if (!response.IsSuccessful)
+                    {
+                        log.WarnFormat("RestApiClient unsuccessful response from API : {0}, {1}", response.StatusCode.ToString(), response.Content);
+                        retries--;
+                    }
+                    else
+                    {
+                        return response;
+                    }
                 }
-                if (!response.IsSuccessful)
+                catch (Exception ex)
                 {
-                    log.WarnFormat("RestApiClient unsuccessful response from API : {0}, {1}", response.StatusCode.ToString(), response.Content);
+                    log.DebugFormat(ex.Message);
+                    retries--;
                 }
-            }
-            catch(Exception ex)
-            {
-                log.DebugFormat(ex.Message);
             }
             return response;
         }
@@ -111,7 +121,7 @@ namespace DeviceController.Data
         }
         public List<Program> GetPrograms(int deviceid)
         {
-            string Uri = string.Format("devices/{0}/solenoids", deviceid);
+            string Uri = string.Format("devices/{0}/programs", deviceid);
             string response = Get(Uri);
             List<Program> programs = JsonConvert.DeserializeObject<List<Program>>(response);
             return programs;
@@ -153,8 +163,8 @@ namespace DeviceController.Data
         {
             string data = JsonConvert.SerializeObject(p);
             string response = Post("irrigationactions", data);
-            IrrigationAction program = JsonConvert.DeserializeObject<IrrigationAction>(response);
-            return program.Id;
+            IrrigationAction action = JsonConvert.DeserializeObject<IrrigationAction>(response);
+            return action.Id;
         }
         public void PutIrrigationAction(IrrigationAction p)
         {
@@ -176,10 +186,15 @@ namespace DeviceController.Data
             string data = JsonConvert.SerializeObject(a);
             IRestResponse response = Put(string.Format("analogs/{0}", a.Id), data);
         }
-        public void PutDevice(Device d)
+        public void PutDeviceStatus(Device d)
         {
             string data = JsonConvert.SerializeObject(d);
             IRestResponse response = Put(string.Format("devices/{0}/status", d.Id), data);
+        }
+        public void PutDeviceConfig(Device d)
+        {
+            string data = JsonConvert.SerializeObject(d);
+            IRestResponse response = Put(string.Format("devices/{0}/config", d.Id), data);
         }
         public void PutStatus(Status s)
         {
@@ -188,9 +203,9 @@ namespace DeviceController.Data
         }
         public List<Command> GetCommands(int deviceId)
         {
-            string Uri = string.Format("devices/{0}/pendingcommands", deviceId);
+            string Uri = string.Format("devices/{0}/pendingcommands", deviceId);            
             string response = Get(Uri);
-            log.Debug(response);
+            //log.Debug(response);
             List<Command> commands = JsonConvert.DeserializeObject<List<Command>>(response);
             return commands;
         }

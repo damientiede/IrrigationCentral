@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false
       },
-      IrrigationActionId: { 
+      /* IrrigationActionId: { 
         type: DataTypes.INTEGER,
         allowNull: true
-      }
+      } */
     });
 
     Step.associate = (models) => {
@@ -33,12 +33,12 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
   
-    /* Step.associate = (models) => {
+    Step.associate = (models) => {
         Step.belongsTo(models.IrrigationAction, {
-            foreignKey: 'IrrigationActionId',
-            onDelete: 'CASCADE',
+          foreignKey: 'IrrigationActionId',
+          as: 'IrrigationAction'
         });
-    }; */
+    };
 
     return Step;
 }

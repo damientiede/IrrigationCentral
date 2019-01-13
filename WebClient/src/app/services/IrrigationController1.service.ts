@@ -266,6 +266,7 @@ export class IrrigationControllerService {
         });
     }
     saveProgram(program: IProgram): Observable <IProgram> {
+        console.log(program);
         const url = `${this.restUrl}/programs/${program.id}`;
         return this.client.put<IProgram>(url, program, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)

@@ -5,6 +5,7 @@ export class IProgram {
         public Name: string,
         public Start: Date,
         public Finished: Date,
+        public CurrentStep: number,
         public Enabled: boolean,
         public DeviceId: number,
         public Steps: IStep[],
