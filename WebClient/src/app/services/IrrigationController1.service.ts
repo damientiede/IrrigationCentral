@@ -324,7 +324,7 @@ export class IrrigationControllerService {
         });
     }
     deleteStep(step: IStep): Observable <IStep> {
-        const url = `${this.restUrl}/programs/${step.id}`;
+        const url = `${this.restUrl}/steps/${step.id}`;
         return this.client.delete<IStep>(url, {
             headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.accessToken}`)
         });
@@ -354,10 +354,10 @@ export class IrrigationControllerService {
         this.getUser(username)
             .subscribe((user: IUser) => {
                 if (user === null) { return; }
-                if (user.devices.length > 1) {
+                if (user.Devices.length > 1) {
                 this.router.navigate(['/devices']);
                 } else {
-                const device = user.devices[0];
+                const device = user.Devices[0];
                 if (device != null) {
                     this.router.navigate([`/device/${device.id}`]);
                 }

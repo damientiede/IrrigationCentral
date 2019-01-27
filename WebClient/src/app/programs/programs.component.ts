@@ -36,6 +36,7 @@ export class ProgramsComponent implements OnInit {
     this.service.getPrograms(this.deviceId)
                 .subscribe((programs: IProgram[]) => {
                   this.programs = programs;
+                  console.log(programs);
                   this.loaded = true;
                 });
   }
@@ -50,6 +51,9 @@ export class ProgramsComponent implements OnInit {
     if (p.Enabled === false) {
       return 'alert alert-secondary col-sm-12';
     }
+    if (p.Finished) {
+      return 'alert alert-secondary col-sm-12';
+    }
     return 'alert alert-primary col-sm-12';
   }
   getStatusText(p: IProgram) {
@@ -57,10 +61,11 @@ export class ProgramsComponent implements OnInit {
     if (p.CurrentStep != null) {
       return `${p.Name} - Step${p.CurrentStep} in progress...`;
     }
-    if (p.Finished !== null) {
+    if (p.Finished) {
       return `${p.Name} - finished.`;
     }
-    return p.Name;
+    const start = moment.parseZone(p.Start).format('DD MMM YYYY h:mm a'); // moment(p.Start).format('DD MMM YYYY HH:mm');
+    return `${p.Name} - starts at ${start}`;
   }
   programClick(program: IProgram) {
     this.router.navigate([`/device/${this.deviceId}/programs/${program.id}`]);

@@ -11,5 +11,5 @@ export class IUser {
         public updatedAt: Date,
         public salt: string
     ) {}
-    public devices: IDevice[];
+    public Devices: IDevice[];
 }

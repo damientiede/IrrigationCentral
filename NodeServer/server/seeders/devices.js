@@ -20,8 +20,8 @@ module.exports = {
                     DeviceMAC:'B827EB1C9BA9'
                 });
               Device.create({
-                Name:'SeedDevice2',
-                Description:'Seeded for testing',
+                Name:'Aylesbury Walnuts',
+                Description:'Orchard Irrigation Controller',
                 State:'Standby',
                 Mode:'Manual',
                 Status:'Seeded',

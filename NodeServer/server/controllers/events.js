@@ -1,4 +1,6 @@
 const Event = require('../models').Event;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = {
    create(req, res) {           
@@ -14,7 +16,10 @@ module.exports = {
    list(req, res) {
       return Event
          .findAll({ 
-            where: { DeviceId: parseInt(req.params.deviceId) },
+            where: { 
+               DeviceId: parseInt(req.params.deviceId),
+               EventType: { [Op.ne]: 3 }
+             },
             order: [['createdAt','DESC']],
             limit: 250
          })

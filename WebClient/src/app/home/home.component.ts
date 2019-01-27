@@ -16,6 +16,9 @@ export class HomeComponent implements OnInit {
   username: string;
   user: IUser;
   loaded = false;
+  numdevices = 0;
+  userIsAuthenticated = false;
+  userIsRegistered = false;
   constructor(public authService: AuthService,
               private router: Router,
               private service: IrrigationControllerService) { }
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authService.getAccessToken(() => {
       this.username = this.authService.userProfile.name;
+      this.userIsAuthenticated = this.authService.authenticated;
       this.getData();
     }, () => {
       this.loaded = true;
@@ -31,9 +35,23 @@ export class HomeComponent implements OnInit {
   getData() {
     this.service.getUser(this.username)
       .subscribe((data: IUser) => {
-          this.user = data;
+        this.user = data;
+        this.userIsRegistered = true;
+        if (data.Devices) {
+          this.numdevices = data.Devices.length;
+          if (data.Devices.length === 1) {
+            this.router.navigate([`/device/${data.Devices[0].id}/status`]);
+          }
+        }
+        this.loaded = true;
+        console.log(this.user);
+      },
+      error => {
+        console.log(error);
+        if (error.status === 404 ) {
+          this.userIsRegistered = false;
           this.loaded = true;
-          console.log(this.user);
+        }
       });
   }
   getStatusClass(d: IDevice) {
@@ -44,7 +62,8 @@ export class HomeComponent implements OnInit {
     }
     if (d.State.indexOf('Irrigating') > -1) { return 'alert alert-success col-sm-12'; }
     if (d.State.indexOf('Fault') > -1) { return 'alert alert-danger col-sm-12'; }
-    return 'alert alert-secondary col-sm-12';
+    if (d.Mode.indexOf('Manual') > -1) { return 'alert alert-secondary'; }
+    return 'alert alert-primary col-sm-12';
   }
   getStatusText(d: IDevice) {
     if (d == null) {return 'Unknown device'; }

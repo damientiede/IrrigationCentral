@@ -20,6 +20,7 @@ export class StepComponent implements OnInit {
   deviceId: number;
   device: IDevice;
   programId: number;
+  newSequence = 1;
   stepId: any;
   step: IStep;
   solenoids: ISolenoid[];
@@ -42,8 +43,12 @@ export class StepComponent implements OnInit {
         alert('Missing Device ID');
       }
       this.programId = params['programid'];
-      if (Number.isNaN(this.deviceId)) {
+      if (Number.isNaN(this.programId)) {
         alert('Missing Program ID');
+      }
+      this.newSequence = params['sequence'];
+      if (Number.isNaN(this.newSequence)) {
+        alert('Missing newSequence ID');
       }
       // parse step id
       this.stepId = params['id'];
@@ -64,11 +69,12 @@ export class StepComponent implements OnInit {
           }
         }
         if (this.stepId === 'new') {
-          this.step = new IStep(-1,  1, 60, 1, 'solenoidName', true, 1, 0, null, new Date(), new Date());
+          this.step = new IStep(-1, this.newSequence, 60, 1, 'solenoidName', true, 1, 0, null, new Date(), new Date());
           this.loaded = true;
         } else {
           this.service.getStep(this.stepId).subscribe((step: IStep) => {
               this.step = step;
+              this.newSequence = step.Sequence;
               for (let s of this.solenoids) {
                 if (s.id === this.step.SolenoidId) {
                   this.stepSolenoid = s;
@@ -87,7 +93,9 @@ export class StepComponent implements OnInit {
   }
   delete() {
     this.service.deleteStep(this.step)
-    .subscribe(() => {},
+    .subscribe(() => {
+      this.loadProgram();
+    },
     error => () => {
       console.log('Something went wrong...');
       this.toastr.error('Something went wrong...', 'Damn');
@@ -96,9 +104,10 @@ export class StepComponent implements OnInit {
       console.log('Success');
       // this.toastr.success('Changes saved' );
     });
-    this.router.navigate([`/device/${this.deviceId}/programs/${this.programId}`]);
+    // this.router.navigate([`/device/${this.deviceId}/programs/${this.programId}`]);
   }
   save() {
+      this.step.Sequence = this.newSequence;
       this.step.SolenoidId = this.stepSolenoid.id;
       this.step.SolenoidName = this.stepSolenoid.Name;
       this.step.RequiresPump = this.stepSolenoid.RequiresPump;
@@ -115,6 +124,7 @@ export class StepComponent implements OnInit {
               break;
             }
           }
+          this.loadProgram();
         },
         error => () => {
           console.log('Something went wrong...');
@@ -122,12 +132,15 @@ export class StepComponent implements OnInit {
         },
         () => {
           console.log('Success');
-          this.toastr.success('Changes saved' );
+          //this.toastr.success('Changes saved' );
+          this.loadProgram();
         });
         return;
       }
       this.service.saveStep(this.step)
         .subscribe((s: IStep) => {
+          console.log('subscribe()');
+          this.loadProgram();
         },
         error => () => {
           console.log('Something went wrong...');
@@ -135,7 +148,31 @@ export class StepComponent implements OnInit {
         },
         () => {
           console.log('Success');
-          this.toastr.success('Changes saved' );
+          this.loadProgram();
+          //this.toastr.success('Changes saved' );
       });
+  }
+  loadProgram() {
+    const cmd = new ICommand(
+      0,  // id
+      'LoadProgram',  // commandType
+      `${this.programId}`, // params
+      new Date, // issued
+      null, // actioned
+      this.deviceId, // deviceId
+      new Date, // createdAt
+      null  // updatedAt
+    );
+    this.service.sendCommand(cmd)
+    .subscribe(() => {},
+      error => () => {
+        console.log('Something went wrong...');
+        this.toastr.error('Something went wrong...', 'Damn');
+      },
+      () => {
+        console.log('command sent');
+        this.router.navigate([`/device/${this.deviceId}/programs/${this.programId}`]);
+        // this.toastr.success('Command sent' );
+    });
   }
 }

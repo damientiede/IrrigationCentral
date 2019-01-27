@@ -90,7 +90,7 @@ export class HistoryComponent implements OnInit {
           });
   }
   timeFormat(date) {
-    return moment(date).format('h:mm:ss a');
+    return moment(date).format('DD MMM YYYY h:mm:ss a');
   }
 
   getDeviceName() {

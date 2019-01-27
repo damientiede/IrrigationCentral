@@ -126,9 +126,10 @@ namespace DeviceController
                             log.DebugFormat("Resuming existing irrigation action id:{0} - {1}", device.IrrigationAction.Id, device.IrrigationAction.Name);
                             DeviceSolenoid solenoid = GetSolenoidById(device.IrrigationAction.SolenoidId);
                             //adjust Start time from Utc
-                            device.IrrigationAction.Start = Util.UtcToLocal(device.IrrigationAction.Start);
+                            //device.IrrigationAction.Start = Util.UtcToLocal(device.IrrigationAction.Start);
                             CurrentAction = new DeviceAction(device.IrrigationAction, solenoid);
                             CurrentAction.DeviceActionCompleted += OnDeviceActionCompleted;
+                            //log.Debug("debug1");
                         }
                         else
                         {
@@ -149,13 +150,23 @@ namespace DeviceController
                         device.IrrigationActionId = null;
                         CurrentAction = null;
                         DataService.Proxy.PutDeviceStatus(device);                        
-                    }  
+                    }
+                    //log.Debug("debug2");
                     if (device.ActiveProgramId != null)
                     {
                         Data.Program p = DataService.Proxy.GetProgram((int)device.ActiveProgramId);
-                        p.Start = Util.UtcToLocal(p.Start);
-                        CurrentProgram = new DeviceProgram(p);
-                    }                  
+                        //p.Start = Util.UtcToLocal(p.Start);
+                        if (p != null)
+                        {
+                            CurrentProgram = new DeviceProgram(p);
+                        }
+                        else
+                        {
+                            //Program must have been deleted
+                            device.ActiveProgramId = null;
+                        }
+                    }
+                    //log.Debug("debug3");
                 }
             }
             catch (Exception ex)
@@ -210,7 +221,40 @@ namespace DeviceController
                 Alarms.Add(al);
             }                                 
         }
-        
+        public void DeleteProgram(string id)
+        {
+            log.DebugFormat("DeleteProgram() : {0}", id);
+            try
+            {
+                if (String.IsNullOrEmpty(id))
+                {
+                    log.Warn("DeleteProgram() : id is null");
+                    return;
+                }
+                int programId = Convert.ToInt32(id);
+                log.DebugFormat("programId: {0}", programId);
+                DeviceProgram programToBeDeleted = Programs.AsQueryable<DeviceProgram>().Where(p => p.Id == programId).First();
+                if (programToBeDeleted != null)
+                {
+                    if (CurrentProgram != null)
+                    {
+                        if (CurrentProgram.Id == programId)
+                        {
+                            log.DebugFormat("Aborting active program {0}", programToBeDeleted.Name);
+                            AbortAction();
+                            device.ActiveProgramId = null;
+                            CurrentProgram = null;
+                        }
+                    }
+                    Programs.Remove(programToBeDeleted);
+                    log.DebugFormat("Removed old program {0} Start:{1}", programToBeDeleted.Name, programToBeDeleted.StartDate);
+                }               
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("LoadProgram(): {0}", ex.Message);
+            }
+        }
         public void LoadProgram(string id)
         {
             log.DebugFormat("LoadProgram() : {0}", id);
@@ -223,21 +267,25 @@ namespace DeviceController
                 }
                 int programId = Convert.ToInt32(id);
                 log.DebugFormat("programId: {0}", programId);
-                DeviceProgram oldProgram = Programs.AsQueryable<DeviceProgram>().Where(p => p.Id == programId).First();
-                if (oldProgram != null)
+                var query = Programs.AsQueryable<DeviceProgram>().Where(p => p.Id == programId);
+                if (query.Count() > 0)
                 {
-                    if (CurrentProgram != null)
+                    DeviceProgram oldProgram = query.First<DeviceProgram>();
+                    if (oldProgram != null)
                     {
-                        if (CurrentProgram.Id == programId)
+                        if (CurrentProgram != null)
                         {
-                            log.DebugFormat("Aborting active program {0}", oldProgram.Name);
-                            AbortAction();
-                            device.ActiveProgramId = null;
-                            CurrentProgram = null;
+                            if (CurrentProgram.Id == programId)
+                            {
+                                log.DebugFormat("Aborting active program {0}", oldProgram.Name);
+                                AbortAction();
+                                device.ActiveProgramId = null;
+                                CurrentProgram = null;
+                            }
                         }
+                        Programs.Remove(oldProgram);
+                        log.DebugFormat("Removed old program {0} Start:{1}", oldProgram.Name, oldProgram.StartDate);
                     }
-                    Programs.Remove(oldProgram);
-                    log.DebugFormat("Removed old program {0} Start:{1}", oldProgram.Name, oldProgram.StartDate);
                 }
                 DeviceController.Data.Program newProgram = DataService.Proxy.GetProgram(programId);
                 //newProgram.Start = Util.UtcToLocal(newProgram.Start);
@@ -279,7 +327,11 @@ namespace DeviceController
                         ProcessCommands();
                       
                         ReadAnalogs();
-                        device.Pressure = Analogs[0].Sample();
+                        if (Analogs.Count > 0)
+                        {
+                            device.Pressure = Analogs[0].Sample();
+                        }
+                        
                                                
                         RunPrograms();
 
@@ -412,7 +464,6 @@ namespace DeviceController
                       
             ReportStatus();
         }
-
         public void RunPrograms()
         {
             if (device.Mode != DeviceMode.Auto || CurrentAction != null)
@@ -430,7 +481,8 @@ namespace DeviceController
                     if (p.Enabled && p.FinishedDate == null && p.PendingSteps.Count > 0)
                     {
                         log.DebugFormat("'{0}' StartDate: {1}, Now: {2} ",p.Name, p.StartDate, DateTime.Now);
-                        if (p.StartDate.AddMinutes(p.TimeRemaining) > DateTime.Now)
+                        if ((p.StartDate < DateTime.Now))// && 
+                            //(p.StartDate.AddMinutes(p.TimeRemaining) > DateTime.Now))
                         {
                             log.DebugFormat("Found new program {0}", p.Name);
                             CurrentProgram = p;
@@ -446,8 +498,7 @@ namespace DeviceController
                 // no IrrigationAction in progress, start one now
                 StartProgramStep();
             }
-        }
-        
+        }        
         public void ProcessCommands()
         {
             //log.Debug("ProcessCommands()");
@@ -527,8 +578,7 @@ namespace DeviceController
 
                             ActionCommand(cmd);
                             break;
-                        
-                        //Get schedules
+                                               
                         case "LoadPrograms":
                             LoadPrograms();                                                 
                             ActionCommand(cmd);
@@ -536,6 +586,11 @@ namespace DeviceController
 
                         case "LoadProgram":
                             LoadProgram(cmd.Params);
+                            ActionCommand(cmd);
+                            break;
+
+                        case "DeleteProgram":
+                            DeleteProgram(cmd.Params);
                             ActionCommand(cmd);
                             break;
 
@@ -553,7 +608,7 @@ namespace DeviceController
             {
                 log.ErrorFormat("ProcessCommands(): {0}", ex.Message);
             }
-            ReportStatus();
+            //ReportStatus();
         }                
         public DeviceSolenoid GetSolenoidById(int id)
         {
@@ -594,6 +649,10 @@ namespace DeviceController
             if (CurrentAction.Remaining.TotalSeconds > 120)
             {
                 timeRemaining = string.Format("{0} minutes", CurrentAction.Remaining.Minutes);
+            }
+            if (CurrentAction.Remaining.TotalMinutes > 120)
+            {
+                timeRemaining = string.Format("{0} hrs {1} mins", CurrentAction.Remaining.Hours, CurrentAction.Remaining.Minutes);
             }
             if (CurrentAction.Remaining.TotalSeconds < 120 && CurrentAction.Remaining.TotalSeconds > 60)
             {
@@ -650,6 +709,7 @@ namespace DeviceController
                 }         
                 device.Status = status;
                 device.State = state;
+                //log.DebugFormat("Device Status: {0} State: {1}", status, state.ToString());
                 DataService.Proxy.PutDeviceStatus(device);
             }
             catch (Exception ex)

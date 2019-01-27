@@ -8,7 +8,6 @@ C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\Newt
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\DeviceController.Data.pdb
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\RestSharp.xml
-C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\obj\Debug\DeviceController.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceTests.cs\obj\Debug\DeviceTests.cs.dll

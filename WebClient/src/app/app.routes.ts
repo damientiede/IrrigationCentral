@@ -26,6 +26,7 @@ export const routes: Routes = [
   { path: 'device/:deviceid/programs', component: ProgramsComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/programs/:id', component: ProgramComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/programs/:programid/steps/:id', component: StepComponent, canActivate: [AuthGuard] },
+  { path: 'device/:deviceid/programs/:programid/steps/:id/:sequence', component: StepComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/config', component: ConfigComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'device/:deviceid/solenoid/:id', component: SolenoidComponent, canActivate: [AuthGuard] },

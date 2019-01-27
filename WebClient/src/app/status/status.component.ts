@@ -195,7 +195,8 @@ export class StatusComponent implements OnInit {
     }
     if (this.device.State.indexOf('Irrigating') > -1) { return 'alert alert-success'; }
     if (this.device.State.indexOf('Fault') > -1) { return 'alert alert-danger'; }
-    return 'alert alert-secondary';
+    if (this.device.Mode.indexOf('Manual') > -1) { return 'alert alert-secondary'; }
+    return 'alert alert-primary';
   }
   getStatusText() {
     if (this.device == null) {return 'Unknown device'; }
@@ -206,7 +207,7 @@ export class StatusComponent implements OnInit {
     return this.device.Status;
   }
   formatDateShort(date) {
-    return moment(date).format('dd/MM/yyyy');
+    return moment(date).format('dd/MM/yyyy');//.format('DD MMM YYYY h:mm a');   //.format('dd/MM/yyyy');
   }
   getState() {
     if (this.status != null) {
@@ -275,7 +276,7 @@ export class StatusComponent implements OnInit {
   }
   getLastUpdated() {
     if (this.device != null) {
-      return moment(this.device.updatedAt).format('DD MMM YYYY HH:mm');
+      return moment(this.device.updatedAt).format('DD MMM YYYY h:mm a'); // .format('DD MMM YYYY HH:mm');
     }
     return '';
   }

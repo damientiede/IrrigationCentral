@@ -82,8 +82,10 @@ module.exports = {
                     Mode:'Manual',
                     State:'Standby',
                     Status:'Created',
-                    SoftwareVersion:'0.0.0.1'
-                    //deviceMAC: req.params.mac
+                    Pressure: 0,
+                    Flowrate: 0,                    
+                    SoftwareVersion:'0.0.0.1',
+                    DeviceMAC: req.params.DeviceMAC
                 }
             })
             .spread((device,created) => {

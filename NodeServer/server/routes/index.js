@@ -105,7 +105,7 @@ module.exports = (app) => {
    app.get('/api/steps/:id', stepsController.single);
    app.get('/api/steps', stepsController.list);
    app.put('/api/steps/:id', stepsController.update);
-   app.delete('/api/steps/:id',stepsController.delete);
+   app.delete('/api/steps/:id', stepsController.delete);
 
    //IrrigationActions
    app.post('/api/irrigationactions', irrigationActionsController.create);

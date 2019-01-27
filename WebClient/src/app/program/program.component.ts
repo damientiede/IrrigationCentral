@@ -57,7 +57,9 @@ export class ProgramComponent implements OnInit {
     this.service.getProgram(this.programId)
       .subscribe((program: IProgram) => {
         this.program = program;
+        console.log(program);
         this.startDate = moment(program.Start).toISOString().slice(0, 16);
+        console.log(this.startDate);
         this.loaded = true;
         console.log(program);
       });
@@ -73,12 +75,10 @@ export class ProgramComponent implements OnInit {
   back() {
     this.router.navigate([`/device/${this.deviceId}/programs`]);
   }
-  delete() {
+ delete() {
+   console.log('delete program');
     this.service.deleteProgram(this.program)
-    .subscribe(() => {
-      this.deleteProgram();
-      this.router.navigate([`/device/${this.deviceId}/programs`]);
-    },
+    .subscribe(() => {},
     error => () => {
       console.log('Something went wrong...');
       this.toastr.error('Something went wrong...', 'Damn');
@@ -87,6 +87,7 @@ export class ProgramComponent implements OnInit {
       console.log('Success');
       // this.toastr.success('Changes saved' );
     });
+    this.deleteProgram();
   }
   save() {
     const start = moment.utc(this.startDate).toDate();
@@ -108,9 +109,8 @@ export class ProgramComponent implements OnInit {
     if (this.program.id === -1) {
       this.service.createProgram(this.program)
       .subscribe((p: IProgram) => {
-        console.log(p);
         this.program = p;
-        // this.startDate = moment(s.StartDate).format(); // .toISOString().slice(0, 16);
+        console.log(p);
         this.loadProgram();
       },
       error => () => {
@@ -137,7 +137,16 @@ export class ProgramComponent implements OnInit {
     });
   }
   newStep() {
-    this.router.navigate([`device/${this.deviceId}/programs/${this.program.id}/steps/new`]);
+    let sequence = 0;
+    if (this.program.Steps) {
+      for (let step of this.program.Steps) {
+        if (step.Sequence > sequence) {
+          sequence = step.Sequence;
+        }
+      }
+    }
+    sequence = sequence + 1;
+    this.router.navigate([`device/${this.deviceId}/programs/${this.program.id}/steps/new/${sequence}`]);
   }
   stepClick(step: IStep) {
     this.router.navigate([`device/${this.deviceId}/programs/${this.program.id}/steps/${step.id}`]);
@@ -146,7 +155,7 @@ export class ProgramComponent implements OnInit {
     const cmd = new ICommand(
       0,  // id
       'LoadProgram',  // commandType
-      `${this.programId}`, // params
+      `${this.program.id}`, // params
       new Date, // issued
       null, // actioned
       this.deviceId, // deviceId
@@ -168,7 +177,7 @@ export class ProgramComponent implements OnInit {
     const cmd = new ICommand(
       0,  // id
       'DeleteProgram',  // commandType
-      `${this.programId}`, // params
+      `${this.program.id}`, // params
       new Date, // issued
       null, // actioned
       this.deviceId, // deviceId
@@ -182,6 +191,7 @@ export class ProgramComponent implements OnInit {
         this.toastr.error('Something went wrong...', 'Damn');
       },
       () => {
+        this.router.navigate([`/device/${this.deviceId}/programs`]);
         console.log('Success');
         // this.toastr.success('Command sent' );
     });

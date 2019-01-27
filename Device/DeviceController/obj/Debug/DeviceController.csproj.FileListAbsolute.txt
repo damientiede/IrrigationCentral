@@ -83,3 +83,6 @@ C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\bin\Debug\Ra
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\bin\Debug\Common.Logging.pdb
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\bin\Debug\Common.Logging.xml
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\obj\Debug\DeviceController.csprojResolveAssemblyReference.cache
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\bin\Debug\log4net.xml
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController\obj\Debug\DeviceController.csproj.DeviceController.exe.config

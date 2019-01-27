@@ -3,23 +3,48 @@
     <img src='assets/Loading_icon.gif'>
 </div>
 <div *ngIf="loaded">
-    <div *ngIf="authService.isLoggedIn">
-        <p>
-            Welcome {{user.FirstName}}.
-        </p>
-        <div class="row" *ngFor="let device of user.Devices" (click)="navToDevice(device)">
-            <div class="col-sm-12"> 
-                <div [ngClass]="getStatusClass(device)">
-                    <div class="panel-title">
-                        <i class="fa fa-cog"></i>
-                        {{getStatusText(device)}} 
+
+    <div *ngIf="userIsAuthenticated">
+
+        <div *ngIf="userIsRegistered">
+            <p>
+                Welcome {{user.FirstName}}.
+            </p>
+            <div *ngIf="numdevices > 0">
+                <div class="row" *ngFor="let device of user.Devices" (click)="navToDevice(device)">
+                    <div class="col-sm-12"> 
+                        <div [ngClass]="getStatusClass(device)">
+                            <div class="panel-title">
+                                <i class="fa fa-cog"></i>
+                                {{getStatusText(device)}} 
+                            </div>
+                        </div>
                     </div>
+                </div>  
+            </div>
+
+            <div class="row" *ngIf="numdevices === 0">
+                <div class="alert alert-danger col-sm-12">
+                    You don't have any devices setup.
                 </div>
             </div>
-        </div>  
-        <button type="button" class="btn btn-success" (click)="authService.logout()">Logout</button>               
+
+        </div>
+
+        <div class="row" *ngIf="!userIsRegistered">
+            <div class="alert"></div>
+            <div class="alert alert-danger col-sm-12">
+                <div class="panel-title">
+                    Sorry '{{username}}', you have not been setup as an Irrigation Central user.
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-success" (click)="authService.logout()">Logout</button>    
     </div>
-    <div *ngIf="!authService.isLoggedIn"> 
+
+   
+    <div *ngIf="!userIsAuthenticated"> 
         <div class="jumbotron">
             <h2>
                 Welcome to Irrigation Central
