@@ -178,9 +178,10 @@ module.exports = {
                     type: Sequelize.DATE
                 },
                 DeviceId: {
+                    allowNull: false,
                     type: Sequelize.INTEGER,
-                    onDelete: 'cascade',
-                    /* references: {
+                    /*onDelete: 'cascade',
+                      references: {
                         model: 'Devices',
                         key: 'Id',
                         as: 'DeviceId'
@@ -268,11 +269,12 @@ module.exports = {
                         },
                         SolenoidId: {
                             type: Sequelize.INTEGER,
-                            references: {
+                            allowNull: false,
+                            /* references: {
                                 model: 'Solenoids',
                                 key: 'Id',
                                 as: 'SolenoidId'
-                            }
+                            } */
                         },
                         SolenoidName: {
                             type: Sequelize.STRING,
@@ -284,11 +286,12 @@ module.exports = {
                         },                      
                         IrrigationActionId: {
                             type: Sequelize.INTEGER,
-                            references: {
+                            allowNull: true
+                            /* references: {
                                 model: 'IrrigationActions',
                                 key: 'Id',
                                 as: 'IrrigationActionId'
-                            }
+                            } */
                         },
                         ProgramId: {
                             type: Sequelize.INTEGER,

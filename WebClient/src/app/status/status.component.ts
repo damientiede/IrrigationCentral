@@ -111,56 +111,6 @@ export class StatusComponent implements OnInit {
               // this._slimLoadingBarService.complete();
           });
   }
-  /* getCurrentAction(id: number) {
-    console.log('getCurrentAction()');
-    this.dataService
-      .getCurrentAction(id)
-      .subscribe((p: IIrrigationAction) => {
-            console.log(p);
-            const finished = moment.utc(p.Finished);
-            if (moment.utc().isAfter(finished)) {
-              // this program is finished
-              this.irrigationAction = null;
-              this.irrigating = false;
-              return;
-            }
-            const now = moment.utc();
-            const start = moment.utc(p.Start);
-            const fin = moment.utc(p.Start);
-            fin.add(p.Duration, 'minutes');
-            this.elapsed = now.diff(start);
-            this.duration = p.Duration * 60 * 1000;
-            this.percentComplete = Math.ceil(this.elapsed / this.duration * 100);
-            if (moment.utc().isBefore(fin)) {
-              this.irrigationAction = p;
-              this.irrigating = true;
-            }
-          },
-          error => () => {
-              console.log('Something went wrong...');
-          },
-          () => {
-              console.log('Success');
-          });
-  } */
-  /* getStatus() {
-    console.log('getStatus()');
-    this.dataService
-      .getStatus()
-      .subscribe((data: IStatus[]) => {
-            console.log(data.length);
-            if (data.length > 0) {
-              this.status = data[0];
-              this.loaded = true;
-            }
-          },
-          error => () => {
-              console.log('Something went wrong...');
-          },
-          () => {
-              console.log('Success');
-          });
-  } */
   percentComplete() {
     if (this.device.IrrigationAction == null) { return 0; }
     if (this.device.IrrigationAction.Finished != null) { return 100; }

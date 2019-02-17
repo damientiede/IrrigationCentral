@@ -21,7 +21,39 @@ module.exports = {
                     Mobile: '64279201482',     
                     IsAdmin: false                                                   
                 });
-                console.log('Created 2 user records');	                 
+
+                const user3 = User.create({            
+                    FirstName: 'Maria',
+                    LastName: 'Tiede',
+                    Email: 'maria.tiede76@gmail.com',  
+                    Mobile: '64212170993',     
+                    IsAdmin: false                                                   
+                });
+
+                const user4 = User.create({            
+                    FirstName: 'Anna',
+                    LastName: 'Brenmuhl',
+                    Email: 'annabrenmuhl@hotmail.com',  
+                    Mobile: '6421961948',     
+                    IsAdmin: false                                                   
+                });
+
+                const user5 = User.create({            
+                    FirstName: 'Frank',
+                    LastName: 'Brenmuhl',
+                    Email: 'frank@brenmuhl.com',  
+                    Mobile: '64272244009',     
+                    IsAdmin: false                                                   
+                });
+
+                const user6 = User.create({            
+                    FirstName: 'Margaret',
+                    LastName: 'Brenmuhl',
+                    Email: 'margaret@brenmuhl.com',  
+                    Mobile: '64272795520',     
+                    IsAdmin: false                                                   
+                });
+                console.log('Created 6 user records');	                 
             }        
         });
     }
