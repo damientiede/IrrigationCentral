@@ -25,7 +25,7 @@
       <li [ngClass]="getActiveClass('history')">
           <a (click)="history()">History</a>
       </li>
-      <li *ngIf="authService.isLoggedIn">
+      <li> <!--</li> *ngIf="authService.isLoggedIn">-->
           <a (click)="authService.logout()">Logout</a>
       </li>
   </ul>

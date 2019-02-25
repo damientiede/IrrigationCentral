@@ -13,7 +13,7 @@ import { IDevice } from '../model/device';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  username: string;
+  email: string;
   user: IUser;
   loaded = false;
   numdevices = 0;
@@ -25,15 +25,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getAccessToken(() => {
-      this.username = this.authService.userProfile.name;
+      this.email = this.authService.userProfile.email;
       this.userIsAuthenticated = this.authService.authenticated;
       this.getData();
     }, () => {
+      console.log(this.authService);
       this.loaded = true;
     });
   }
   getData() {
-    this.service.getUser(this.username)
+    this.service.getUser(this.email)
       .subscribe((data: IUser) => {
         this.user = data;
         this.userIsRegistered = true;
