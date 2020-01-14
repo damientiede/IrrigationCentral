@@ -31,6 +31,7 @@ h2 {color:#6f5499;}
     float:left;
 }
 textarea { max-width:500px;}
+.hidden { visibility:none;}
 .footer a {color:#fff;}
 .page-wrap {min-height:100%;margin-bottom:-40px;}
 .margin-top{margin-top:5px;}

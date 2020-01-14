@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, Params} from "@angular/router";
 import {Observable} from 'rxjs/Rx';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { UiSwitchModule } from 'ngx-ui-switch';
 import { IrrigationControllerService} from '../services/IrrigationController1.service';
 import { IStatus} from '../model/status';
 import { IDevice } from '../model/device';
@@ -27,6 +28,7 @@ export class StatusComponent implements OnInit {
   manualDuration = 5;
   loaded = false;
   irrigating = false;
+  isAutoMode: boolean;
 
   dateFormat= 'YYYY-MM-DD HH:mm:ss';
   constructor(private dataService: IrrigationControllerService,
@@ -75,6 +77,7 @@ export class StatusComponent implements OnInit {
       .subscribe((d: IDevice) => {
             console.log(d);
             this.device = d;
+            this.isAutoMode = (d.Mode === 'Auto');
             this.loaded = true;
           },
           error => () => {
@@ -119,7 +122,15 @@ export class StatusComponent implements OnInit {
     const fin = moment.utc(this.device.IrrigationAction.Start);
     fin.add(this.device.IrrigationAction.Duration, 'minutes');
     const elapsed = now.diff(start);
-    const duration = this.device.IrrigationAction.Duration * 60 * 1000;
+    let duration = this.device.IrrigationAction.Duration * 60 * 1000;
+    if (this.device.IrrigationAction.Paused != null) {
+      const paused = moment.utc(this.device.IrrigationAction.Paused);
+      console.log(paused);
+      const elapsedPaused = now.diff(paused);
+      console.log(elapsedPaused);
+      fin.add(elapsedPaused);
+      duration += elapsedPaused;
+    }
     return Math.ceil(elapsed / duration * 100);
   }
   isLoaded() {
@@ -148,6 +159,24 @@ export class StatusComponent implements OnInit {
     if (this.device.Mode.indexOf('Manual') > -1) { return 'alert alert-secondary'; }
     return 'alert alert-primary';
   }
+  showStartButton() {
+    if (this.device == null) {return false; }
+    if (this.device.IrrigationAction == null) { return true; }
+    return false;
+  }
+  isIrrigating() {
+    if (this.device == null) {return false; }
+    if (this.device.IrrigationAction == null) { return false; }
+    if ((this.device.IrrigationAction.Finished == null) &&
+       (this.device.IrrigationAction.Paused == null)) { return true; }
+    return true;
+  }
+  isPaused() {
+    if (this.device == null) {return false; }
+    if (this.device.IrrigationAction == null) { return false; }
+    if (this.device.IrrigationAction.Paused != null) { return true; }
+    return true;
+  }
   getStatusText() {
     if (this.device == null) {return 'Unknown device'; }
     const duration = this.lastSeenDuration();
@@ -157,7 +186,7 @@ export class StatusComponent implements OnInit {
     return this.device.Status;
   }
   formatDateShort(date) {
-    return moment(date).format('dd/MM/yyyy');//.format('DD MMM YYYY h:mm a');   //.format('dd/MM/yyyy');
+    return moment(date).format('dd/MM/yyyy');  // .format('DD MMM YYYY h:mm a');   //.format('dd/MM/yyyy');
   }
   getState() {
     if (this.status != null) {
@@ -193,10 +222,9 @@ export class StatusComponent implements OnInit {
     if (this.device == null) {
       return '';
     }
-    if (this.device.Mode === 'Manual') {
+    if (this.isAutoMode) {
       this.setMode('Auto');
-    }
-    if (this.device.Mode === 'Auto') {
+    } else {
       this.setMode('Manual');
     }
   }
@@ -245,13 +273,42 @@ export class StatusComponent implements OnInit {
   }
   manualStart() {
     let params = null;
-    if (this.manualStation != null && this.manualDuration != null) {
-      params = `${this.manualStation}, ${this.manualDuration}`;
+    if (this.manualStation == null || this.manualDuration == null) {
+      alert('Please select a station to run');
+      return;
     }
+    params = `${this.manualStation}, ${this.manualDuration}`;
+
     const cmd = new ICommand(
         0,  // id
       'Manual',  // commandType
       params,   // params
+      new Date, // issued
+      null, // actioned
+      this.deviceid, // deviceId
+      new Date, // createdAt
+      null  // updatedAt
+    );
+    this.sendCommand(cmd);
+  }
+  pause() {
+    const cmd = new ICommand(
+      0,  // id
+      'Pause',  // commandType
+      null,   // params
+      new Date, // issued
+      null, // actioned
+      this.deviceid, // deviceId
+      new Date, // createdAt
+      null  // updatedAt
+    );
+    this.sendCommand(cmd);
+  }
+  resume() {
+    const cmd = new ICommand(
+      0,  // id
+      'Resume',  // commandType
+      null,   // params
       new Date, // issued
       null, // actioned
       this.deviceid, // deviceId

@@ -78,6 +78,13 @@ namespace DeviceController.Devices
                 }
             }
         }
+        public Step NextStep
+        {
+            get
+            {                
+                return pendingSteps[0];                
+            }
+        }
         public DeviceProgram(DeviceController.Data.Program p)
         {
             program = p;

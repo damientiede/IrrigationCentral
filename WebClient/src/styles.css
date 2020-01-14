@@ -30,6 +30,7 @@ h4 {font-weight:bold;}
     color:#fff;
     float:left;
 }
+.hidden { visibility:hidden;}
 td { padding:3px; }
 textarea { max-width:500px;}
 .footer a {color:#fff;}

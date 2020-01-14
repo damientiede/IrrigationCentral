@@ -30,6 +30,7 @@ import { ProgramComponent } from './program/program.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { StepComponent } from './step/step.component';
 import { StepItemComponent } from './step-item/step-item.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { StepItemComponent } from './step-item/step-item.component';
     ToastModule.forRoot(),
     HttpModule,
     JsonpModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    UiSwitchModule
   ],
   providers: [IrrigationControllerService, NavService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

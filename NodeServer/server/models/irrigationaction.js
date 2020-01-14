@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true
       },
+      Paused: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
       Duration:{
         type: DataTypes.INTEGER,
         allowNull: false

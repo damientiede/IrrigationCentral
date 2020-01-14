@@ -33,7 +33,8 @@ module.exports = {
    update(req, res) {       
         return IrrigationAction
             .update({                    
-                Finished: req.body.Finished,                                  
+                Finished: req.body.Finished, 
+                Paused: req.body.Paused                                 
             }, {
                 where: { Id: req.params.id }
             })

@@ -13,6 +13,8 @@ namespace DeviceController.Devices
         DateTime localStart;
         DeviceSolenoid solenoid;
         Timer timer;
+        bool bStopPumpOnCompletion = true;
+
         public int Id
         {
             get { return irrigationAction.Id; }
@@ -35,6 +37,22 @@ namespace DeviceController.Devices
         {
             get { return irrigationAction.Duration; }
         }
+        public bool Paused
+        {
+            get { return (irrigationAction.Paused != null); }
+        }
+        public double PauseSecondsElapsed
+        {
+            get
+            {
+                if (irrigationAction.Paused != null)
+                {
+                    return 0;
+                }
+                TimeSpan elapsed = DateTime.Now - (DateTime)irrigationAction.Paused;
+                return elapsed.TotalSeconds;
+            }
+        }
         public DeviceSolenoid Solenoid
         {
             get { return solenoid; }
@@ -47,6 +65,11 @@ namespace DeviceController.Devices
         {
             get { return irrigationAction; }
         }
+        public bool StopPumpOnCompletion
+        {
+            get { return bStopPumpOnCompletion; }
+            set { bStopPumpOnCompletion = value; }
+        }
         
         public delegate void DeviceActionCompletedEventHandler(object sender, EventArgs e);
         public event DeviceActionCompletedEventHandler DeviceActionCompleted;
@@ -55,6 +78,8 @@ namespace DeviceController.Devices
         {
             solenoid = sol;
             irrigationAction = action;
+            bStopPumpOnCompletion = irrigationAction.RequiresPump;
+
             if (this.irrigationAction.Id == 0)
             {
                 this.irrigationAction.Id = DataService.Proxy.PostIrrigationAction(this.irrigationAction);
@@ -130,14 +155,43 @@ namespace DeviceController.Devices
                 timer.Interval = 1000;
             }            
         }
+        public void Pause()
+        {
+            log.DebugFormat("Pause() Action:{0} StopPumpOnCompletion:{1}", Name, bStopPumpOnCompletion);
+            timer.Enabled = false;
+            //timer.Dispose();
+            solenoid.Off();
+            if (solenoid.RequiresPump && bStopPumpOnCompletion)
+            {
+                IrrigationController.Pump.Off();
+            }
+            irrigationAction.Paused = DateTime.Now;
+            DataService.Proxy.PutIrrigationAction(irrigationAction);
+        }
+        public void Resume()
+        {
+            log.DebugFormat("Resume() Action:{0} StopPumpOnCompletion:{1}", Name, bStopPumpOnCompletion);
+            timer.Enabled = true;
+            //timer.Dispose();
+            solenoid.On();
+            if (solenoid.RequiresPump && bStopPumpOnCompletion)
+            {
+                IrrigationController.Pump.On();
+            }
+            //add the elapsed time that the device was paused to the action duration
+            TimeSpan elapsed = DateTime.Now - (DateTime)irrigationAction.Paused;
 
+            irrigationAction.Duration += (int)(elapsed.TotalMinutes);
+            irrigationAction.Paused = null;
+            DataService.Proxy.PutIrrigationAction(irrigationAction);
+        }
         public void Stop()
         {
-            log.Debug("Stop()");
+            log.DebugFormat("Stop() Action:{0} StopPumpOnCompletion:{1}", Name, bStopPumpOnCompletion);
             timer.Enabled = false;
             timer.Dispose();
             solenoid.Off();
-            if (solenoid.RequiresPump)
+            if (solenoid.RequiresPump && bStopPumpOnCompletion)
             {
                 IrrigationController.Pump.Off();
             }
@@ -154,6 +208,10 @@ namespace DeviceController.Devices
                 //    irrigationAction.Start.ToString(), 
                 //    irrigationAction.Start.AddMinutes(irrigationAction.Duration).ToString(),
                 //    DateTime.Now.ToString());
+                if (irrigationAction.Paused != null)
+                {
+                    return false;
+                }
                 return irrigationAction.Start.AddMinutes(irrigationAction.Duration) < DateTime.Now;
             }
         }

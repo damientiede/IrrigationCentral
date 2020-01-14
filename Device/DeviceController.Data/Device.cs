@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DeviceController.Data
 {
     public enum DeviceMode { Auto, Manual, Diagnostic }
-    public enum DeviceState { Standby, Irrigating, Fault }
+    public enum DeviceState { Standby, Irrigating, Paused, Fault }
     public class Device
     {
         public int Id;

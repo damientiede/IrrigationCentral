@@ -6,7 +6,7 @@ module.exports = {
          .create({
             CommandType: req.body.CommandType,
             Params: req.body.Params,
-	      Issued: req.body.Issued,
+	         Issued: req.body.Issued,
             Actioned: null,
             DeviceId: parseInt(req.body.DeviceId)
          })

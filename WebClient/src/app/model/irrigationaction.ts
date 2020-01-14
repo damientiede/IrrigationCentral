@@ -4,6 +4,7 @@ export class IIrrigationAction {
         public Name: string,
         public Start: Date,
         public Finished: Date,
+        public Paused: Date,
         public Duration: number,
         public SolenoidId: number,
         public RequiresPump: boolean,

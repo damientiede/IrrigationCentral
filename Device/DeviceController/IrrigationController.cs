@@ -385,6 +385,13 @@ namespace DeviceController
                             DeviceSolenoid solenoid = GetSolenoidById(action.SolenoidId);
                             CurrentAction = new DeviceAction(action, solenoid);
                             CurrentAction.DeviceActionCompleted += OnDeviceActionCompleted;
+                            
+                            if (CurrentProgram.NextStep != null)
+                            {
+                                CurrentAction.StopPumpOnCompletion = (!CurrentProgram.NextStep.RequiresPump);
+                                log.DebugFormat("{0} StopPumpOnCompletion = {1}", CurrentAction.Name, CurrentAction.StopPumpOnCompletion);
+                            }
+
                             device.IrrigationActionId = action.Id;
                             DataService.CreateEvent(EventTypes.IrrigationStart,
                                 string.Format("Irrigation program '{0}' resuming step {1}, '{2}' for {3} minutes",
@@ -432,7 +439,7 @@ namespace DeviceController
                 RequiresPump = sol.RequiresPump
             };
             CurrentAction = new DeviceAction(action, sol);
-            log.DebugFormat("New DeviceAction {0} Start:{1} Duration:{2}", CurrentAction.Name, CurrentAction.Start, CurrentAction.Duration);
+            log.DebugFormat("New DeviceAction {0} Id:{1} Start:{2} Duration:{3}", CurrentAction.Name, CurrentAction.Id, CurrentAction.Start, CurrentAction.Duration);
             CurrentAction.DeviceActionCompleted += OnDeviceActionCompleted;
 
             device.IrrigationActionId = CurrentAction.Id;
@@ -578,7 +585,26 @@ namespace DeviceController
 
                             ActionCommand(cmd);
                             break;
-                                               
+                        case "Pause":
+                            if (CurrentAction != null)
+                            {
+                                if (!CurrentAction.Paused)
+                                {
+                                    CurrentAction.Pause();
+                                }
+                            }
+                            ActionCommand(cmd);
+                            break;
+                        case "Resume":
+                            if (CurrentAction != null)
+                            {
+                                if (CurrentAction.Paused)
+                                {
+                                    CurrentAction.Resume();
+                                }
+                            }
+                            ActionCommand(cmd);
+                            break;
                         case "LoadPrograms":
                             LoadPrograms();                                                 
                             ActionCommand(cmd);
@@ -648,7 +674,7 @@ namespace DeviceController
             }
             if (CurrentAction.Remaining.TotalSeconds > 120)
             {
-                timeRemaining = string.Format("{0} minutes", CurrentAction.Remaining.Minutes);
+                timeRemaining = string.Format("{0} minutes", (int)CurrentAction.Remaining.TotalMinutes);
             }
             if (CurrentAction.Remaining.TotalMinutes > 120)
             {
@@ -668,7 +694,13 @@ namespace DeviceController
             {
                 if (CurrentAction != null)
                 {
-                    if (CurrentAction.Finished == null)
+                    if (CurrentAction.Paused)
+                    {
+                        state = DeviceState.Paused;
+                        status = string.Format("Paused '{0}' - {1} remaining."
+                                , CurrentAction.Solenoid.Name, getTimeRemaining());
+                    }
+                    else if (CurrentAction.Finished == null)
                     {
                         state = DeviceState.Irrigating;
                         status = string.Format("Irrigating '{0}' - {1} remaining."

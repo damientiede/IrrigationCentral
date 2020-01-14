@@ -169,6 +169,7 @@ namespace DeviceController.Data
         public void PutIrrigationAction(IrrigationAction p)
         {
             string data = JsonConvert.SerializeObject(p);
+            log.Debug(data);
             IRestResponse response = Put(string.Format("irrigationactions/{0}", p.Id), data);
         }
         public void PutCommand(Command c)

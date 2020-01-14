@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/ng2-toastr/ng2-toastr.css"      
+        "../node_modules/ng2-toastr/ng2-toastr.css"
       ],
       "scripts": [
         "../node_modules/moment/min/moment.min.js",

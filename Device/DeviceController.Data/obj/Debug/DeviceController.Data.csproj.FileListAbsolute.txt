@@ -27,3 +27,4 @@ C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController.Data\bin\Deb
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController.Data\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController.Data\obj\Debug\DeviceController.Data.dll
 C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController.Data\obj\Debug\DeviceController.Data.pdb
+C:\Users\Dad\Source\Repos\IrrigationCentral\Device\DeviceController.Data\obj\Debug\DeviceController.Data.csprojResolveAssemblyReference.cache
