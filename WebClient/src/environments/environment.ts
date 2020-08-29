@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   auth: {
-    // clientID: '5494UjIl3QJE6YoVWeSYjGs2i4yGvZAm',
+    //clientID: '5494UjIl3QJE6YoVWeSYjGs2i4yGvZAm',
     clientID: 'IP3LbxruP9Mxs9o0xDyGT0iri1AMtXh2',
     domain: 'irrigation-central.au.auth0.com', // e.g., you.auth0.com
     audience: 'http://irrigationcentral.co.nz:8011', // e.g., http://localhost:3001

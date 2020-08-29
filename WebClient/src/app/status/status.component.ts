@@ -28,7 +28,7 @@ export class StatusComponent implements OnInit {
   manualDuration = 5;
   loaded = false;
   irrigating = false;
-  isAutoMode: boolean;
+  isAutoMode = false;
 
   dateFormat= 'YYYY-MM-DD HH:mm:ss';
   constructor(private dataService: IrrigationControllerService,
@@ -116,7 +116,8 @@ export class StatusComponent implements OnInit {
   }
   percentComplete() {
     if (this.device.IrrigationAction == null) { return 0; }
-    if (this.device.IrrigationAction.Finished != null) { return 100; }
+    return this.device.IrrigationAction.Progress;
+    /* if (this.device.IrrigationAction.Finished != null) { return 100; }
     const now = moment.utc();
     const start = moment.utc(this.device.IrrigationAction.Start);
     const fin = moment.utc(this.device.IrrigationAction.Start);
@@ -125,17 +126,23 @@ export class StatusComponent implements OnInit {
     let duration = this.device.IrrigationAction.Duration * 60 * 1000;
     if (this.device.IrrigationAction.Paused != null) {
       const paused = moment.utc(this.device.IrrigationAction.Paused);
-      console.log(paused);
+      // console.log(paused);
       const elapsedPaused = now.diff(paused);
-      console.log(elapsedPaused);
+      // console.log(elapsedPaused);
       fin.add(elapsedPaused);
       duration += elapsedPaused;
+      console.log(`elapsed: ${elapsed}  duration: ${duration}  elapsedPaused: ${elapsedPaused}`);
     }
-    return Math.ceil(elapsed / duration * 100);
+    return Math.ceil(elapsed / duration * 100); */
   }
   isLoaded() {
     return this.loaded;
   }
+  /* isAutoMode() {
+    if (this.device == null) { return false; }
+    if (this.device.Mode === 'Auto') { return true; }
+    return false;
+  } */
   getDuration() {
     if (this.irrigationAction != null) {
       return this.irrigationAction.Duration;
@@ -156,6 +163,8 @@ export class StatusComponent implements OnInit {
     }
     if (this.device.State.indexOf('Irrigating') > -1) { return 'alert alert-success'; }
     if (this.device.State.indexOf('Fault') > -1) { return 'alert alert-danger'; }
+    if (this.device.State.indexOf('Paused') > -1) { return 'alert alert-warning'; }
+
     if (this.device.Mode.indexOf('Manual') > -1) { return 'alert alert-secondary'; }
     return 'alert alert-primary';
   }
@@ -169,12 +178,12 @@ export class StatusComponent implements OnInit {
     if (this.device.IrrigationAction == null) { return false; }
     if ((this.device.IrrigationAction.Finished == null) &&
        (this.device.IrrigationAction.Paused == null)) { return true; }
-    return true;
+    return false;
   }
   isPaused() {
     if (this.device == null) {return false; }
     if (this.device.IrrigationAction == null) { return false; }
-    if (this.device.IrrigationAction.Paused != null) { return true; }
+    if (this.device.IrrigationAction.Paused == null) { return false; }
     return true;
   }
   getStatusText() {
@@ -223,9 +232,9 @@ export class StatusComponent implements OnInit {
       return '';
     }
     if (this.isAutoMode) {
-      this.setMode('Auto');
-    } else {
       this.setMode('Manual');
+    } else {
+      this.setMode('Auto');
     }
   }
   getStartTime() {

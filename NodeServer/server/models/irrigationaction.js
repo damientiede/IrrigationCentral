@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      Progress:{
+        type: DataTypes.INTEGER,        
+        allowNull: false
+      },
       SolenoidId:{
         type: DataTypes.INTEGER,
         allowNull: false

@@ -157,6 +157,10 @@ module.exports = {
                     type: Sequelize.INTEGER,
                     allowNull:false
                 },
+                Progress: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false
+                },
                 SolenoidId:{
                     type: Sequelize.INTEGER,
                     allowNull: false

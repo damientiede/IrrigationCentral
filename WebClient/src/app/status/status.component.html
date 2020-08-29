@@ -11,15 +11,14 @@
                 <div class="panel-title">
                     {{getStatusText()}}                    
                </div>
-                <div class="panel-content" *ngIf="device.IrrigationAction">
-                    
-                    <div class="progress" style="margin-left:0px;margin-right:0px;">
+                <div class="panel-content" *ngIf="isIrrigating()">                    
+                    <div *ngIf="isIrrigating()" class="progress" style="margin-left:0px;margin-right:0px;">
                         <div class="progress-bar bg-success progress-bar-striped" role="progressbar" 
                             attr.aria-valuenow="percentComplete" attr.aria-valuemin="0" attr.aria-valuemax="100" style="min-width:2em;" [style.width]="percentComplete()+'%'" >
                             {{percentComplete()}}%
                         </div>
                     </div>                                          
-                </div>
+                </div>               
             </div>             
         </div>
     </div>
@@ -59,6 +58,7 @@
                 </div>
                 <select id="tbDuration" class="form-control" [(ngModel)]="manualDuration" required>
                     <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
                     <option value="30">30 minutes</option>
                     <option value="45">45 minutes</option>
                     <option value="60">1 hour</option>
@@ -83,8 +83,8 @@
             <button type="button" class="btn btn-warning" *ngIf="isIrrigating()" (click)="pause()">Pause</button>
             <button type="button" class="btn btn-success" *ngIf="isPaused()" (click)="resume()">Resume</button>
             <button type="button" class="btn btn-danger" (click)="manualStop()">Stop</button>
-            Auto mode:
-            <ui-switch checkedLabel="Off" [(ngModel)]="isAutoMode" (change)="toggleMode()"></ui-switch>
+            Auto mode:            
+            <ui-switch checkedLabel="Off" [(ngModel)]="isAutoMode" (change)="toggleMode()"></ui-switch>            
             <!-- <button type="button" [ngClass]="getToggleBtnClass()" (click)="toggleMode()">{{getToggleBtnText()}}</button>  -->   
             <!-- <button type="button" class="btn" (click)="config()"><i class="fa fa-cog"></i></button>                               -->
         </div>

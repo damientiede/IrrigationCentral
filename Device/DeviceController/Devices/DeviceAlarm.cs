@@ -44,7 +44,7 @@ namespace DeviceController.Devices
         {
             string s = string.Format("Alarm '{0}' {1}", hardwareAlarm.Name, e.Value ? "on" : "off");
             log.Debug(s);
-            DataService.CreateEvent(EventTypes.IO, s, 1);
+            DataService.CreateEvent(EventTypes.IO, s, dataAlarm.DeviceId);
         }
     }
 }

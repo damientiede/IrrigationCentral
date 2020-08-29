@@ -14,6 +14,7 @@ namespace DeviceController.Data
         public DateTime? Finished;
         public DateTime? Paused;
         public int Duration;
+        public int Progress;
         public int DeviceId;
         public int SolenoidId;
         public string SolenoidName;        

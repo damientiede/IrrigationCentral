@@ -54,6 +54,7 @@ namespace DeviceController
             try
             {
                 log.Info("=====================================================");
+                log.InfoFormat("DeviceController by Damien Tiede v{0}",GetVersion());
                 log.InfoFormat("DeviceController.Init(): Initializing device...");
                 //get device mac address
                 macAddress =
@@ -444,6 +445,7 @@ namespace DeviceController
 
             device.IrrigationActionId = CurrentAction.Id;
             device.Mode = DeviceMode.Manual;
+            device.State = DeviceState.Irrigating;
             DataService.CreateEvent(EventTypes.IrrigationStart,
                     string.Format("Manual irrigation action: {0} for {1} minutes", CurrentAction.Solenoid.Name, CurrentAction.Duration),
                 DeviceId);            
@@ -580,7 +582,6 @@ namespace DeviceController
                             device.State = DeviceState.Standby;
                             device.Mode = DeviceMode.Manual;
 
-                            //interfaceService.CreateEvent(EventTypes.Application, "Switching all solenoids off");
                             AbortAction();
 
                             ActionCommand(cmd);
@@ -588,9 +589,10 @@ namespace DeviceController
                         case "Pause":
                             if (CurrentAction != null)
                             {
-                                if (!CurrentAction.Paused)
+                                if (!CurrentAction.IsPaused)
                                 {
                                     CurrentAction.Pause();
+                                    DataService.CreateEvent(EventTypes.IrrigationStop, "Paused", device.Id);
                                 }
                             }
                             ActionCommand(cmd);
@@ -598,9 +600,10 @@ namespace DeviceController
                         case "Resume":
                             if (CurrentAction != null)
                             {
-                                if (CurrentAction.Paused)
+                                if (CurrentAction.IsPaused)
                                 {
                                     CurrentAction.Resume();
+                                    DataService.CreateEvent(EventTypes.IrrigationStart, "Resume", device.Id);
                                 }
                             }
                             ActionCommand(cmd);
@@ -690,11 +693,23 @@ namespace DeviceController
         {
             string status = "Dunno what my status is yet";
             DeviceState state = DeviceState.Standby;
+            if (device.Mode == DeviceMode.Manual)
+            {
+                status = "Standing by in manual mode.";
+                state = DeviceState.Standby;
+            }
+            if (device.Mode == DeviceMode.Auto)
+            {
+                status = "Standing by. Waiting for next scheduled program to start.";
+                state = DeviceState.Standby;
+            }
             try
             {
                 if (CurrentAction != null)
                 {
-                    if (CurrentAction.Paused)
+                    //log.DebugFormat("CurrentAction: {0} Start:{1} Paused:{2} Finished:{3}", CurrentAction.Name, CurrentAction.Start, CurrentAction.Paused, CurrentAction.Finished);
+                    //log.DebugFormat("CurrentAction.Finished is null {0}", CurrentAction.Finished == null);
+                    if (CurrentAction.IsPaused)
                     {
                         state = DeviceState.Paused;
                         status = string.Format("Paused '{0}' - {1} remaining."
@@ -711,37 +726,35 @@ namespace DeviceController
                         state = DeviceState.Standby;
                         status = string.Format("Standing by. Irrigation action {0} finished.", CurrentAction.Name);
                     }
-                    if (CurrentProgram != null)
+                } 
+
+                if (CurrentProgram != null)
+                {
+                    if (CurrentProgram.CurrentStep != null)
                     {
-                        if (CurrentProgram.CurrentStep != null)
+                        if (CurrentAction.IsPaused)
+                        {
+                            state = DeviceState.Paused;
+                            status = string.Format("'{0}', step {1}. Paused '{2}', {3} remaining.",
+                            CurrentProgram.Name, CurrentProgram.CurrentStep.Sequence, CurrentAction.Name, getTimeRemaining());
+                        }
+                        else
                         {
                             state = DeviceState.Irrigating;
                             status = string.Format("'{0}', step {1}. Irrigating '{2}', {3} remaining.",
                             CurrentProgram.Name, CurrentProgram.CurrentStep.Sequence, CurrentAction.Name, getTimeRemaining());
                         }
-                        else
-                        {
-                            state = DeviceState.Standby;
-                            status = string.Format("Program '{0}' active, but no active steps.", CurrentProgram.Name);
-                        }
                     }
-                }
-                else
-                {
-                    if (device.Mode == DeviceMode.Manual)
+                    else
                     {
-                        status = "Standing by in manual mode.";
                         state = DeviceState.Standby;
+                        status = string.Format("Program '{0}' active, but no active steps.", CurrentProgram.Name);
                     }
-                    if (device.Mode == DeviceMode.Auto)
-                    {
-                        status = "Standing by. Waiting for next scheduled program to start.";
-                        state = DeviceState.Standby;
-                    }
-                }         
+                }                
+                      
                 device.Status = status;
                 device.State = state;
-                //log.DebugFormat("Device Status: {0} State: {1}", status, state.ToString());
+                log.DebugFormat("Device Status: {0} State: {1}", status, state.ToString());
                 DataService.Proxy.PutDeviceStatus(device);
             }
             catch (Exception ex)

@@ -11,6 +11,7 @@ module.exports = {
         if(s==0) {return 'Standby';}
         if(s==1) {return 'Irrigating';}
         if(s==2) {return 'Fault';}
+        if(s==3) {return 'Paused';}
     },
     parseDeviceMode(m)
     {

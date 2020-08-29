@@ -10,6 +10,7 @@ module.exports = {
                 Name: req.body.Name,
                 Start: req.body.Start,
                 Duration: req.body.Duration,
+                Progress: req.body.Progress,
                 SolenoidId: parseInt(req.body.SolenoidId),
                 SolenoidName: req.body.SolenoidName,
                 RequiresPump: req.body.RequiresPump,
@@ -32,9 +33,12 @@ module.exports = {
    }, 
    update(req, res) {       
         return IrrigationAction
-            .update({                    
+            .update({    
+                Start: req.body.Start,              
+                Duration: req.body.Duration,
                 Finished: req.body.Finished, 
-                Paused: req.body.Paused                                 
+                Paused: req.body.Paused,
+                Progress: req.body.Progress                                 
             }, {
                 where: { Id: req.params.id }
             })

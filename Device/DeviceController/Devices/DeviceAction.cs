@@ -33,11 +33,20 @@ namespace DeviceController.Devices
             get { return irrigationAction.Finished;}
             set { irrigationAction.Finished = value;}
         }
+        public DateTime? Paused
+        {
+            get { return irrigationAction.Paused; }
+            //set { irrigationAction.Finished = value; }
+        }
+        public int Progress
+        {
+            get { return getProgress(); }
+        }
         public int Duration
         {
             get { return irrigationAction.Duration; }
         }
-        public bool Paused
+        public bool IsPaused
         {
             get { return (irrigationAction.Paused != null); }
         }
@@ -137,6 +146,23 @@ namespace DeviceController.Devices
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
         }
+        protected int getProgress()
+        {
+            DateTime dtFinish = irrigationAction.Start.AddMinutes(irrigationAction.Duration);
+            int duration = irrigationAction.Duration;
+            if (irrigationAction.Paused != null)
+            {
+                TimeSpan tsElapsedSincePaused = DateTime.Now - (DateTime)irrigationAction.Paused;
+                //log.DebugFormat("Paused: {1} ElapsedSincePaused: {0} secs", tsElapsedSincePaused.TotalSeconds, irrigationAction.Paused.ToString());
+                dtFinish = dtFinish.Add(tsElapsedSincePaused);
+                duration += (int)tsElapsedSincePaused.TotalSeconds;
+            }
+            //return irrigationAction.Start.AddMinutes(irrigationAction.Duration) - DateTime.Now;
+            TimeSpan tsRemaining = dtFinish - DateTime.Now;
+            //log.DebugFormat("Finish: {0} Remaining: {1}", dtFinish.ToString(), tsRemaining.TotalSeconds);
+
+            return (int)(tsRemaining.TotalMinutes/duration)*100;
+        }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //log.DebugFormat("{0} Timer_Elapsed()", this.Name);
@@ -182,6 +208,7 @@ namespace DeviceController.Devices
             TimeSpan elapsed = DateTime.Now - (DateTime)irrigationAction.Paused;
 
             irrigationAction.Duration += (int)(elapsed.TotalMinutes);
+            //irrigationAction.Start = irrigationAction.Start.AddSeconds(elapsed.TotalSeconds);
             irrigationAction.Paused = null;
             DataService.Proxy.PutIrrigationAction(irrigationAction);
         }
@@ -219,7 +246,18 @@ namespace DeviceController.Devices
         {
             get
             {
-                return irrigationAction.Start.AddMinutes(irrigationAction.Duration) - DateTime.Now;
+                DateTime dtFinish = irrigationAction.Start.AddMinutes(irrigationAction.Duration);
+                if (irrigationAction.Paused != null)
+                {
+                    TimeSpan tsElapsedSincePaused = DateTime.Now - (DateTime)irrigationAction.Paused;
+                    //log.DebugFormat("Paused: {1} ElapsedSincePaused: {0} secs", tsElapsedSincePaused.TotalSeconds, irrigationAction.Paused.ToString());
+                    dtFinish = dtFinish.Add(tsElapsedSincePaused);
+                    //irrigationAction.Duration += (int)tsElapsedSincePaused.TotalSeconds;
+                }
+                //return irrigationAction.Start.AddMinutes(irrigationAction.Duration) - DateTime.Now;
+                TimeSpan tsRemaining = dtFinish - DateTime.Now;
+                //log.DebugFormat("Finish: {0} Remaining: {1}", dtFinish.ToString(), tsRemaining.TotalSeconds);
+                return tsRemaining;
             }
         }
     }

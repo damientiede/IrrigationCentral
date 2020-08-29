@@ -63,7 +63,9 @@ export class HomeComponent implements OnInit {
     }
     if (d.State.indexOf('Irrigating') > -1) { return 'alert alert-success col-sm-12'; }
     if (d.State.indexOf('Fault') > -1) { return 'alert alert-danger col-sm-12'; }
+    if (d.State.indexOf('Paused') > -1) { return 'alert alert-warning'; }
     if (d.Mode.indexOf('Manual') > -1) { return 'alert alert-secondary'; }
+
     return 'alert alert-primary col-sm-12';
   }
   getStatusText(d: IDevice) {
