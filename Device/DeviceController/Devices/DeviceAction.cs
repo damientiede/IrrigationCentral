@@ -257,6 +257,10 @@ namespace DeviceController.Devices
                 //return irrigationAction.Start.AddMinutes(irrigationAction.Duration) - DateTime.Now;
                 TimeSpan tsRemaining = dtFinish - DateTime.Now;
                 //log.DebugFormat("Finish: {0} Remaining: {1}", dtFinish.ToString(), tsRemaining.TotalSeconds);
+                if (tsRemaining.TotalSeconds < 0)
+                {
+                    return new TimeSpan(0);
+                }
                 return tsRemaining;
             }
         }

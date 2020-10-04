@@ -700,7 +700,7 @@ namespace DeviceController
             }
             if (device.Mode == DeviceMode.Auto)
             {
-                status = "Standing by. Waiting for next scheduled program to start.";
+                status = "Auto mode. Waiting for next scheduled program to start.";
                 state = DeviceState.Standby;
             }
             try
@@ -712,13 +712,13 @@ namespace DeviceController
                     if (CurrentAction.IsPaused)
                     {
                         state = DeviceState.Paused;
-                        status = string.Format("Paused '{0}' - {1} remaining."
+                        status = string.Format("Paused '{0}' - {1} remaining"
                                 , CurrentAction.Solenoid.Name, getTimeRemaining());
                     }
                     else if (CurrentAction.Finished == null)
                     {
                         state = DeviceState.Irrigating;
-                        status = string.Format("Irrigating '{0}' - {1} remaining."
+                        status = string.Format("Irrigating '{0}' - {1} remaining"
                                 , CurrentAction.Solenoid.Name, getTimeRemaining());
                     }
                     else

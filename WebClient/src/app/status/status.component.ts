@@ -29,6 +29,8 @@ export class StatusComponent implements OnInit {
   loaded = false;
   irrigating = false;
   isAutoMode = false;
+  delayRefreshUntil: any;
+  delayRefreshUI = 7;
 
   dateFormat= 'YYYY-MM-DD HH:mm:ss';
   constructor(private dataService: IrrigationControllerService,
@@ -62,6 +64,11 @@ export class StatusComponent implements OnInit {
       });
   }
   onTick(t) {
+    if (this.delayRefreshUntil) {
+      if (moment.utc() < this.delayRefreshUntil) {
+        return;
+      }
+    }
     this.getData(this.deviceid);
     this.ticks = t;
   }
@@ -93,6 +100,7 @@ export class StatusComponent implements OnInit {
       .getSolenoids(d.id)
       .subscribe((solenoids: ISolenoid[]) => {
             this.solenoids = solenoids;
+            console.log(this.solenoids);
             for (const s of this.solenoids) {
               // remove the pump from the list of available solenoids
               if (s.id === d.PumpSolenoidId) {
@@ -116,24 +124,17 @@ export class StatusComponent implements OnInit {
   }
   percentComplete() {
     if (this.device.IrrigationAction == null) { return 0; }
-    return this.device.IrrigationAction.Progress;
-    /* if (this.device.IrrigationAction.Finished != null) { return 100; }
+    // return this.device.IrrigationAction.Progress;
+     if (this.device.IrrigationAction.Finished != null) { return 100; }
     const now = moment.utc();
     const start = moment.utc(this.device.IrrigationAction.Start);
     const fin = moment.utc(this.device.IrrigationAction.Start);
     fin.add(this.device.IrrigationAction.Duration, 'minutes');
     const elapsed = now.diff(start);
-    let duration = this.device.IrrigationAction.Duration * 60 * 1000;
-    if (this.device.IrrigationAction.Paused != null) {
-      const paused = moment.utc(this.device.IrrigationAction.Paused);
-      // console.log(paused);
-      const elapsedPaused = now.diff(paused);
-      // console.log(elapsedPaused);
-      fin.add(elapsedPaused);
-      duration += elapsedPaused;
-      console.log(`elapsed: ${elapsed}  duration: ${duration}  elapsedPaused: ${elapsedPaused}`);
-    }
-    return Math.ceil(elapsed / duration * 100); */
+    const duration = this.device.IrrigationAction.Duration * 60 * 1000;
+    const progress = Math.ceil(elapsed / duration * 100);
+    if (progress > 100) { return 100; }
+    return progress;
   }
   isLoaded() {
     return this.loaded;
@@ -203,6 +204,12 @@ export class StatusComponent implements OnInit {
     }
     return '';
   }
+  getManAutoClass(v) {
+    if (this.device.Mode === v) {
+      return 'btn btn-warning active';
+    }
+    return 'btn btn-secondary';
+  }
   getToggleBtnClass() {
     if (this.device == null) {
       return 'btn btn-lg';
@@ -227,14 +234,22 @@ export class StatusComponent implements OnInit {
     }
     return '';
   }
+  setMode(mode) {
+    if (this.device.Mode === mode) {
+      return;
+    }
+    this.device.Mode = mode;
+    this.device.Status = `Switching to ${mode}  mode...`;
+    this.toggleMode();    
+  }
   toggleMode() {
     if (this.device == null) {
       return '';
     }
     if (this.isAutoMode) {
-      this.setMode('Manual');
+      this.setModeCommand('Manual');
     } else {
-      this.setMode('Auto');
+      this.setModeCommand('Auto');
     }
   }
   getStartTime() {
@@ -267,6 +282,15 @@ export class StatusComponent implements OnInit {
     }
     return '';
   }
+  getSolenoidNameById(n) {
+    if (this.solenoids != null) {
+      this.solenoids.forEach((sol) => {
+        if (`${sol.id}` === n) {
+          return sol.Name;
+        }
+      });
+    }
+  }
   manualStop() {
     const cmd = new ICommand(
       0,  // id
@@ -279,15 +303,18 @@ export class StatusComponent implements OnInit {
       null  // updatedAt
     );
     this.sendCommand(cmd);
+    this.delayRefreshUntil = moment.utc().add(this.delayRefreshUI, 'seconds');
+    this.device.IrrigationAction = null;
+    this.device.State = 'Standby';
+    this.device.Status = `Stopping irrigation...`;
   }
   manualStart() {
     let params = null;
     if (this.manualStation == null || this.manualDuration == null) {
-      alert('Please select a station to run');
+      this.device.Status = 'Please select a station to run';
       return;
     }
     params = `${this.manualStation}, ${this.manualDuration}`;
-
     const cmd = new ICommand(
         0,  // id
       'Manual',  // commandType
@@ -299,6 +326,11 @@ export class StatusComponent implements OnInit {
       null  // updatedAt
     );
     this.sendCommand(cmd);
+    this.delayRefreshUntil = moment.utc().add(this.delayRefreshUI, 'seconds');
+    // const solName = this.getSolenoidNameById(this.manualStation);
+    this.device.State = 'Irrigating';
+    this.device.Status = 'Starting irrigation...';
+    // this.device.Status = `Starting station ${solName} for ${this.manualDuration} minutes...`;
   }
   pause() {
     const cmd = new ICommand(
@@ -312,6 +344,10 @@ export class StatusComponent implements OnInit {
       null  // updatedAt
     );
     this.sendCommand(cmd);
+    this.delayRefreshUntil = moment.utc().add(this.delayRefreshUI, 'seconds');
+    this.device.State = 'Paused';
+    this.device.Status = `Pausing irrigation action...`;
+    this.device.IrrigationAction.Paused = new Date;
   }
   resume() {
     const cmd = new ICommand(
@@ -325,8 +361,12 @@ export class StatusComponent implements OnInit {
       null  // updatedAt
     );
     this.sendCommand(cmd);
+    this.delayRefreshUntil = moment.utc().add(this.delayRefreshUI, 'seconds');
+    this.device.State = `Irrigating`;
+    this.device.Status = `Resuming irrigation action...`;
+    this.device.IrrigationAction.Paused = null;
   }
-  setMode(mode) {
+  setModeCommand(mode) {
     const cmd = new ICommand(
         0,  // id
       mode,  // commandType
@@ -338,6 +378,7 @@ export class StatusComponent implements OnInit {
       null  // updatedAt
     );
     this.sendCommand(cmd);
+    this.delayRefreshUntil = moment.utc().add(this.delayRefreshUI, 'seconds');
   }
   sendCommand(cmd: ICommand) {
     this.dataService.sendCommand(cmd)
