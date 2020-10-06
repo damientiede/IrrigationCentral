@@ -24,7 +24,7 @@ export class StatusComponent implements OnInit {
   device: IDevice;
   solenoids: ISolenoid[];
   irrigationAction: IIrrigationAction;
-  manualStation = 1;
+  manualStation: number;
   manualDuration = 5;
   loaded = false;
   irrigating = false;
@@ -82,6 +82,11 @@ export class StatusComponent implements OnInit {
     this.dataService
       .getDevice(id)
       .subscribe((d: IDevice) => {
+            if (this.delayRefreshUntil) {
+              if (moment.utc() < this.delayRefreshUntil) {
+                return;
+              }
+            }
             console.log(d);
             this.device = d;
             this.isAutoMode = (d.Mode === 'Auto');
@@ -109,6 +114,9 @@ export class StatusComponent implements OnInit {
                   this.solenoids.splice(index, 1);
                 }
               }
+            }
+            if (this.solenoids.length > 0) {
+              this.manualStation = this.solenoids[0].id;
             }
             this.loaded = true;
           },
@@ -240,7 +248,7 @@ export class StatusComponent implements OnInit {
     }
     this.device.Mode = mode;
     this.device.Status = `Switching to ${mode}  mode...`;
-    this.toggleMode();    
+    this.toggleMode();
   }
   toggleMode() {
     if (this.device == null) {
